@@ -1,0 +1,774 @@
+2021-12-27 09:19:17 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][error][yii\base\InvalidArgumentException] yii\base\InvalidArgumentException: Operator 'TYPE' requires two operands. in C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\SimpleCondition.php:79
+Stack trace:
+#0 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1606): yii\db\conditions\SimpleCondition::fromArrayDefinition('TYPE', Array)
+#1 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1576): yii\db\QueryBuilder->createConditionFromArray(Array)
+#2 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\ConjunctionConditionBuilder.php(60): yii\db\QueryBuilder->buildCondition(Array, '<span class="st...')
+#3 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\ConjunctionConditionBuilder.php(35): yii\db\conditions\ConjunctionConditionBuilder->buildExpressionsFrom(Array, '<span class="st...')
+#4 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(288): yii\db\conditions\ConjunctionConditionBuilder->build(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#5 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1580): yii\db\QueryBuilder->buildExpression(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#6 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1357): yii\db\QueryBuilder->buildCondition(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#7 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(235): yii\db\QueryBuilder->buildWhere(Array, '<span class="st...')
+#8 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\ActiveQuery.php(328): yii\db\QueryBuilder->build(Object(yii\db\Query))
+#9 C:\xampp\htdocs\panache_bill\backend\models\PaymentMasterSearch.php(93): yii\db\ActiveQuery->createCommand()
+#10 C:\xampp\htdocs\panache_bill\backend\controllers\PaymentController.php(135): backend\models\PaymentMasterSearch->searchReport(Array)
+#11 [internal function]: backend\controllers\PaymentController->actionPaymentReport()
+#12 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#13 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(181): yii\base\InlineAction->runWithParams(Array)
+#14 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(534): yii\base\Controller->runAction('payment-report', Array)
+#15 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\web\Application.php(104): yii\base\Module->runAction('payment/payment...', Array)
+#16 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 C:\xampp\htdocs\panache_bill\index.php(17): yii\base\Application->run()
+#18 {main}
+2021-12-27 09:19:17 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][info][application] $_GET = [
+    'r' => 'payment/payment-report'
+]
+
+$_POST = [
+    '_csrf-backend' => 'zN2HC7WVpAJK2Ji7xyNbkpUDaokyb5Q8KbtfenrgmrmtutRl2eb3bBzq3PqAVw333m4Tzwsa_n0c02YtOJXUgA=='
+    'PaymentMasterSearch' => [
+        'from_date' => '01-09-2021'
+        'to_date' => '10-09-2021'
+        'booking_id' => ''
+        'type' => [
+            0 => 'Advance'
+            1 => 'Per-payment'
+            2 => 'Final-Payment'
+            3 => 'Return-Deposit'
+            4 => 'Cancel-Charge'
+            5 => 'Other-Charges'
+            6 => 'Return-Payment'
+        ]
+        'mode_of_payment' => ''
+        'search_cust' => ''
+    ]
+]
+
+$_FILES = []
+
+$_COOKIE = [
+    'ext_name' => 'ojplmecpdpgccookcobabopnaifgidhf'
+    '_identity-backend' => '7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1\",2592000]\";}'
+    'advanced-backend' => '6tc4qd50u1jkd0rolqkc08qr9p'
+    '_csrf-backend' => 'ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+    '__authKey' => 'gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '688'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_ORIGIN' => 'http://localhost'
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_REFERER' => 'http://localhost/panache_bill/index.php?r=payment/payment-search'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en,en-GB;q=0.9,en-US;q=0.8'
+    'HTTP_COOKIE' => 'ext_name=ojplmecpdpgccookcobabopnaifgidhf; _identity-backend=7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1%22%2C2592000%5D%22%3B%7D; advanced-backend=6tc4qd50u1jkd0rolqkc08qr9p; _csrf-backend=ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9%22%3B%7D'
+    'PATH' => 'C:\\csvn\\bin\\;C:\\csvn\\Python25\\;D:\\My Program\\Subversion Client;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\program\\bin;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\PuTTY\\;C:\\xampp\\php;C:\\Users\\desk014\\composer;C:\\Users\\desk014\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\desk014\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\desk014\\AppData\\Local\\Programs\\Git\\cmd;'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/panache_bill/index.php'
+    'REMOTE_PORT' => '52670'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=payment%2Fpayment-report'
+    'REQUEST_URI' => '/panache_bill/index.php?r=payment%2Fpayment-report'
+    'SCRIPT_NAME' => '/panache_bill/index.php'
+    'PHP_SELF' => '/panache_bill/index.php'
+    'REQUEST_TIME_FLOAT' => 1640593157.182
+    'REQUEST_TIME' => 1640593157
+]
+2021-12-27 09:20:25 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][error][yii\base\InvalidArgumentException] yii\base\InvalidArgumentException: Operator 'TYPE' requires two operands. in C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\SimpleCondition.php:79
+Stack trace:
+#0 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1606): yii\db\conditions\SimpleCondition::fromArrayDefinition('TYPE', Array)
+#1 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1576): yii\db\QueryBuilder->createConditionFromArray(Array)
+#2 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\ConjunctionConditionBuilder.php(60): yii\db\QueryBuilder->buildCondition(Array, '<span class="st...')
+#3 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\ConjunctionConditionBuilder.php(35): yii\db\conditions\ConjunctionConditionBuilder->buildExpressionsFrom(Array, '<span class="st...')
+#4 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(288): yii\db\conditions\ConjunctionConditionBuilder->build(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#5 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1580): yii\db\QueryBuilder->buildExpression(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#6 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1357): yii\db\QueryBuilder->buildCondition(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#7 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(235): yii\db\QueryBuilder->buildWhere(Array, '<span class="st...')
+#8 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\ActiveQuery.php(328): yii\db\QueryBuilder->build(Object(yii\db\Query))
+#9 C:\xampp\htdocs\panache_bill\backend\models\PaymentMasterSearch.php(93): yii\db\ActiveQuery->createCommand()
+#10 C:\xampp\htdocs\panache_bill\backend\controllers\PaymentController.php(135): backend\models\PaymentMasterSearch->searchReport(Array)
+#11 [internal function]: backend\controllers\PaymentController->actionPaymentReport()
+#12 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#13 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(181): yii\base\InlineAction->runWithParams(Array)
+#14 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(534): yii\base\Controller->runAction('payment-report', Array)
+#15 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\web\Application.php(104): yii\base\Module->runAction('payment/payment...', Array)
+#16 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 C:\xampp\htdocs\panache_bill\index.php(17): yii\base\Application->run()
+#18 {main}
+2021-12-27 09:20:24 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][info][application] $_GET = [
+    'r' => 'payment/payment-report'
+]
+
+$_POST = [
+    '_csrf-backend' => 'zN2HC7WVpAJK2Ji7xyNbkpUDaokyb5Q8KbtfenrgmrmtutRl2eb3bBzq3PqAVw333m4Tzwsa_n0c02YtOJXUgA=='
+    'PaymentMasterSearch' => [
+        'from_date' => '01-09-2021'
+        'to_date' => '10-09-2021'
+        'booking_id' => ''
+        'type' => [
+            0 => 'Advance'
+            1 => 'Per-payment'
+            2 => 'Final-Payment'
+            3 => 'Return-Deposit'
+            4 => 'Cancel-Charge'
+            5 => 'Other-Charges'
+            6 => 'Return-Payment'
+        ]
+        'mode_of_payment' => ''
+        'search_cust' => ''
+    ]
+]
+
+$_FILES = []
+
+$_COOKIE = [
+    'ext_name' => 'ojplmecpdpgccookcobabopnaifgidhf'
+    '_identity-backend' => '7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1\",2592000]\";}'
+    'advanced-backend' => '6tc4qd50u1jkd0rolqkc08qr9p'
+    '_csrf-backend' => 'ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+    '__authKey' => 'gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '688'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+    'HTTP_ORIGIN' => 'http://localhost'
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_REFERER' => 'http://localhost/panache_bill/index.php?r=payment/payment-search'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en,en-GB;q=0.9,en-US;q=0.8'
+    'HTTP_COOKIE' => 'ext_name=ojplmecpdpgccookcobabopnaifgidhf; _identity-backend=7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1%22%2C2592000%5D%22%3B%7D; advanced-backend=6tc4qd50u1jkd0rolqkc08qr9p; _csrf-backend=ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9%22%3B%7D'
+    'PATH' => 'C:\\csvn\\bin\\;C:\\csvn\\Python25\\;D:\\My Program\\Subversion Client;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\program\\bin;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\PuTTY\\;C:\\xampp\\php;C:\\Users\\desk014\\composer;C:\\Users\\desk014\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\desk014\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\desk014\\AppData\\Local\\Programs\\Git\\cmd;'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/panache_bill/index.php'
+    'REMOTE_PORT' => '52728'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=payment%2Fpayment-report'
+    'REQUEST_URI' => '/panache_bill/index.php?r=payment%2Fpayment-report'
+    'SCRIPT_NAME' => '/panache_bill/index.php'
+    'PHP_SELF' => '/panache_bill/index.php'
+    'REQUEST_TIME_FLOAT' => 1640593224.804
+    'REQUEST_TIME' => 1640593224
+]
+2021-12-27 09:21:04 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][error][yii\base\InvalidArgumentException] yii\base\InvalidArgumentException: Operator 'CUSTOMER_MASTER.NAME' requires two operands. in C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\SimpleCondition.php:79
+Stack trace:
+#0 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1606): yii\db\conditions\SimpleCondition::fromArrayDefinition('CUSTOMER_MASTER...', Array)
+#1 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1576): yii\db\QueryBuilder->createConditionFromArray(Array)
+#2 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\ConjunctionConditionBuilder.php(60): yii\db\QueryBuilder->buildCondition(Array, '<span class="st...')
+#3 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\conditions\ConjunctionConditionBuilder.php(35): yii\db\conditions\ConjunctionConditionBuilder->buildExpressionsFrom(Array, '<span class="st...')
+#4 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(288): yii\db\conditions\ConjunctionConditionBuilder->build(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#5 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1580): yii\db\QueryBuilder->buildExpression(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#6 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(1357): yii\db\QueryBuilder->buildCondition(Object(yii\db\conditions\AndCondition), '<span class="st...')
+#7 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\QueryBuilder.php(235): yii\db\QueryBuilder->buildWhere(Array, '<span class="st...')
+#8 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\ActiveQuery.php(328): yii\db\QueryBuilder->build(Object(yii\db\Query))
+#9 C:\xampp\htdocs\panache_bill\backend\models\PaymentMasterSearch.php(93): yii\db\ActiveQuery->createCommand()
+#10 C:\xampp\htdocs\panache_bill\backend\controllers\PaymentController.php(135): backend\models\PaymentMasterSearch->searchReport(Array)
+#11 [internal function]: backend\controllers\PaymentController->actionPaymentReport()
+#12 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#13 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(181): yii\base\InlineAction->runWithParams(Array)
+#14 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(534): yii\base\Controller->runAction('payment-report', Array)
+#15 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\web\Application.php(104): yii\base\Module->runAction('payment/payment...', Array)
+#16 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Application->handleRequest(Object(yii\web\Request))
+#17 C:\xampp\htdocs\panache_bill\index.php(17): yii\base\Application->run()
+#18 {main}
+2021-12-27 09:21:04 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][info][application] $_GET = [
+    'r' => 'payment/payment-report'
+]
+
+$_POST = [
+    '_csrf-backend' => 'zN2HC7WVpAJK2Ji7xyNbkpUDaokyb5Q8KbtfenrgmrmtutRl2eb3bBzq3PqAVw333m4Tzwsa_n0c02YtOJXUgA=='
+    'PaymentMasterSearch' => [
+        'from_date' => '01-09-2021'
+        'to_date' => '10-09-2021'
+        'booking_id' => ''
+        'type' => [
+            0 => 'Advance'
+            1 => 'Per-payment'
+            2 => 'Final-Payment'
+            3 => 'Return-Deposit'
+            4 => 'Cancel-Charge'
+            5 => 'Other-Charges'
+            6 => 'Return-Payment'
+        ]
+        'mode_of_payment' => ''
+        'search_cust' => ''
+    ]
+]
+
+$_FILES = []
+
+$_COOKIE = [
+    'ext_name' => 'ojplmecpdpgccookcobabopnaifgidhf'
+    '_identity-backend' => '7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1\",2592000]\";}'
+    'advanced-backend' => '6tc4qd50u1jkd0rolqkc08qr9p'
+    '_csrf-backend' => 'ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+    '__authKey' => 'gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '688'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+    'HTTP_ORIGIN' => 'http://localhost'
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_REFERER' => 'http://localhost/panache_bill/index.php?r=payment/payment-search'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en,en-GB;q=0.9,en-US;q=0.8'
+    'HTTP_COOKIE' => 'ext_name=ojplmecpdpgccookcobabopnaifgidhf; _identity-backend=7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1%22%2C2592000%5D%22%3B%7D; advanced-backend=6tc4qd50u1jkd0rolqkc08qr9p; _csrf-backend=ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9%22%3B%7D'
+    'PATH' => 'C:\\csvn\\bin\\;C:\\csvn\\Python25\\;D:\\My Program\\Subversion Client;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\program\\bin;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\PuTTY\\;C:\\xampp\\php;C:\\Users\\desk014\\composer;C:\\Users\\desk014\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\desk014\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\desk014\\AppData\\Local\\Programs\\Git\\cmd;'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/panache_bill/index.php'
+    'REMOTE_PORT' => '52755'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=payment%2Fpayment-report'
+    'REQUEST_URI' => '/panache_bill/index.php?r=payment%2Fpayment-report'
+    'SCRIPT_NAME' => '/panache_bill/index.php'
+    'PHP_SELF' => '/panache_bill/index.php'
+    'REQUEST_TIME_FLOAT' => 1640593264.738
+    'REQUEST_TIME' => 1640593264
+]
+2021-12-27 09:27:16 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][error][yii\base\UnknownPropertyException] yii\base\UnknownPropertyException: Getting unknown property: backend\models\PaymentMasterSearch::VIEW_LEVEL in C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Component.php:155
+Stack trace:
+#0 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\db\BaseActiveRecord.php(298): yii\base\Component->__get('VIEW_LEVEL')
+#1 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\helpers\BaseHtml.php(2248): yii\db\BaseActiveRecord->__get('VIEW_LEVEL')
+#2 C:\xampp\htdocs\panache_bill\vendor\kartik-v\yii2-krajee-base\src\InputWidget.php(131): yii\helpers\BaseHtml::getAttributeValue(Object(backend\models\PaymentMasterSearch), 'VIEW_LEVEL')
+#3 C:\xampp\htdocs\panache_bill\vendor\kartik-v\yii2-krajee-base\src\InputWidget.php(110): kartik\base\InputWidget->initInputWidget()
+#4 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\BaseObject.php(109): kartik\base\InputWidget->init()
+#5 [internal function]: yii\base\BaseObject->__construct(Array)
+#6 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\di\Container.php(420): ReflectionClass->newInstanceArgs(Array)
+#7 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\di\Container.php(171): yii\di\Container->build('kartik\\select2\\...', Array, Array)
+#8 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\BaseYii.php(365): yii\di\Container->get('kartik\\select2\\...', Array, Array)
+#9 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Widget.php(138): yii\BaseYii::createObject(Array)
+#10 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\widgets\ActiveField.php(795): yii\base\Widget::widget(Array)
+#11 C:\xampp\htdocs\panache_bill\backend\views\payment\payment_search.php(47): yii\widgets\ActiveField->widget('kartik\\select2\\...', Array)
+#12 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(348): require('C:\\xampp\\htdocs...')
+#13 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(257): yii\base\View->renderPhpFile('C:\\xampp\\htdocs...', Array)
+#14 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(156): yii\base\View->renderFile('C:\\xampp\\htdocs...', Array, Object(backend\controllers\PaymentController))
+#15 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(410): yii\base\View->render('payment_search', Array, Object(backend\controllers\PaymentController))
+#16 C:\xampp\htdocs\panache_bill\backend\controllers\PaymentController.php(89): yii\base\Controller->render('payment_search', Array)
+#17 [internal function]: backend\controllers\PaymentController->actionPaymentSearch()
+#18 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#19 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(181): yii\base\InlineAction->runWithParams(Array)
+#20 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(534): yii\base\Controller->runAction('payment-search', Array)
+#21 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\web\Application.php(104): yii\base\Module->runAction('payment/payment...', Array)
+#22 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Application->handleRequest(Object(yii\web\Request))
+#23 C:\xampp\htdocs\panache_bill\index.php(17): yii\base\Application->run()
+#24 {main}
+2021-12-27 09:27:16 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][info][application] $_GET = [
+    'r' => 'payment/payment-search'
+]
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'ext_name' => 'ojplmecpdpgccookcobabopnaifgidhf'
+    '_identity-backend' => '7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1\",2592000]\";}'
+    'advanced-backend' => '6tc4qd50u1jkd0rolqkc08qr9p'
+    '_csrf-backend' => 'ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+    '__authKey' => 'gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_REFERER' => 'http://localhost/panache_bill/'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en,en-GB;q=0.9,en-US;q=0.8'
+    'HTTP_COOKIE' => 'ext_name=ojplmecpdpgccookcobabopnaifgidhf; _identity-backend=7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1%22%2C2592000%5D%22%3B%7D; advanced-backend=6tc4qd50u1jkd0rolqkc08qr9p; _csrf-backend=ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9%22%3B%7D'
+    'PATH' => 'C:\\csvn\\bin\\;C:\\csvn\\Python25\\;D:\\My Program\\Subversion Client;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\program\\bin;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\PuTTY\\;C:\\xampp\\php;C:\\Users\\desk014\\composer;C:\\Users\\desk014\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\desk014\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\desk014\\AppData\\Local\\Programs\\Git\\cmd;'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/panache_bill/index.php'
+    'REMOTE_PORT' => '53100'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'r=payment/payment-search'
+    'REQUEST_URI' => '/panache_bill/index.php?r=payment/payment-search'
+    'SCRIPT_NAME' => '/panache_bill/index.php'
+    'PHP_SELF' => '/panache_bill/index.php'
+    'REQUEST_TIME_FLOAT' => 1640593636.193
+    'REQUEST_TIME' => 1640593636
+]
+2021-12-27 14:02:34 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][error][yii\base\ErrorException:8] yii\base\ErrorException: Undefined index: booking_id in C:\xampp\htdocs\panache_bill\backend\models\PaymentMaster.php:73
+Stack trace:
+#0 C:\xampp\htdocs\panache_bill\backend\models\PaymentMaster.php(73): yii\web\ErrorHandler->handleError()
+#1 C:\xampp\htdocs\panache_bill\backend\views\payment\payment_report.php(293): backend\models\PaymentMaster::getTotal()
+#2 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(348): yii\web\View->unknown()
+#3 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(257): yii\web\View->renderPhpFile()
+#4 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(156): yii\web\View->renderFile()
+#5 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(410): yii\web\View->render()
+#6 C:\xampp\htdocs\panache_bill\backend\controllers\PaymentController.php(134): backend\controllers\PaymentController->render()
+#7 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): backend\controllers\PaymentController->actionPaymentReport()
+#8 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): ::call_user_func_array:{C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php:57}()
+#9 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(181): yii\base\InlineAction->runWithParams()
+#10 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(534): backend\controllers\PaymentController->runAction()
+#11 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\web\Application.php(104): yii\web\Application->runAction()
+#12 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Application->handleRequest()
+#13 C:\xampp\htdocs\panache_bill\index.php(17): yii\web\Application->run()
+#14 {main}
+2021-12-27 14:02:33 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][info][application] $_GET = [
+    'r' => 'payment/payment-report'
+]
+
+$_POST = [
+    '_csrf-backend' => 'rVPTf7aSsFHrKIbYljX_3fKV23he6luQo1tlmqUhWWbMNIAR2uHjP70awpnRQam4ufiiPmefMdGWM1zN51QXXw=='
+    'PaymentMasterSearch' => [
+        'view_level' => 'CASH_FLOW'
+        'from_date' => '01-10-2021'
+        'to_date' => '30-10-2021'
+        'booking_id' => ''
+        'type' => ''
+        'mode_of_payment' => ''
+        'search_cust' => ''
+    ]
+]
+
+$_FILES = []
+
+$_COOKIE = [
+    'ext_name' => 'ojplmecpdpgccookcobabopnaifgidhf'
+    '_identity-backend' => '7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1\",2592000]\";}'
+    'advanced-backend' => '6tc4qd50u1jkd0rolqkc08qr9p'
+    '_csrf-backend' => 'ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+    '__authKey' => 'gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '390'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_ORIGIN' => 'http://localhost'
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_REFERER' => 'http://localhost/panache_bill/index.php?r=payment/payment-search'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en,en-GB;q=0.9,en-US;q=0.8'
+    'HTTP_COOKIE' => 'ext_name=ojplmecpdpgccookcobabopnaifgidhf; _identity-backend=7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1%22%2C2592000%5D%22%3B%7D; advanced-backend=6tc4qd50u1jkd0rolqkc08qr9p; _csrf-backend=ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9%22%3B%7D'
+    'PATH' => 'C:\\csvn\\bin\\;C:\\csvn\\Python25\\;D:\\My Program\\Subversion Client;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\program\\bin;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\PuTTY\\;C:\\xampp\\php;C:\\Users\\desk014\\composer;C:\\Users\\desk014\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\desk014\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\desk014\\AppData\\Local\\Programs\\Git\\cmd;'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/panache_bill/index.php'
+    'REMOTE_PORT' => '56537'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=payment%2Fpayment-report'
+    'REQUEST_URI' => '/panache_bill/index.php?r=payment%2Fpayment-report'
+    'SCRIPT_NAME' => '/panache_bill/index.php'
+    'PHP_SELF' => '/panache_bill/index.php'
+    'REQUEST_TIME_FLOAT' => 1640610153.896
+    'REQUEST_TIME' => 1640610153
+]
+2021-12-27 14:16:15 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][error][ParseError] ParseError: syntax error, unexpected ',' in C:\xampp\htdocs\panache_bill\backend\controllers\PaymentController.php:134
+Stack trace:
+#0 [internal function]: yii\BaseYii::autoload('backend\\control...')
+#1 [internal function]: spl_autoload_call('backend\\control...')
+#2 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(643): class_exists('backend\\control...')
+#3 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(602): yii\base\Module->createControllerByID('payment')
+#4 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(528): yii\base\Module->createController('payment-report')
+#5 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\web\Application.php(104): yii\base\Module->runAction('payment/payment...', Array)
+#6 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Application->handleRequest(Object(yii\web\Request))
+#7 C:\xampp\htdocs\panache_bill\index.php(17): yii\base\Application->run()
+#8 {main}
+2021-12-27 14:16:15 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][info][application] $_GET = [
+    'r' => 'payment/payment-report'
+]
+
+$_POST = [
+    '_csrf-backend' => 'rVPTf7aSsFHrKIbYljX_3fKV23he6luQo1tlmqUhWWbMNIAR2uHjP70awpnRQam4ufiiPmefMdGWM1zN51QXXw=='
+    'PaymentMasterSearch' => [
+        'view_level' => 'CASH_FLOW'
+        'from_date' => '01-10-2021'
+        'to_date' => '30-10-2021'
+        'booking_id' => ''
+        'type' => ''
+        'mode_of_payment' => ''
+        'search_cust' => ''
+    ]
+]
+
+$_FILES = []
+
+$_COOKIE = [
+    'ext_name' => 'ojplmecpdpgccookcobabopnaifgidhf'
+    '_identity-backend' => '7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1\",2592000]\";}'
+    'advanced-backend' => '6tc4qd50u1jkd0rolqkc08qr9p'
+    '_csrf-backend' => 'ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+    '__authKey' => 'gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '390'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+    'HTTP_ORIGIN' => 'http://localhost'
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_REFERER' => 'http://localhost/panache_bill/index.php?r=payment/payment-search'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en,en-GB;q=0.9,en-US;q=0.8'
+    'HTTP_COOKIE' => 'ext_name=ojplmecpdpgccookcobabopnaifgidhf; _identity-backend=7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1%22%2C2592000%5D%22%3B%7D; advanced-backend=6tc4qd50u1jkd0rolqkc08qr9p; _csrf-backend=ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9%22%3B%7D'
+    'PATH' => 'C:\\csvn\\bin\\;C:\\csvn\\Python25\\;D:\\My Program\\Subversion Client;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\program\\bin;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\PuTTY\\;C:\\xampp\\php;C:\\Users\\desk014\\composer;C:\\Users\\desk014\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\desk014\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\desk014\\AppData\\Local\\Programs\\Git\\cmd;'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/panache_bill/index.php'
+    'REMOTE_PORT' => '57155'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=payment%2Fpayment-report'
+    'REQUEST_URI' => '/panache_bill/index.php?r=payment%2Fpayment-report'
+    'SCRIPT_NAME' => '/panache_bill/index.php'
+    'PHP_SELF' => '/panache_bill/index.php'
+    'REQUEST_TIME_FLOAT' => 1640610975.54
+    'REQUEST_TIME' => 1640610975
+]
+2021-12-27 14:16:47 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][error][yii\base\ErrorException:8] yii\base\ErrorException: Undefined index: pickup_date in C:\xampp\htdocs\panache_bill\backend\views\payment\cash_flow_report.php:130
+Stack trace:
+#0 C:\xampp\htdocs\panache_bill\backend\views\payment\cash_flow_report.php(130): yii\web\ErrorHandler->handleError()
+#1 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\DataColumn.php(248): yii\web\View->{closure:C:\xampp\htdocs\panache_bill\backend\views\payment\cash_flow_report.php:129-131}()
+#2 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\DataColumn.php(248): ::call_user_func:{C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\DataColumn.php:248}()
+#3 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\DataColumn.php(262): kartik\grid\DataColumn->getDataCellValue()
+#4 C:\xampp\htdocs\panache_bill\vendor\kartik-v\yii2-grid\src\DataColumn.php(246): kartik\grid\DataColumn->renderDataCellContent()
+#5 C:\xampp\htdocs\panache_bill\vendor\kartik-v\yii2-grid\src\GridViewTrait.php(1093): kartik\grid\DataColumn->renderDataCell()
+#6 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\GridView.php(494): kartik\grid\GridView->renderTableRow()
+#7 C:\xampp\htdocs\panache_bill\vendor\kartik-v\yii2-grid\src\GridView.php(100): kartik\grid\GridView->renderTableBody()
+#8 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\GridView.php(358): kartik\grid\GridView->renderTableBody()
+#9 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\widgets\BaseListView.php(160): kartik\grid\GridView->renderItems()
+#10 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\GridView.php(326): kartik\grid\GridView->renderSection()
+#11 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\widgets\BaseListView.php(135): kartik\grid\GridView->renderSection()
+#12 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\widgets\BaseListView.php(138): kartik\grid\GridView->yii\widgets\{closure:C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\widgets\BaseListView.php:134-138}()
+#13 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\widgets\BaseListView.php(138): ::preg_replace_callback()
+#14 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\grid\GridView.php(301): kartik\grid\GridView->run()
+#15 C:\xampp\htdocs\panache_bill\vendor\kartik-v\yii2-grid\src\GridView.php(87): kartik\grid\GridView->run()
+#16 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Widget.php(141): kartik\grid\GridView->run()
+#17 C:\xampp\htdocs\panache_bill\backend\views\payment\cash_flow_report.php(47): yii\base\Widget::widget()
+#18 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(348): yii\web\View->unknown()
+#19 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(257): yii\web\View->renderPhpFile()
+#20 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\View.php(156): yii\web\View->renderFile()
+#21 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(410): yii\web\View->render()
+#22 C:\xampp\htdocs\panache_bill\backend\controllers\PaymentController.php(136): backend\controllers\PaymentController->render()
+#23 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): backend\controllers\PaymentController->actionPaymentReport()
+#24 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php(57): ::call_user_func_array:{C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\InlineAction.php:57}()
+#25 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Controller.php(181): yii\base\InlineAction->runWithParams()
+#26 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Module.php(534): backend\controllers\PaymentController->runAction()
+#27 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\web\Application.php(104): yii\web\Application->runAction()
+#28 C:\xampp\htdocs\panache_bill\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Application->handleRequest()
+#29 C:\xampp\htdocs\panache_bill\index.php(17): yii\web\Application->run()
+#30 {main}
+2021-12-27 14:16:47 [::1][1][6tc4qd50u1jkd0rolqkc08qr9p][info][application] $_GET = [
+    'r' => 'payment/payment-report'
+]
+
+$_POST = [
+    '_csrf-backend' => 'rVPTf7aSsFHrKIbYljX_3fKV23he6luQo1tlmqUhWWbMNIAR2uHjP70awpnRQam4ufiiPmefMdGWM1zN51QXXw=='
+    'PaymentMasterSearch' => [
+        'view_level' => 'CASH_FLOW'
+        'from_date' => '01-10-2021'
+        'to_date' => '30-10-2021'
+        'booking_id' => ''
+        'type' => ''
+        'mode_of_payment' => ''
+        'search_cust' => ''
+    ]
+]
+
+$_FILES = []
+
+$_COOKIE = [
+    'ext_name' => 'ojplmecpdpgccookcobabopnaifgidhf'
+    '_identity-backend' => '7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a:2:{i:0;s:17:\"_identity-backend\";i:1;s:46:\"[1,\"gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1\",2592000]\";}'
+    'advanced-backend' => '6tc4qd50u1jkd0rolqkc08qr9p'
+    '_csrf-backend' => 'ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__id' => 1
+    '__authKey' => 'gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1'
+]
+
+$_SERVER = [
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'CONTENT_LENGTH' => '390'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+    'HTTP_ORIGIN' => 'http://localhost'
+    'CONTENT_TYPE' => 'application/x-www-form-urlencoded'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_REFERER' => 'http://localhost/panache_bill/index.php?r=payment/payment-search'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'en,en-GB;q=0.9,en-US;q=0.8'
+    'HTTP_COOKIE' => 'ext_name=ojplmecpdpgccookcobabopnaifgidhf; _identity-backend=7d62596acbe682f340576fe63c8aa6f3255fb866f89eebd15cd0a2ff221d8714a%3A2%3A%7Bi%3A0%3Bs%3A17%3A%22_identity-backend%22%3Bi%3A1%3Bs%3A46%3A%22%5B1%2C%22gpx-OIkdkDw2_RKVAGo-_kxQJ7hMbsv1%22%2C2592000%5D%22%3B%7D; advanced-backend=6tc4qd50u1jkd0rolqkc08qr9p; _csrf-backend=ad648246fe4059a0749b79772e2e5c534a4095533f865f15b6c32dbb4cd10811a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22agSnlsSnV2DAGtVeKmyF9ujA5h9WBuN9%22%3B%7D'
+    'PATH' => 'C:\\csvn\\bin\\;C:\\csvn\\Python25\\;D:\\My Program\\Subversion Client;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;D:\\program\\bin;C:\\Program Files\\TortoiseSVN\\bin;C:\\Program Files\\PuTTY\\;C:\\xampp\\php;C:\\Users\\desk014\\composer;C:\\Users\\desk014\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\desk014\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\desk014\\AppData\\Local\\Programs\\Git\\cmd;'
+    'SystemRoot' => 'C:\\WINDOWS'
+    'COMSPEC' => 'C:\\WINDOWS\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\WINDOWS'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.34 (Win32) OpenSSL/1.1.0i PHP/7.2.10'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/panache_bill/index.php'
+    'REMOTE_PORT' => '57158'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'POST'
+    'QUERY_STRING' => 'r=payment%2Fpayment-report'
+    'REQUEST_URI' => '/panache_bill/index.php?r=payment%2Fpayment-report'
+    'SCRIPT_NAME' => '/panache_bill/index.php'
+    'PHP_SELF' => '/panache_bill/index.php'
+    'REQUEST_TIME_FLOAT' => 1640611007.121
+    'REQUEST_TIME' => 1640611007
+]

@@ -330,6 +330,19 @@ $this->title = 'Transaction';
              // 'pageSummary' => true,
                 'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'other_charges'),
             ],
+             [ 
+                 //'attribute'=>'other_charges',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Total Earning',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             'value'=> function($model, $key, $index, $grid){
+                 return $model['rent_amount'] +$model['cancellation_charges']+$model['other_charges'] ;
+             },
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'total_earn'),
+            ],
             [ 'attribute'=>'amount',
                 'headerOptions' => ['style' => 'width:8%'],
                 'format'=>['decimal',0],

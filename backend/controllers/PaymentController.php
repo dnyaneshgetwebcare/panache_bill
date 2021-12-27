@@ -100,58 +100,38 @@ public function actionPaymentReport()
     //$searchModel->pagination= false;
    // $dataProvider = $searchModel->searchReport(Yii::$app->request->queryParams);
 
-
-
         //$model = new BillingItem();
-        
-        
-       
+    
         //echo '<pre>';print_r(Yii::$app->request->post());die;
         if(!isset(Yii::$app->request->queryParams['PaymentMasterSearch']) && !isset(Yii::$app->request->post()['PaymentMasterSearch']) && !isset(Yii::$app->request->queryParams['sort']) ){
             //&& !isset(Yii::$app->request->post()['export_type']) && !isset($_GET['no_page'])
             return $this->redirect(['payment/payment-search']);
         }
-
-       /* if(isset($_GET['no_page']) && $_GET['no_page']==1){ // Get Final PageSummary
-            $total_details = $searchModel->searchTotalRebate(Yii::$app->request->post());
-            return json_encode(array('total_details'=>$total_details));
-        }
-*/
-        /*if(isset(Yii::$app->request->post()['export_type'])){ // For Full Export
-            $searchModel->attributes = Yii::$app->request->post();
-            Yii::$app->request->queryParams = array('PaymentMasterSearch' => $searchModel);
-        }*/
-       // $searchModel->COMPANY_CODE = $company_code;
+$view_name='payment_report';
+       
         if(isset(Yii::$app->request->post()['PaymentMasterSearch'])){
-
-         /*   if($model->hasAttribute('CONSIGNMENT_ORDER')){
-                $searchModel->CONSIGNMENT_ORDER = isset(Yii::$app->request->post()['PaymentMasterSearch']['CONSIGNMENT_ORDER'])?Yii::$app->request->post()['PaymentMasterSearch']['CONSIGNMENT_ORDER']:'';
-            }*/
-
-            /*if($model->hasAttribute('TECHNICIAN_ID')){
-                $searchModel->TECHNICIAN_ID = isset(Yii::$app->request->post()['BillingItemSearch']['technician'])?Yii::$app->request->post()['BillingItemSearch']['technician']:'';
-            }
-*/
+            if(Yii::$app->request->post()['PaymentMasterSearch']['view_level']=='DETAIL'){
             $dataProvider = $searchModel->searchReport(Yii::$app->request->post());
-            Yii::$app->request->queryParams=Yii::$app->request->post();
+            
         }else{
-         /*   if($model->hasAttribute('CONSIGNMENT_ORDER')){
-                $searchModel->CONSIGNMENT_ORDER = isset(Yii::$app->request->queryParams['PaymentMasterSearch']['CONSIGNMENT_ORDER'])?Yii::$app->request->queryParams['PaymentMasterSearch']['CONSIGNMENT_ORDER']:'';
-            }
-            if($model->hasAttribute('TECHNICIAN_ID')){
-                $searchModel->TECHNICIAN_ID = isset(Yii::$app->request->queryParams['BillingItemSearch']['technician'])?Yii::$app->request->queryParams['BillingItemSearch']['technician']:'';
-            }*/
+            $view_name='cash_flow_report';
+            $dataProvider = $searchModel->searchSummary(Yii::$app->request->post());
+        }
+        Yii::$app->request->queryParams=Yii::$app->request->post();
+        }else{
+            if(Yii::$app->request->post()['PaymentMasterSearch']['view_level']=='DETAIL'){
             $dataProvider = $searchModel->searchReport(Yii::$app->request->queryParams);
+            
+        }else{
+            $view_name='cash_flow_report';
+            $dataProvider = $searchModel->searchSummary(Yii::$app->request->queryParams);
+        }
+        
+          
         }
 
 
-
-
-
-
-
-
-         return $this->render('payment_report', [
+         return $this->render($view_name, [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             //'payment_summarys' => $payment_summarys,

@@ -71,7 +71,13 @@ class PaymentMaster extends \yii\db\ActiveRecord
         foreach ($models as $key => $model) {
             # code...
             if($model['booking_id']!=$bookid){
-                 $result+=$model[$column_key];
+                if($column_key!='total_earn'){
+                    $result+=$model[$column_key];
+                }else{
+                    $total_ern=$model['rent_amount'] +$model['cancellation_charges']+$model['other_charges'];
+                    $result+=$total_ern;
+                }
+                 
                  $bookid=$model['booking_id'];
             }
            

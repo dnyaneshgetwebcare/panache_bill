@@ -13,6 +13,7 @@ use backend\models\BillingItem;
 
 $this->title = "Payment";
 $label_select='SELECT';
+$view_levels=array('DETAIL'=>'Detail View','CASH_FLOW'=>'Cash Flow');
 ?>
 
 <?php
@@ -35,26 +36,26 @@ $label_select='SELECT';
 <div class="row">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
    <div class="row">
-      <!--  <div class="col-lg-12">
+       <div class="col-lg-12">
            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-               <div class="row right_section">
+               
                    <div class="form-group cust-group">
-                       <label class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label"> <?php // $model_labels->attributeLabels()['_VIEW'] ?></label>
+                       <label class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label"> View </label>
                        <span class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                      <?php
-                     /*echo $form->field($model, 'VIEW_LEVEL')->widget(Select2::classname(), [
+                        echo $form->field($model, 'view_level')->widget(Select2::classname(), [
                          'data' => $view_levels,
-                         'options' => ['name'=>'view_lavel','onchange'=>"changeName(this.value)"],
+                        // 'options' => ['name'=>'view_level'], //,'onchange'=>"changeName(this.value)"
                          'pluginOptions' => [
                              'allowClear' => false,
                              //'dropdownParent' => new yii\web\JsExpression('$("#pModal")'),
                          ],
-                     ])->label(false);*/ ?>
+                     ])->label(false); ?>
                     </span>
-                   </div>
+                   
                </div>
            </div>
-       </div> -->
+       </div> 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
         
