@@ -13,7 +13,7 @@ use backend\models\BillingItem;
 
 $this->title = "Payment";
 $label_select='SELECT';
-$view_levels=array('DETAIL'=>'Detail View','CASH_FLOW'=>'Cash Flow');
+$view_levels=array('DETAIL'=>'Detail View','CASH_FLOW'=>'Daily Summary');
 ?>
 
 <?php
@@ -45,7 +45,7 @@ $view_levels=array('DETAIL'=>'Detail View','CASH_FLOW'=>'Cash Flow');
                      <?php
                         echo $form->field($model, 'view_level')->widget(Select2::classname(), [
                          'data' => $view_levels,
-                        // 'options' => ['name'=>'view_level'], //,'onchange'=>"changeName(this.value)"
+                         'options' => ['onchange'=>"changeName(this.value)"], //,'onchange'=>"changeName(this.value)"
                          'pluginOptions' => [
                              'allowClear' => false,
                              //'dropdownParent' => new yii\web\JsExpression('$("#pModal")'),
@@ -60,7 +60,7 @@ $view_levels=array('DETAIL'=>'Detail View','CASH_FLOW'=>'Cash Flow');
       <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
         
           <div class="form-group cust-group">
-        <label class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label"> Pickup From </label>
+        <label class="col-lg-5 col-md-5 col-sm-5 col-xs-5 control-label" id="date_lbl"> Pickup From </label>
         <span class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
         <?php 
          echo DatePicker::widget([
@@ -288,6 +288,14 @@ function submitForm(){
       });     
     }
   }*/
+  function changeName(_view_name) {
+    // body...
+    if(_view_name=='DETAIL'){
+      $("#date_lbl").html("Pick Date");
+    }else{
+      $("#date_lbl").html("Payment Date");
+    }
+  }
    function checkDateFilter(from_date_id,to_date_id,days=30){
       var POSTING_DATE_FROM;
       var POSTING_DATE_TO;

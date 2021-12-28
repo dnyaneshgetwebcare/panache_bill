@@ -715,7 +715,7 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
         $deletedIDs_payment = array_diff($oldIDs_payment, array_filter(ArrayHelper::map($payment_models, 'payment_id', 'payment_id')));
         $result_payment_item=array();
         $no_payment=false;
-        $no_payment=false;
+       
         if((sizeof($payment_models) == 1) && ($paid_amount!='' && $paid_amount!='0')){
             $result_payment_item=ActiveForm::validateMultiple($payment_models);
             $no_payment=true;
@@ -788,16 +788,20 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
           $booking_items=BookingItem::find()->where(['booking_id'=>$booking_id])->andWhere(['!=','item_status','Returned'])->all();
           //print_r($booking_items);die;
           if($booking_items==null){
-               
+               $temp_pay_status=true;
               if(($model->pending_amount)!=0){
-                  return array('errors'=>array('Payment not completed. Please complete Payment'));
+                 $temp_pay_status=false;
+                  //return array('errors'=>array('Payment not completed. Please complete Payment'));
                   }
               if(($model->deposite_amount-($model->refunded+$model->other_charges+$model->cancellation_charges))!=0){
-                  return array('errors'=>array('Refund not completed. Please make refund'));
+                $temp_pay_status=false;
+                // return array('errors'=>array('Refund not completed. Please make refund'));
               }
               $model->status='Returned';
               $model->return_date=$this->dateFormat($pickup_date);
+              if($temp_pay_status){
               $model->order_status='Closed';
+            }
             /*BookingHeader::updateAll(['order_status'=>'Closed',
                 'status'=>'Returned',
                 'payment_status'=>$payment_status,

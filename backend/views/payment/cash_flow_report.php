@@ -9,7 +9,7 @@ use backend\models\PaymentMaster;
 /* @var $searchModel backend\models\PaymentMasterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Transaction';
+$this->title = 'Daliy Summary';
 
 ?>
 <style type="text/css">
@@ -32,7 +32,7 @@ $this->title = 'Transaction';
    
   <div class="row">
                     <div class="col-12" style="overflow: auto;">
-                        <div class="card" style="width: 130%; ">
+                        <div class="card" style="width: 100%; ">
                             <div class="card-body">
 
 <div class="table-responsive m-t-40">
@@ -125,7 +125,8 @@ $this->title = 'Transaction';
            
             [
               'attribute'=>'date',
-              'headerOptions' => ['style' => 'width:10%'],
+               'header'=>'Payment Date',
+              'headerOptions' => ['style' => 'width:5%'],
               'value'=> function($model, $key, $index, $grid){
                 return Yii::$app->formatter->asDate($model['date'],'dd-MM-yy');
                },

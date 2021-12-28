@@ -736,15 +736,32 @@ $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'booking_header
     </div>
     <div class="row">
     <div class="col-lg-8">
-        <div class="card" id="cancel_reason_display" <?= ($model->order_status=="Cancelled" || $model->order_status=="Deleted")?'':'style="display: none;"'; ?> >
-                            <div class="card-body">
+        <div class="card" >
+                            <div class="card-body" <?= ($model->booking_id!="")?'':'style="display: none;"'; ?>>
+
+                                 <div class="col-md-12">
+                                     <div class="form-group row">
+                                                    <label class="control-label text-left col-md-3">Penalty:</label>
+                                                    <div class="col-md-9">
+                                                        <?php echo $form->field($model, 'issues_penalty')->textInput(['maxlength' => true,'class'=>'form-control text_first','onkeyup'=>'add()','placeholder'=> $model->attributeLabels()['issues_penalty'],'autocomplete'=>"off"])->label(false);?>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                
+                            
+                               
+                                <?php  echo $form->field($model, 'issues_reason')->textarea(['maxlength' => true,'class'=>'form-control','placeholder'=> $model->attributeLabels()['issues_reason']])->label(false); ?>
+                            </div>
+                        </div>
+    <div class="card" id="cancel_reason_display" <?= ($model->order_status=="Cancelled" || $model->order_status=="Deleted")?'':'style="display: none;"'; ?> >
+              <div class="card-body">
                                 <h4 class="card-title">Reason to Cancel/Delete:</h4>
                                 <p><h6 class="card-subtitle" id="cancel_reason_data"><?= ($model->reason=='')?"Reason not specified":$model->reason; ?></h6></p>
                                 <?php  echo $form->field($model, 'reason')->hiddenInput(['maxlength' => true,'class'=>'form-control'])->label(false); ?>
-                            </div>
-                        </div>
-                       
+             </div>
     </div>
+    </div>
+
 <div class="col-lg-4 form-total pull-right">
                                   <div class="panel panel-default">
                        <!--  <div class="panel-heading"></div> -->
@@ -1494,7 +1511,10 @@ function mailpopup(sales_order_no,objectkey,attatchment_path=""){
 
    //tax=  +tax + +$("#salesheader-tax_amount").val();
     
-     
+   var penalty_amount=  $("#bookingheader-issues_penalty").val();
+   if(penalty_amount!=''){
+total_value=total_value - Number(penalty_amount);
+   }
 $("#total_rent_amount").val(rent_amount);
   $("#sub_total").val(total_value);
   $("#total_discount").val(discount_amt);
