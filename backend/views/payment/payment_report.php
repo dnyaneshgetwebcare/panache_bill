@@ -303,6 +303,15 @@ $this->title = 'Transaction';
               //'pageSummary' => true,
                 'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'deposite_amount'),
             ],
+             [ 'attribute'=>'discount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Discount',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'discount'),
+            ],
          /*   [ 'attribute'=>'return_amount',
                 'headerOptions' => ['style' => 'width:8%'],
                 'format'=>['decimal',0],
@@ -347,7 +356,7 @@ $this->title = 'Transaction';
                  'group'=>true,
              'subGroupOf'=>1,
              'value'=> function($model, $key, $index, $grid){
-                 return $model['rent_amount'] +$model['cancellation_charges']+$model['other_charges']-$model['issues_penalty'] ;
+                 return (($model['rent_amount']-$model['discount']) +$model['cancellation_charges']+$model['other_charges']-$model['issues_penalty']);
              },
              // 'pageSummary' => true,
                 'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'total_earn'),

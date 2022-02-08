@@ -83,7 +83,7 @@ class ItemController extends Controller
         /*if(!Yii::$app->user->can("create_company")){
             return array('errors'=>array($model_labels->attributeLabels()["NOT_ALLOW_TO_PERFORM_ACTION"]));
         }*/
-        $rand_no = rand(1000, 9999);
+       
         //define('SITE_ROOT', realpath(dirname(__FILE__)));
         $flag = isset($_POST['flag'])?$_POST['flag']:'';
         $path=realpath(dirname(__FILE__).'/../../uploads');
@@ -98,17 +98,21 @@ class ItemController extends Controller
              }
     
 
-        if(file_exists($path."\\".$rand_no)){
-            $rand_no = rand(1000, 9999);
-        }
-         
+       
             if($flag==1){
                 
                 if(is_array($_FILES)) {
                 if(is_uploaded_file($_FILES['file']['tmp_name'])) {
                 $id = substr($_FILES['file']['name'], strrpos($_FILES['file']['name'], '.') + 1);
                 $sourcePath = $_FILES['file']['tmp_name'];
-
+    $get_next_imageno=true;
+            while($get_next_imageno){
+                $rand_no = rand(1, 99999);
+                 $get_next_imageno=file_exists($path."\\".$rand_no.".".$id);
+               // $get_next_imageno=$this->getnext_img_id($rand_no);
+                
+            }
+            
                 $targetPath = $asset_path."\\".$rand_no.'.'.$id;
                 // echo move_uploaded_file($sourcePath, $targetPath); die;
                  // echo $targetPath;die;
@@ -124,7 +128,14 @@ class ItemController extends Controller
                     if(is_uploaded_file($_FILES['file']['tmp_name'])) {
                    $id = substr($_FILES['file']['name'], strrpos($_FILES['file']['name'], '.') + 1);
                    $sourcePath = $_FILES['file']['tmp_name'];
-
+    $get_next_imageno=true;
+            while($get_next_imageno){
+                $rand_no = rand(1, 99999);
+                 $get_next_imageno=file_exists($path."\\".$rand_no.".".$id);
+               // $get_next_imageno=$this->getnext_img_id($rand_no);
+                
+            }
+            
                    $targetPath = $path."/".$rand_no.'.'.$id;
                    
                    if(move_uploaded_file($sourcePath, $targetPath)) {
@@ -212,10 +223,7 @@ public function actionFileUpload($value='')
         if ($model->load(Yii::$app->request->post())) {
        
             $path=realpath(dirname(__FILE__).'/../../uploads');
-            $rand_no = rand(1000, 9999);
-          if(file_exists($path."\\".$rand_no)){
-            $rand_no = rand(1000, 9999);
-        }
+           
         if($_POST["delete_status"]=="1"){
             $model->images= "";
         }
@@ -224,7 +232,16 @@ public function actionFileUpload($value='')
                     if(is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
                    $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
                    $sourcePath = $_FILES['fileToUpload']['tmp_name'];
-
+                    $get_next_imageno=true;
+            while($get_next_imageno){
+                $rand_no = rand(1, 99999);
+                 $get_next_imageno=file_exists($path."\\".$rand_no.".".$id);
+               // $get_next_imageno=$this->getnext_img_id($rand_no);
+                
+            }
+            
+                //die;
+                   
                    $targetPath = $path."/".$rand_no.'.'.$id;
                    
                    if(move_uploaded_file($sourcePath, $targetPath)) {
@@ -273,10 +290,7 @@ public function actionCreatePopup()
                 return array('errors'=>$all_validate);
            }else{
             $path=realpath(dirname(__FILE__).'/../../uploads');
-            $rand_no = rand(1000, 9999);
-          if(file_exists($path."\\".$rand_no)){
-            $rand_no = rand(1000, 9999);
-        }
+            
         if($_POST["delete_status"]=="1"){
             $model->images= "";
         }
@@ -285,7 +299,14 @@ public function actionCreatePopup()
                if(is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
                    $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
                    $sourcePath = $_FILES['fileToUpload']['tmp_name'];
-
+    $get_next_imageno=true;
+            while($get_next_imageno){
+                $rand_no = rand(1, 99999);
+                 $get_next_imageno=file_exists($path."\\".$rand_no.".".$id);
+               // $get_next_imageno=$this->getnext_img_id($rand_no);
+                
+            }
+            
                    $targetPath = $path."/".$rand_no.'.'.$id;
                    
                    if(move_uploaded_file($sourcePath, $targetPath)) {
@@ -353,10 +374,7 @@ public function actionVendorList($q = null) {
         if ($model->load(Yii::$app->request->post()) ) {
 
  $path=realpath(dirname(__FILE__).'/../../uploads');
-            $rand_no = rand(1000, 9999);
-          if(file_exists($path."\\".$rand_no)){
-            $rand_no = rand(1000, 9999);
-        }
+           
             if($_POST["delete_status"]=="1"){
                 $model->images= "";
             }
@@ -365,7 +383,14 @@ public function actionVendorList($q = null) {
                     if(is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
                    $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
                    $sourcePath = $_FILES['fileToUpload']['tmp_name'];
-
+    $get_next_imageno=true;
+            while($get_next_imageno){
+                $rand_no = rand(1, 99999);
+                 $get_next_imageno=file_exists($path."\\".$rand_no.".".$id);
+               // $get_next_imageno=$this->getnext_img_id($rand_no);
+                
+            }
+            
                    $targetPath = $path."/".$rand_no.'.'.$id;
                   
                    if(move_uploaded_file($sourcePath, $targetPath)) {

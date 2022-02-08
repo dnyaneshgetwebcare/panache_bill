@@ -45,7 +45,7 @@ public function searchReport($params)
 {
     # code...
 
-        $query = PaymentMaster::find()->select(['payment_master.date','booking_header.booking_id','customer_master.name as customer_name','payment_master.type','payment_master.mode_of_payment','payment_master.received_by','payment_master.sendto','payment_master.received_during','payment_master.amount','booking_header.pickup_date','booking_header.return_date','booking_header.booking_date','booking_header.rent_amount','booking_header.issues_penalty','booking_header.deposite_amount','booking_header.return_amount','booking_header.cancellation_charges','booking_header.other_charges'])->leftJoin('booking_header','payment_master.booking_id = booking_header.booking_id')->leftJoin('customer_master','booking_header.customer_id=customer_master.id');
+        $query = PaymentMaster::find()->select(['payment_master.date','booking_header.booking_id','customer_master.name as customer_name','payment_master.type','payment_master.mode_of_payment','payment_master.received_by','payment_master.sendto','payment_master.received_during','payment_master.amount','booking_header.pickup_date','booking_header.return_date','booking_header.booking_date','booking_header.rent_amount','booking_header.discount','booking_header.issues_penalty','booking_header.deposite_amount','booking_header.return_amount','booking_header.cancellation_charges','booking_header.other_charges'])->leftJoin('booking_header','payment_master.booking_id = booking_header.booking_id')->leftJoin('customer_master','booking_header.customer_id=customer_master.id');
 
         // add conditions that should always apply here
 
