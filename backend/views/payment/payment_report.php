@@ -356,7 +356,7 @@ $this->title = 'Transaction';
                  'group'=>true,
              'subGroupOf'=>1,
              'value'=> function($model, $key, $index, $grid){
-                 return (($model['rent_amount']-$model['discount']) +$model['cancellation_charges']+$model['other_charges']-$model['issues_penalty']);
+                 return (($model['rent_amount']-$model['discount']) +$model['cancellation_charges']+$model['extra_amount']+$model['other_charges']-$model['issues_penalty']);
              },
              // 'pageSummary' => true,
                 'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'total_earn'),

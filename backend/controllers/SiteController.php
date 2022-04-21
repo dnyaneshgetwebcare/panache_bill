@@ -67,6 +67,7 @@ class SiteController extends Controller
     {
          $model_delivary=BookingHeader::find()->where(['order_status'=>'Open','status'=>'Booked'])->andWhere('pickup_date <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)')->all();
         $model_returns=BookingHeader::find()->where(['order_status'=>'Open','status'=>'Picked'])->andWhere('pickup_date <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)')->all();
+        $dep_pending=BookingHeader::find()->where(['order_status'=>'Open','status'=>'Returned','payment_status'=>1])->all();
         $booking_this_month=BookingHeader::find()->select(['count(*) as numb_booking','sum(rent_amount) as total'])->where('MONTH(pickup_date)=MONTH(CURRENT_DATE())')->andWhere(['order_status'=>array('Open','Cancelled','Closed')])->asArray()->one();
         $payment_cash=PaymentMaster::find()->select(['sum(amount) total'])->where(['mode_of_payment'=>'Cash'])->andWhere('MONTH(date)=MONTH(CURRENT_DATE())')->andWhere(['Not IN','type',array('Deposit','Return-Deposit')])->asArray()->one();
          $deposite_amt=PaymentMaster::find()->select(['sum(amount) total'])->where('MONTH(date)=MONTH(CURRENT_DATE())')->andWhere(['type'=>'Return-Deposit'])->asArray()->one();
@@ -93,6 +94,7 @@ class SiteController extends Controller
                 'payment_cash'=>$payment_cash,
                 'expense'=>$expense,
                 'cust_list'=>$cust_list,
+                'dep_pending'=>$dep_pending,
                 'total_sales'=>$total_sales,
                 'invoice_list'=>$invoice_list,
                 'sale_monthly_summary'=>$sale_monthly_summary]);

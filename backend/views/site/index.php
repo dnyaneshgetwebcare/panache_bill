@@ -124,7 +124,7 @@ $this->title = 'Panache Store';
 
 
 <div class="row">
-    <div class="col-lg-6 col-md-5">
+    <div class="col-lg-4 col-md-3">
 <div class="card">
     <div class="card-body bg-danger">
         <h4 class="text-white card-title">Upcoming Deliveries </h4>
@@ -171,7 +171,7 @@ $this->title = 'Panache Store';
     </div>
 </div>
     </div>
-    <div class="col-lg-6 col-md-5">
+    <div class="col-lg-4 col-md-3">
         <div class="card">
             <div class="card-body bg-danger">
                 <h4 class="text-white card-title">Upcoming Returns </h4>
@@ -196,6 +196,44 @@ $this->title = 'Panache Store';
 
                             ?>
                             <p class="day">No Item to Return</p>
+                            <?php
+                        }
+                        ?>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <div class="col-lg-4 col-md-3">
+        <div class="card">
+            <div class="card-body bg-danger">
+                <h4 class="text-white card-title">Return Deposite Pending </h4>
+                <h6 class="card-subtitle text-white m-b-0 op-5">Open Order</h6>
+            </div>
+            <div class="card-body">
+                <div class="message-box contact-box">
+
+                    <div class="message-widget contact-widget" style=" height: 510px;  overflow: auto;">
+                        <?php
+                        foreach ($dep_pending as $key => $model_return) { ?>
+                            <!-- Message -->
+                            <a href="index.php?r=booking/update&id=<?= $model_return->booking_id ?>">
+                                <div class="user-img"> <span class="round"><?= date_format(date_create($model_return->return_date),"d/M") ?></span> </div>
+                                <div class="mail-contnet">
+                                    <h5><?= $model_return->customer->name ?></h5> <span class="mail-desc"><?= $model_return->customer->contact_nos ?></span></div>
+                            </a>
+
+
+                        <?php }
+                        if(sizeof($model_returns)==0){
+
+                            ?>
+                            <p class="day">All Deposite Returened</p>
                             <?php
                         }
                         ?>
