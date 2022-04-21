@@ -92,6 +92,7 @@ $this->title = 'Update Booking: #' . $model->booking_id;
                 </div>
     <?= $this->render('_form', [
         'model' => $model,
+        'bal_amount' => $bal_amount,
         'booking_items' => $booking_items,
             'customer_model' => $customer_model,
         'address_grup'=>$address_grup,

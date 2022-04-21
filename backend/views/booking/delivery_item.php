@@ -369,7 +369,7 @@ $form = ActiveForm::begin(['enableClientValidation'=>false, 'action' => Url::to(
                     <div class="form-group col-12">
                       <label class="col-md-6 control-label"> Pending </label>
                         <div class="col-md-6 number">
-                         <input type="text" name="BookingHeader[pending_amount]" value="<?=$model->net_value - ($model->paid_amount) ?>" class="form-control total" style="border:none;background: none !important;" readonly id="pending_amount">
+                         <input type="text" name="BookingHeader[pending_amount]" value="<?=$model->net_value - ($model->paid_amount-$model->cancellation_charges) ?>" class="form-control total" style="border:none;background: none !important;" readonly id="pending_amount">
                         </div>
                     </div>
                   </div>
@@ -547,7 +547,7 @@ var deposite_option= '<option value="Deposit" selected="">Deposit</option>';
    $("#cancellation_charges").val(cancellation_charges);
    $("#other_charges").val(other_charges);
    $("#paid_amount").val(paid_amount);
-   $("#pending_amount").val(net_value - (paid_amount));
+   $("#pending_amount").val(net_value - (paid_amount-cancellation_charges));
    $("#display_pending").html("Amount: "+$("#pending_amount").val());
    $("#refunded").val(refund);
    $("#refund_dis").val(refund+'/'+deposit_amount);

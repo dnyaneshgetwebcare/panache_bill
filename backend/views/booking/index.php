@@ -214,7 +214,7 @@ $this->title = $title;
               'attribute'=>'pickup_date',
               'headerOptions' => ['style' => 'width:10%'],
               'value'=> function($model, $key, $index, $grid){
-                return Yii::$app->formatter->asDate($model->pickup_date,'dd-MM-yyyy');
+                return ($model->pickup_date!='')?Yii::$app->formatter->asDate($model->pickup_date,'dd-MM-yyyy'):'';
                },
                     'filter'=>DatePicker::widget([
                     'type' => DatePicker::TYPE_INPUT,
@@ -235,7 +235,7 @@ $this->title = $title;
               'attribute'=>'return_date',
               'headerOptions' => ['style' => 'width:10%'],
               'value'=> function($model, $key, $index, $grid){
-                return Yii::$app->formatter->asDate($model->return_date,'dd-MM-yyyy');
+                return ($model->return_date!='')?Yii::$app->formatter->asDate($model->return_date,'dd-MM-yyyy'):'';
                },
                    'filter'=>DatePicker::widget([
                     'type' => DatePicker::TYPE_INPUT,

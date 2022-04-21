@@ -1031,10 +1031,14 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
         //$product_category = ($material_data['PRODUCT_CATEGORY']!='')?$this->gettreevalupdate($material_data['PRODUCT_CATEGORY']):'';
         return $this->renderAjax('non_stockable', ['model_attrib'=>$model_attrib,'item_data'=>$item_data, 'flag' => $flag,'booking_item'=>$booking_item]);
     }
-    public function actionCustomerDetails($id){
+    public function actionCustomerDetails(){
         if(isset($_GET['id'])) {
             $id=$_GET['id'];
             $customer_data = CustomerMaster::find()->where([ 'id'=>$_GET['id']])->asArray()->one();
+          /*  $booking_ids=BookingHeader::find()->select(['booking_id'])->where(['customer_id'=>$id])->asArray()->all();
+            $bal_amount=PaymentMaster::find()->select(['sum(case when type="Return-Deposit" then amount else 0 end) as deposite_carry','sum(case when type="Return-Deposit" then 0 else amount end) as settled_carry'])->where(['mode_of_payment'=>'Carry_Frwd','booking_id'=>$booking_ids])->asArray()->one();*/
+            $final_amount=$this->getCustomerBal($id);
+            $customer_data['bal']= $final_amount;
             echo json_encode($customer_data);
         }
     }
@@ -1067,6 +1071,8 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
         $address_grup=ArrayHelper::map(AddressGroup::find()->all(),'id','name');
         $booking_items=$model->bookingItems;
         $customer_model=$model->customer;
+
+        $bal_amount=($model->order_status!='Closed')?$this->getCustomerBal($customer_model->id):0;
         $payment_models=$model->payment;
         $old_pick_up=$model->pickup_date;
         $model->cancel_flag=($model->order_status=="Cancelled")?1:0;
@@ -1336,8 +1342,29 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
             'customer_model' => $customer_model,
             'payment_models'=>$payment_models,
             'address_grup'=>$address_grup,
+            'bal_amount'=>$bal_amount,
         ]);
     }
+public function actionGetBalance(){
+  $customer_id=$_POST['customer_id'];
+  $pending_bookings=BookingHeader::find()->where(['order_status'=>'Open','customer_id'=>$customer_id])->all();
+  $pending_amount_array=array();
+  foreach ($pending_bookings as $key => $pending_booking) {
+    # code...
+    $payment_details=PaymentMaster::find()->where(['carry_frwd_bid'=>$pending_booking->booking_id])->all();
+    foreach ($payment_details as $key => $payment_detail) {
+      # code...
+      
+    }
+  }
+}
+public function getCustomerBal($id){
+        $booking_ids=BookingHeader::find()->select(['booking_id'])->where(['customer_id'=>$id])->asArray()->all();
+            $bal_amount=PaymentMaster::find()->select(['sum(case when type="Return-Deposit" then amount else 0 end) as deposite_carry','sum(case when type="Return-Deposit" then 0 else amount end) as settled_carry'])->where(['mode_of_payment'=>'Carry_Frwd','booking_id'=>$booking_ids])->asArray()->one();
+            $final_amount=$bal_amount['deposite_carry']-$bal_amount['settled_carry'];
+            return $final_amount;
+}
+
        public function actionItemCheckAutocomplete(){
 
         //$id=$_GET['id'];

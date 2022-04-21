@@ -274,6 +274,28 @@ $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'booking_header
                                             </div>
                                             <!--/span-->
                                         </div>
+             <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label id="customer_bal" class="control-label text-left col-md-12" style="padding-right: 0px !important;color: green;font-weight: bold;font-size: large;">
+                                                       <?php if(isset($bal_amount) && $bal_amount!=0) {
+                                                           echo "Available Balance : ".$bal_amount;
+                                                       }  ?>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                          <!--  <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="control-label text-left col-md-3" style="padding-right: 0px">Addrs Grp</label>
+                                                    <div class="col-md-9">
+
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <!--/span-->
+                                        </div>
                                         <!--/row-->
                                         <hr class="m-t-0">
                                            <div class="row">
@@ -885,9 +907,9 @@ $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'booking_header
                    <td>
 
                   <?php 
-                  $option_array=($payment_model->type=='Cancel-Charge'|| $payment_model->type=='Other-Charges')?['Deposit'=>'Deposit']:[ 'Cash' => 'Cash', 'Google Pay' => 'Google Pay', 'Phone Pe' => 'Phone Pe', 'Bank Transfer' => 'Bank Transfer', 'Paytm' => 'Paytm', 'Other' => 'Other', ];
+                  $option_array=($payment_model->type=='Cancel-Charge'|| $payment_model->type=='Other-Charges')?['Deposit'=>'Deposit']:[ 'Cash' => 'Cash', 'Google Pay' => 'Google Pay', 'Phone Pe' => 'Phone Pe', 'Bank Transfer' => 'Bank Transfer', 'Paytm' => 'Paytm', 'Other' => 'Other', 'Carry_Frwd'=>'Carry Frwd'];
 
-                  echo  $form->field($payment_model, "[{$indexHouse}]mode_of_payment")->dropDownList($option_array)->label(false) ?>
+                  echo  $form->field($payment_model, "[{$indexHouse}]mode_of_payment")->dropDownList($option_array,['onchange'=>'change_mode()'])->label(false) ?>
                 </td>
                 <td>
                     <?= $form->field($payment_model, "[{$indexHouse}]received_by")->dropDownList([ 'Varsha' => 'Varsha', 'Pranali' => 'Pranali', 'Others' => 'Others', ])->label(false) ?>
@@ -935,7 +957,7 @@ $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'booking_header
                     <div class="form-group col-12">
                       <label class="col-md-6 control-label"> Pending </label>
                         <div class="col-md-6 number">
-                         <input type="text" name="BookingHeader[pending_amount]" value="<?=$model->net_value - ($model->paid_amount) ?>" class="form-control total" style="border:none;background: none !important;" readonly id="pending_amount">
+                         <input type="text" name="BookingHeader[pending_amount]" value="<?=$model->net_value - (($model->paid_amount)-$model->cancellation_charges) ?>" class="form-control total" style="border:none;background: none !important;" readonly id="pending_amount">
                         </div>
                     </div>
                   </div>
@@ -1185,11 +1207,17 @@ var count_item_payment="<?= $count_item_payment;?>";
             success: function (data) {
 
                // console.log(data);
+                $("#customer_bal").html("");
                 $("#customermaster-contact_nos").val(data['contact_nos']);
                 $("#customermaster-email_id").val(data['email_id']);
                 $("#customermaster-name").val(name);
                 $("#customermaster-cust_group").val(data['cust_group']);
                 $("#customermaster-reference").val(data['reference']);
+                if(data['bal']!=0){
+                     swal("Available Balance: "+data['bal']);
+                     $("#customer_bal").html("Available Balance: "+data['bal']);
+                }
+
             },
             error: function( jqXhr, textStatus, errorThrown ){
                 if(errorThrown=='Forbidden'){
@@ -2018,6 +2046,34 @@ for (var i = 1; i <count_item; i++) {
             
   });
 }
+
+function change_mode() {
+    // body...
+    $.ajax({
+        url:"<?php echo \Yii::$app->getUrlManager()->createUrl('booking/get_balance') ?>",
+      type: 'post',
+      dataType:'json',
+      data:{
+        customer_id:customer_id,
+      
+      },
+    beforeSend: function(){
+          $(".overlay").show();
+        },
+     complete: function(){
+      $(".overlay").hide();
+
+     },
+      success: function (data) {
+        console.log(data);
+    //window.location.reload();
+      },
+      error: function(jqXhr, textStatus, errorThrown ){
+
+      }
+    });
+}
+
 function add_total_payment(){
     var paid_amount=0;
     var refund=0;
@@ -2061,7 +2117,7 @@ var deposite_option= '<option value="Deposit" selected="">Deposit</option>';
    $("#cancellation_charges").val(cancellation_charges);
    $("#other_charges").val(other_charges);
    $("#paid_amount").val(paid_amount);
-   $("#pending_amount").val(net_value - (paid_amount));
+   $("#pending_amount").val(net_value - ((paid_amount)-cancellation_charges));
    $("#display_pending").html("Amount: "+$("#pending_amount").val());
    $("#refunded").val(refund);
    $("#refund_dis").val(refund+'/'+deposit_amount);
