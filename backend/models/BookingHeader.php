@@ -85,6 +85,8 @@ class BookingHeader extends \yii\db\ActiveRecord
              'waist' => 'Waist',
              'issues_penalty' => 'Penality Amount',
              'issues_reason' => 'Issue Reason',
+
+
         ];
     }
 public function init()
