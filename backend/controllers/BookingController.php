@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use app\models\BookingCarryFrd;
 use backend\models\AddressGroup;
 use backend\models\BookingItem;
 use backend\models\CustomerMaster;
@@ -28,6 +29,7 @@ use yii\web\Response;
 use yii\widgets\ActiveForm;
 /**
  * BookingController implements the CRUD actions for BookingHeader model.
+ * ALTER TABLE `booking_header` ADD `carry_frwd_app` INT NOT NULL DEFAULT '0' AFTER `payment_status`;
  */
 class BookingController extends Controller
 {
@@ -45,7 +47,7 @@ class BookingController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','view','create','update','delete','customer-autocomplete','item-details-popup','item-details-autocomplete','item-booking-details','customer-details','delivery','delivery-item','return-item','index-payment','index-sales','item-check-autocomplete','item-booking-details','item-booking-check','cancel-delivery','pending-deposite'],
+                        'actions' => ['logout', 'index','view','create','update','delete','customer-autocomplete','item-details-popup','item-details-autocomplete','item-booking-details','customer-details','delivery','delivery-item','return-item','index-payment','index-sales','item-check-autocomplete','item-booking-details','item-booking-check','cancel-delivery','pending-deposite','carry-frd'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -1037,7 +1039,8 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
             $customer_data = CustomerMaster::find()->where([ 'id'=>$_GET['id']])->asArray()->one();
           /*  $booking_ids=BookingHeader::find()->select(['booking_id'])->where(['customer_id'=>$id])->asArray()->all();
             $bal_amount=PaymentMaster::find()->select(['sum(case when type="Return-Deposit" then amount else 0 end) as deposite_carry','sum(case when type="Return-Deposit" then 0 else amount end) as settled_carry'])->where(['mode_of_payment'=>'Carry_Frwd','booking_id'=>$booking_ids])->asArray()->one();*/
-            $final_amount=$this->getCustomerBal($id);
+            //$final_amount=$this->getCustomerBal($id);
+            $final_amount=0;
             $customer_data['bal']= $final_amount;
             echo json_encode($customer_data);
         }
@@ -1071,8 +1074,14 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
         $address_grup=ArrayHelper::map(AddressGroup::find()->all(),'id','name');
         $booking_items=$model->bookingItems;
         $customer_model=$model->customer;
-
-        $bal_amount=($model->order_status!='Closed')?$this->getCustomerBal($customer_model->id):0;
+        $bal_amount=0;
+        $where_carry=($model->order_status=='Open')?['status'=>0]: ['settle_with_booking_id'=>$model->booking_id];
+        $payment_carry_frd=BookingCarryFrd::find()->select(['id','carry_return','carry_balance','total_bal'])->where(['customer_id'=>$model->customer_id])->andWhere($where_carry)->asArray()->all();
+        if($model->order_status=='Closed'){
+            $model->open_balance=($payment_carry_frd!=null)?$payment_carry_frd[0]:'';
+        }
+       $settle_carry_frd=BookingCarryFrd::find()->select(['id','carry_return','carry_balance','total_bal'])->where(['customer_id'=>$model->customer_id,'booking_id'=>$model->booking_id])->asArray()->one();
+       // $bal_amount=($model->order_status!='Closed')?$this->getCustomerBal($customer_model->id):0;
         $payment_models=$model->payment;
         $old_pick_up=$model->pickup_date;
         $model->cancel_flag=($model->order_status=="Cancelled")?1:0;
@@ -1343,8 +1352,67 @@ return array('errors'=>array("Failed to entry of item summary"),'flag'=>$flag);
             'payment_models'=>$payment_models,
             'address_grup'=>$address_grup,
             'bal_amount'=>$bal_amount,
+            'settle_carry_frd'=>$settle_carry_frd,
+            'payment_carry_frd'=>$payment_carry_frd
         ]);
     }
+
+    public function actionCarryFrd()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $booking_id= isset($_GET['booking_id'])?$_GET['booking_id']:'';
+        $carry_frd_id= isset($_GET['carry_frd_id'])?$_GET['carry_frd_id']:'';
+        $carry_return_amt=0;
+        $bal_carry=0;
+        $total_bal=0;
+        $prev_bal=0;
+        $booking_header=BookingHeader::find()->where(['order_status'=>'Open','booking_id'=>$booking_id])->one();
+        if($booking_header==null){
+            return array('errors'=>["Booking alreay settle please check"]);
+        }
+        $carry_frd_details=BookingCarryFrd::find()->where(['status'=>0,'id'=>$carry_frd_id])->one();
+         $transaction = Yii::$app->db->beginTransaction();
+        if($carry_frd_details!=''){
+            $prev_bal = $carry_frd_details['total_bal'];
+        }
+        $payment_items=PaymentMaster::find()->select(["sum(case when (type='Return-Deposit'|| type='Return-Payment' || type='Cancel-Charge' || type='Other-Charges') then 0 else amount end) as paid","sum(case when (type='Return-Deposit'|| type='Return-Payment') then amount else 0 end) as retrn_dep"])->where(['booking_id'=>$booking_id])->createCommand()->queryOne();
+        $carry_return_amt = $booking_header->deposite_amount - $payment_items['retrn_dep'];
+        $bal_carry = $prev_bal+(($payment_items['paid']-$booking_header->deposite_amount)-$booking_header->rent_amount);
+        $total_bal = $bal_carry + $carry_return_amt;
+        $forwrd_model = new BookingCarryFrd();
+        $forwrd_model->booking_id=$booking_id;
+        $forwrd_model->customer_id = $booking_header->customer_id;
+        $forwrd_model->status=($carry_return_amt==0 && $bal_carry ==0 && $total_bal==0)?1:0;
+        $forwrd_model->carry_return=$carry_return_amt;
+        $forwrd_model->carry_balance=$bal_carry;
+        $forwrd_model->total_bal=$total_bal;
+        $forwrd_model->created_at=date('Y-m-d');
+        $forwrd_model->entry_time= date('h:m');
+        $forwrd_model->created_by='';
+        $forwrd_model->settle_with= ($carry_frd_details!='')? $carry_frd_details->id:null;
+        if(!$forwrd_model->save()){
+            return array('errors'=>$forwrd_model->errors);
+        }
+        if($carry_frd_details!='') {
+            $carry_frd_details->status = 1;
+            $carry_frd_details->settle_with_booking_id = $booking_id;
+            if (!$carry_frd_details->save()) {
+                $transaction->rollBack();
+                return array('errors' => $carry_frd_details->errors);
+            }
+        }
+        $booking_header->order_status='Closed';
+        $booking_header->payment_status=1;
+        $booking_header->carry_frwd_app=1;
+        if(!$booking_header->save()){
+             $transaction->rollBack();
+            return array('errors'=>$booking_header->errors);
+        }
+         $transaction->commit();
+        return array('status'=>1);
+
+    }
+
 public function actionGetBalance(){
   $customer_id=$_POST['customer_id'];
   $pending_bookings=BookingHeader::find()->where(['order_status'=>'Open','customer_id'=>$customer_id])->all();
@@ -1359,9 +1427,22 @@ public function actionGetBalance(){
   }
 }
 public function getCustomerBal($id){
-        $booking_ids=BookingHeader::find()->select(['booking_id'])->where(['customer_id'=>$id])->asArray()->all();
-            $bal_amount=PaymentMaster::find()->select(['sum(case when type="Return-Deposit" then amount else 0 end) as deposite_carry','sum(case when type="Return-Deposit" then 0 else amount end) as settled_carry'])->where(['mode_of_payment'=>'Carry_Frwd','booking_id'=>$booking_ids])->asArray()->one();
-            $final_amount=$bal_amount['deposite_carry']-$bal_amount['settled_carry'];
+        $prevoius_bal_list=BookingCarryFrd::find()->select(['carry_return','carry_balance','total_bal'])->where(['customer_id'=>$id,'status'=>0])->asArray()->all();
+
+
+        $booking_headers=BookingHeader::find()->select(['booking_id'])->where(['customer_id'=>$id])->asArray()->all();
+
+        $credit_bal=0;$deposit_balance=0;
+        foreach ($booking_headers as $booking_header){
+             $payment_details=PaymentMaster::find()->select(["booking_id", "sum(case when (type='Return-Deposit'|| type='Return-Payment' || type='Cancel-Charge' || type='Other-Charges') then 0 else amount end) as rec","sum(case when (type='Return-Deposit'|| type='Return-Payment') then amount else 0 end) as rtn"])->where(['booking_id'=>$booking_header->booking_id])->groupBy(["booking_id"])->createCommand()->queryAll();
+             $credit_bal = $payment_details['rec'];
+             $deposit_balance = $payment_details['rtn'];
+           /* foreach ($payment_details as $payment){
+
+            }*/
+        }
+           /* $bal_amount=PaymentMaster::find()->select(['sum(case when type="Return-Deposit" then amount else 0 end) as deposite_carry','sum(case when type="Return-Deposit" then 0 else amount end) as settled_carry'])->where(['mode_of_payment'=>'Carry_Frwd','booking_id'=>$booking_ids])->asArray()->one();
+            $final_amount=$bal_amount['deposite_carry']-$bal_amount['settled_carry'];*/
             return $final_amount;
 }
 

@@ -96,7 +96,9 @@ $this->title = 'Update Booking: #' . $model->booking_id;
         'booking_items' => $booking_items,
             'customer_model' => $customer_model,
         'address_grup'=>$address_grup,
-            'payment_models'=>$payment_models
+            'payment_models'=>$payment_models,
+          'settle_carry_frd'=>$settle_carry_frd,
+            'payment_carry_frd'=>$payment_carry_frd
     ]) ?>
 
 </div>
