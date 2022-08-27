@@ -27,6 +27,22 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
+/*CREATE TABLE IF NOT EXISTS `booking_carry_frd` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `carry_return` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `carry_balance` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `total_bal` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `created_by` varchar(50) NOT NULL,
+  `created_at` date NOT NULL,
+  `entry_time` time NOT NULL,
+  `settle_with` int(11) DEFAULT NULL,
+  `settle_with_booking_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;*/
+
 /**
  * BookingController implements the CRUD actions for BookingHeader model.
  * ALTER TABLE `booking_header` ADD `carry_frwd_app` INT NOT NULL DEFAULT '0' AFTER `payment_status`;
