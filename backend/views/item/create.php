@@ -26,6 +26,7 @@ $this->title = 'Create Item Master';
         'model_category' => $model_category,
         'model_vendor'=>$model_vendor,
          'color_model'=>$color_model,
+        'img_list'=>$img_list
     ]) ?>
 
 </div>
