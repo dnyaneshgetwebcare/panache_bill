@@ -45,7 +45,7 @@ class ItemController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'upload-mul', 'index', 'view', 'create', 'update', 'delete', 'vendor-list', 'get-type', 'file-upload', 'upload', 'remove', 'create-popup'],
+                        'actions' => ['logout','getimage-list','img-status', 'upload-mul', 'index', 'view', 'create', 'update', 'delete', 'vendor-list', 'get-type', 'file-upload', 'upload', 'remove', 'create-popup'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -83,23 +83,44 @@ class ItemController extends Controller
 
     public function actionUploadMul()
     {
-        $json = file_get_contents('php://input');
+        //print_r($_POST['']);die;
+       // $json = file_get_contents('php://input');
 // Converts it into a PHP object
-        $data = json_decode($json, true);
-        $this->base64_to_jpeg($data['imageData']);
-        print_r($data);
-        die;
+        $data=$_POST;
+        $item_id=$data['item_id'];
+        //$data = json_decode($json, true);
+        $file_name=$this->base64_to_jpeg($data['image_data'],$item_id);
+        $item_imgs=new ItemMasterImg();
+        $item_imgs->item_id=$item_id;
+        $item_imgs->img_name=$file_name;
+        $item_imgs->save();
+        return true;
     }
 
-    function base64_to_jpeg($base64_string)
+    function base64_to_jpeg($base64_string,$item_id)
     {
-        $output_file='upload';
+        $output_file=$item_id.'/';
+        $output_path='/uploads/'.$item_id.'/';
         //$output_file = Yii::getAlias('@web') . '\uploads';
         // open the output file for writing
         $data = explode(',', $base64_string);
+         $file_ext_arr=explode('/',explode(';',$data[ 0 ])[0]);
+         $file_ext=$file_ext_arr[1];
+//print_r($file_ext);die;
+          if (!file_exists(Yii::getAlias('@webroot') . $output_path)) {  // '/uploads/'
+            mkdir(Yii::getAlias('@webroot') . $output_path, 0777, true);
+        }
+        $path = realpath(dirname(__FILE__) . '/../..'.$output_path);
+         $get_next_imageno = true;
+                    while ($get_next_imageno) {
+                        $rand_no = rand(1, 99999);
+                        $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $file_ext);
+                        // $get_next_imageno=$this->getnext_img_id($rand_no);
 
-        $ifp = fopen($output_file, 'wb');
+                    }
 
+        $ifp = fopen($path."\\".$rand_no.".".$file_ext, 'wb');
+                    $output_file.="/".$rand_no.".".$file_ext;
         // split the string on commas
         // $data[ 0 ] == "data:image/png;base64"
         // $data[ 1 ] == <actual base64 string>
@@ -112,6 +133,45 @@ class ItemController extends Controller
         fclose($ifp);
 
         return $output_file;
+    }
+    function actionGetimageList(){
+        $item_id=$_POST['item_id'];
+        $img_list=ItemMasterImg::find()->where(['item_id'=>$item_id])->all();
+         return $this->renderPartial('img_list', [
+                                    'img_list' => $img_list
+                                ]);
+    }
+    public function actionImgStatus(){
+        $flag= $_POST['req_flag'];  // delete || change status
+        $item_id=$_POST['item_id'];
+        $img_id=$_POST['img_id'];
+        $item_images=ItemMasterImg::find()->where(['id'=>$img_id])->one();
+        $item_master=ItemMaster::find()->where(['id'=>$item_id])->one();
+        if($flag=='delete'){
+            if($item_images->default_image==1){
+                    $new_default=ItemMasterImg::find()->where(['!=','id',$img_id])->andWhere(['item_id'=>$item_id])->one();
+                    if($new_default!=null){
+                        $item_master->images =$new_default->img_name;
+                        $new_default->default_image=1;
+                        $new_default->save();
+                    }else{
+                         $item_master->images =null;
+                    }
+                    $item_master->save();
+            }
+            $path = realpath(dirname(__FILE__) . '/../../uploads');
+            $item_images->delete();
+             if (file_exists($path . "\\" . $item_images->img_name)) {
+            unlink($path . "\\" . $item_images->img_name);
+        }
+        }elseif ($flag=='change'){
+             $item_master->images =$item_images->img_name;
+             $item_master->save();
+             ItemMasterImg::updateAll(['default_image'=>0],['item_id'=>$item_id]);
+             $item_images->default_image=1;
+             $item_images->save();
+        }
+        return true;
     }
 
     public function actionUpload()
@@ -412,6 +472,7 @@ class ItemController extends Controller
     {
         $model = $this->findModel($id);
         $model_category = ArrayHelper::map(CategoryMaster::find()->all(), 'id', 'name');
+        $img_list = ItemMasterImg::find()->where(['item_id'=>$id,'status'=>1])->all();
         // $model_type= ArrayHelper::map(TypeMaster::find()->all(),'id','name');
         $color_model = ArrayHelper::map(ColorMaster::find()->all(), 'id', 'name');
         $model_vendor = ArrayHelper::map(VendorMaster::find()->all(), 'id', 'name');
@@ -457,6 +518,7 @@ class ItemController extends Controller
             'model_category' => $model_category,
             'model_vendor' => $model_vendor,
             'color_model' => $color_model,
+            'img_list' => $img_list,
         ]);
     }
 

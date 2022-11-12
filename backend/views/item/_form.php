@@ -86,7 +86,7 @@ use kartik\file\FileInput;
                 <ul class="nav nav-tabs customtab2" role="tablist">
                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#component_pills"
                                             role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span>
-                            <span class="hidden-xs-down" style="font-size: 14px;">Genral</span></a></li>
+                            <span class="hidden-xs-down" style="font-size: 14px;">General</span></a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#operation-pills"
                                             role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span>
                             <span style="font-size: 14px;" class="hidden-xs-down">Image</span></a></li>
@@ -106,7 +106,7 @@ use kartik\file\FileInput;
                                 <div class="form-body">
 
                                     <div>
-
+                                        <input type="hidden" id="item_id" value="<?= $model->id; ?>">
                                         <?php
                                         $dispOptions = ['class' => 'form-control kv-monospace'];
 
@@ -174,9 +174,10 @@ use kartik\file\FileInput;
 
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input type="file" id="input-file-now-custom-1" name="fileToUpload"
-                                                           class="dropify" data-default-file="<?= $image_path; ?>"
-                                                           data-allowed-file-extensions="png jpg jpeg tiff"/>
+                                                    <!--<input type="file" id="input-file-now-custom-1" name="fileToUpload"
+                                                           class="dropify" data-default-file="<? /*= $image_path; */ ?>"
+                                                           data-allowed-file-extensions="png jpg jpeg tiff"/>-->
+                                                    <img src="<?= $image_path; ?>" style="width: 200px;">
                                                 </div>
                                             </div>
                                             <!--/span-->
@@ -195,7 +196,7 @@ use kartik\file\FileInput;
                                                         'options' => $saveOptions,
                                                         'displayOptions' => $dispOptions,
                                                         'saveInputContainer' => $saveCont
-                                                    ]);// $form->field($model, 'purchase_amount')->textInput(['maxlength' => true])   ?>
+                                                    ]);// $form->field($model, 'purchase_amount')->textInput(['maxlength' => true])     ?>
 
 
                                                 </div>
@@ -410,20 +411,22 @@ use kartik\file\FileInput;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-
-
-                <div class="form-group">
-                     <?= $this->render('img_list', [
-                        'img_list' => $img_list
-                    ]) ?>
- <button type="button" class="btn btn-primary" onclick="addNew()">Add new
-                    </button>
-                </div>
-
-                <div class="form-group" id="imagers">
-
-                </div>
-                    </div>
+                            <?php if($model->id!=''){ ?>
+                            <div class="form-group">
+                                <div id="image_list">
+                                <?= $this->render('img_list', [
+                                    'img_list' => $img_list
+                                ]) ?>
+                                    </div>
+                                <button type="button" class="btn btn-primary" onclick="addNew()">Add new
+                                </button>
+                            </div>
+                            <div class="form-group" id="imagers">
+                            </div>
+                            <?php }else{
+                                echo '<div class="form-group"><span class="col-lg-12 p-20 " ><h3>Add Images after saving item </h3></span> </div>';
+                            } ?>
+                        </div>
                     </div>
                 </div>
 
@@ -435,6 +438,8 @@ use kartik\file\FileInput;
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script type="application/javascript">
+
+
     function addnewItem() {
 
         $.ajax({
@@ -461,39 +466,13 @@ use kartik\file\FileInput;
         });
     }
 
-    function addimages() {
-
-        $('#pModal').modal('show');
-        $('#modalContent').html('<div class="form-group"><button class="btn btn-primary" onclick="addNew()">Add new ImagerJs</button></div><div class="form-group" id="imagers"></div>');
-        $('.modal-header').html('<h4 class="modal-title" id="myModalLabel">Cancel Booking</h4><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>');
-        /*$.ajax({
-            url:"http://localhost:84/img_crop/index.html",
-            type: 'post',
-
-            dataType:'html',
-            beforeSend: function(){
-                $(".overlay").show();
-            },
-            complete: function(){
-                $(".overlay").hide();
-            },
-            success: function (data) {
-                // console.log(data);
-                 $('#pModal').modal('show');
-        $('#modalContent').html(data);
-        $('.modal-header').html('<h4 class="modal-title" id="myModalLabel">Cancel Booking</h4><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>');
 
 
-            },
-            error: function(jqXhr, textStatus, errorThrown ){
-                // alert(errorThrown);
-                if(errorThrown=='Forbidden'){
-                    alert(YOU_DONT_HAVE_ACCESS);
-                }
-            }
-        });*/
-    }
-
+    /*$('.def_change_status').on('ifChecked', function(event){
+                //$('.deposite_applicable_class').iCheck('uncheck');
+               //cancelBooking();
+        alert();
+            });*/
     function showPreview(objFileInput) {
         $.ajaxSetup({
             data: <?= \yii\helpers\Json::encode([
@@ -571,6 +550,59 @@ use kartik\file\FileInput;
                 $("#userImage").val('');
                 $('#itemmaster-images').val('');
                 $("#targetLayer").html('');
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                if (errorThrown == 'Forbidden') {
+                    alert(you_dont_have_accsess_label);
+                }
+            }
+        });
+    }
+ function getimagelist() {
+        var item_id = $("#item_id").val();
+        $.ajax({
+            url: "<?php echo \Yii::$app->getUrlManager()->createUrl('item/getimage-list') ?>",
+            type: 'post',
+            data: {
+                item_id: item_id,
+            },
+            beforeSend: function () {
+                $(".overlay").show();
+            },
+            complete: function () {
+                $(".overlay").hide();
+            },
+            success: function (data) {
+
+                $("#image_list").html(data);
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                if (errorThrown == 'Forbidden') {
+                    alert(you_dont_have_accsess_label);
+                }
+            }
+        });
+    }
+    function changeimagestatus(req_flag, img_id) {
+        var item_id = $("#item_id").val();
+
+        $.ajax({
+            url: "<?php echo \Yii::$app->getUrlManager()->createUrl('item/img-status') ?>",
+            type: 'post',
+            data: {
+                req_flag: req_flag,
+                item_id: item_id,
+                img_id: img_id,
+            },
+            beforeSend: function () {
+                $(".overlay").show();
+            },
+            complete: function () {
+                $(".overlay").hide();
+
+            },
+            success: function (data) {
+                 getimagelist();
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 if (errorThrown == 'Forbidden') {
@@ -692,7 +724,8 @@ use kartik\file\FileInput;
                 //
                 // for demo we just use some wallpaper
                 var imager = this;
-
+                var item_id = $("#item_id").val();
+                // alert(item_id);
                 //setTimeout(function() {
                 //))  callback('/example/wallpaper-2997883.jpg');
                 //}, 500); // emulate server call
@@ -705,12 +738,18 @@ use kartik\file\FileInput;
                 $.ajax({
                     url: '<?php echo \Yii::$app->getUrlManager()->createUrl('item/upload-mul') ?>',
                     dataType: 'json',
-                    data: dataJson,
-                    contentType: 'application/json; charset=utf-8',
+                    //data: dataJson,
+                    data: {
+                        image_data: imageData,
+                        item_id: item_id,
+                    },
+                    // contentType: 'application/json; charset=utf-8',
                     type: 'POST',
                     success: function (imageUrl) {
-                       // callback(imageUrl); // assuming that server returns an `imageUrl` as a response
-                        console.log('uploading success: ' + imageUrl);
+                        // callback(imageUrl); // assuming that server returns an `imageUrl` as a response
+                      // getimagelist();
+                      // $("#imagers").remove();
+                        location.reload();
                     },
                     error: function (xhr, status, error) {
                         console.log(error);
