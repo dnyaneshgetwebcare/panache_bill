@@ -5,8 +5,16 @@
             <?php $i = 1;
 
             foreach ($img_list as $img_details) {
+
+                $actual_image_name='';
                 if ($img_details['img_name']) {
                     $image_path = Yii::getAlias('@web') . '/uploads/' . $img_details['img_name'];
+                    $image_name_array=explode('/',$img_details['img_name']);
+                    if(sizeof($image_name_array)==2){
+                        $actual_image_name=$image_name_array[1];
+                    }else{
+                        $actual_image_name=$img_details['img_name'];
+                    }
 
 
                 } else {
@@ -16,27 +24,38 @@
                 <div class="col-4 col-lg-4 grid">
                     <div class="card">
                         <div class="card-body">
-                            <a class="image-popup-vertical-fit" href="<?= $image_path; ?>" >
-                            <img src="<?= $image_path; ?>" style="width: 230px;height: 250px">
-                                </a>
-                            <div class="row m-t-10 m-l-5">
-                                <?php if ($img_details['default_image'] != 1) { ?>
-                                    <button class="btn button btn-delete btn-info btn-outline-info"
-                                            onclick="changeimagestatus('change',<?= $img_details['id'] ?>)"
-                                            id="delete_<?= $img_details['id']; ?>">Set Default
-                                    </button>
-                                <?php } else {
-
-                                    echo '<span class="text-bold text-info" style="font-size: medium"> Default</span>';
-                                }
-                                ?>
-
-                                <div class=" m-l-40">
-                                <button class="btn button btn-delete btn-info btn-outline-red"
-                                        onclick="changeimagestatus('delete',<?= $img_details['id'] ?>)"
-                                        id="delete_<?= $img_details['id']; ?>"><i class="mdi mdi-delete"></i>
-                                </button>
+                            <a class="image-popup-vertical-fit" href="<?= $image_path; ?>">
+                                <img src="<?= $image_path; ?>" style="width: 230px;height: 250px">
+                            </a>
+                            <div class="row m-t-10">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-3" >
+                                        <a class="btn button btn-delete btn-info btn-outline-success"
+                                                href="<?= $image_path; ?>" download="<?= $actual_image_name; ?>"
+                                                id="delete_<?= $img_details['id']; ?>"><i class="mdi mdi-download"></i>
+                                        </a>
                                     </div>
+                                    <div class="col-lg-6" >
+                                    <?php if ($img_details['default_image'] != 1) { ?>
+                                        <button class="btn button btn-delete btn-info btn-outline-info " style="font-size: small"
+                                                onclick="changeimagestatus('change',<?= $img_details['id'] ?>)"
+                                                id="delete_<?= $img_details['id']; ?>">Set Default
+                                        </button>
+                                    <?php } else {
+
+                                        echo '<span class="text-bold text-info" style="font-size: small"> Default</span>';
+                                    }
+                                    ?>
+                                        </div>
+                                    <div class="col-lg-3" >
+
+                                        <button class="btn button btn-delete btn-info btn-outline-red"
+                                                onclick="changeimagestatus('delete',<?= $img_details['id'] ?>)"
+                                                id="delete_<?= $img_details['id']; ?>"><i class="mdi mdi-delete"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

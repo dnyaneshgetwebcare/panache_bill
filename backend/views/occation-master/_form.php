@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\TypeMaster */
+/* @var $model backend\models\OccationMaster */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="type-master-form">
+<div class="occation-master-form">
 <div class="row" >
     <div class="col-lg-12">
         <div class="error-summary error-summary-sales custom-errors" id="errors_test1" style="display: none;"><p><i class="fa fa-close pull-right" onclick="$(&quot;#errors_test1&quot;).hide()"></i><h5><b><i class="fa fa-exclamation-triangle"></i> <?= 'ERRORS'; ?>:</b></h5></p>
@@ -17,50 +17,50 @@ use yii\bootstrap\ActiveForm;
         </div>
     </div>
 </div>
-    <?php $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'type-form','layout' => 'horizontal', 'fieldConfig' => [
+    <?php  $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'occasion-form','layout' => 'horizontal', 'fieldConfig' => [
         'horizontalCssClasses' => [
-            'label' => 'col-sm-2 control-label',
+            'label' => 'col-sm-4 control-label',
             'offset' => 'col-sm-offset-2',
             'wrapper' => 'col-sm-6',
         ]]]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-    <?=$form->field($model, 'category_id')->dropDownList($category,['prompt'=>'Select Category','class'=>'form-control']);?>
-   <?= $form->field($model, 'intial_pre')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'details_occ')->textInput(['maxlength' => true]) ?>
+ <?= $form->field($model, 'main_screen_active')->dropDownList(['0'=>'NO','1'=>'Yes'], [ 'class' => 'form-control']);
+
+                                                    ?>
+
+
     <div class="box-footer pull-right">
          <button type="button" onclick="submitTypeForm()" class="btn btn-info save_submit" data-toggle="tooltip" data-original-title="Save"><img src="img/icons/save.png" style="height:12px"> Save</button>
     </div>
 
-
-    <?php
-
-
-
-    ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $('.modal-header').html("<span style='color:#3a3636;font-size:14px'><b>Type</b><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></span>");
+        $('.modal-header').html("<span style='color:#3a3636;font-size:14px'><b>Occasion</b><button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button></span>");
 
     });
  function removeDuplicates(json_all) {
-    var arr = [];   
-    $.each(json_all, function (index, value) {        
-          arr[value]=(value);        
+    var arr = [];
+    $.each(json_all, function (index, value) {
+          arr[value]=(value);
     });
     return arr;
 }
  function submitTypeForm(){
-      
+
       //alert();
 
     $.ajax({
-    url:$('#type-form').attr('action'),
+    url:$('#occasion-form').attr('action'),
     type: 'post',
     dataType:'json',
-    data:$("#type-form").serialize(),
+    data:$("#occasion-form").serialize(),
     beforeSend: function(){
           $(".overlay").show();
         },
@@ -75,10 +75,10 @@ use yii\bootstrap\ActiveForm;
       var cleaned = removeDuplicates(data['errors']);
 
    // console.log(cleaned);
-       for(var key in data['errors']){       
-          $('#'+key).addClass("errors_color");                 
+       for(var key in data['errors']){
+          $('#'+key).addClass("errors_color");
         }
-        for(var key in cleaned){       
+        for(var key in cleaned){
           html+=key+"<br>";
         }
        $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -87,12 +87,12 @@ use yii\bootstrap\ActiveForm;
        $(".error-summary-sales").show();
         $("#error_display_sales").html(html);
        }else{
-         $(".error-summary-sales").hide();        
+         $(".error-summary-sales").hide();
        }
        $('#redirect_saved_changes').hide();
       },
       error: function(jqXhr, textStatus, errorThrown ){
-                 //  alert(errorThrown); 
+                 //  alert(errorThrown);
                   test_submit=1;
                     if(errorThrown=='Forbidden'){
                          alert(you_dont_have_access_label);

@@ -1,6 +1,7 @@
 <?php
 
 use kartik\number\NumberControl;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\date\DatePicker;
@@ -107,6 +108,7 @@ use kartik\file\FileInput;
 
                                     <div>
                                         <input type="hidden" id="item_id" value="<?= $model->id; ?>">
+                                        <input type="hidden" id="nos_of_images" value="<?= sizeof($img_list); ?>">
                                         <?php
                                         $dispOptions = ['class' => 'form-control kv-monospace'];
 
@@ -196,7 +198,7 @@ use kartik\file\FileInput;
                                                         'options' => $saveOptions,
                                                         'displayOptions' => $dispOptions,
                                                         'saveInputContainer' => $saveCont
-                                                    ]);// $form->field($model, 'purchase_amount')->textInput(['maxlength' => true])     ?>
+                                                    ]);// $form->field($model, 'purchase_amount')->textInput(['maxlength' => true])       ?>
 
 
                                                 </div>
@@ -332,6 +334,8 @@ use kartik\file\FileInput;
                                         <div class="row ">
                                             <div class="col-md-6">
                                                 <div class="form-group">
+
+
                                                     <?= $form->field($model, 'colour_cat')->dropDownList($color_model, ['prompt' => 'Select Color', 'class' => 'form-control']); ?>
                                                 </div>
                                             </div>
@@ -348,6 +352,7 @@ use kartik\file\FileInput;
                                                         'saveInputContainer' => $saveCont
                                                     ]); ?>  </div>
                                             </div>
+
                                             <!--/span-->
                                         </div>
                                         <div class="row">
@@ -358,7 +363,54 @@ use kartik\file\FileInput;
                                                     <?= $form->field($model, 'vendor_id')->dropDownList($model_vendor, ['prompt' => 'Select Vendor', 'class' => 'form-control']); ?>
                                                 </div>
                                             </div>
-
+                                            <div class="col-md-6">
+                                                <div class="form-group" style="margin-left: 20px">
+                                                    <label class="control-label">
+                                                        <?= $model->getAttributeLabel('occasion_master'); ?>
+                                                    </label>
+                                                    <?php
+                                                    if($model->occasion_master!="") {
+                                                        $occ_arry = explode(',', $model->occasion_master);
+                                                        $model->occasion_master = $occ_arry;
+                                                    }
+                                                    echo Select2::widget([
+                                                        'name' => 'ItemMaster[occasion_master]',
+                                                        'value' => $model->occasion_master, // initial value (will be ordered accordingly and pushed to the top)
+                                                        'data' => $occasion_master,
+                                                        'maintainOrder' => true,
+                                                        'options' => ['placeholder' => 'Select  ...', 'multiple' => true],
+                                                        'pluginOptions' => [
+                                                            'tags' => true,
+                                                            'maximumInputLength' => 10,
+                                                            'class'=>'form-control'
+                                                        ],
+                                                    ]);
+                                                    ?> </div>
+                                            </div>
+                                             <div class="col-md-6">
+                                                <div class="form-group" style="margin-left: 20px">
+                                                    <label class="control-label">
+                                                        <?= $model->getAttributeLabel('display_type'); ?>
+                                                    </label>
+                                                    <?php
+                                                    if($model->display_type!="") {
+                                                        $dis_arry = explode(',', $model->display_type);
+                                                        $model->display_type = $dis_arry;
+                                                    }
+                                                    echo Select2::widget([
+                                                        'name' => 'ItemMaster[display_type]',
+                                                        'value' => $model->display_type, // initial value (will be ordered accordingly and pushed to the top)
+                                                        'data' => $display_type,
+                                                        'maintainOrder' => true,
+                                                        'options' => ['placeholder' => 'Select  ...', 'multiple' => true],
+                                                        'pluginOptions' => [
+                                                            'tags' => true,
+                                                            'maximumInputLength' => 10,
+                                                            'class'=>'form-control'
+                                                        ],
+                                                    ]);
+                                                    ?> </div>
+                                            </div>
                                         </div>
 
                                         <hr>
@@ -411,19 +463,19 @@ use kartik\file\FileInput;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <?php if($model->id!=''){ ?>
-                            <div class="form-group">
-                                <div id="image_list">
-                                <?= $this->render('img_list', [
-                                    'img_list' => $img_list
-                                ]) ?>
+                            <?php if ($model->id != '') { ?>
+                                <div class="form-group">
+                                    <div id="image_list">
+                                        <?= $this->render('img_list', [
+                                            'img_list' => $img_list
+                                        ]) ?>
                                     </div>
-                                <button type="button" class="btn btn-primary" onclick="addNew()">Add new
-                                </button>
-                            </div>
-                            <div class="form-group" id="imagers">
-                            </div>
-                            <?php }else{
+                                    <button type="button" class="btn btn-primary" onclick="addNew()">Add new
+                                    </button>
+                                </div>
+                                <div class="form-group" id="imagers">
+                                </div>
+                            <?php } else {
                                 echo '<div class="form-group"><span class="col-lg-12 p-20 " ><h3>Add Images after saving item </h3></span> </div>';
                             } ?>
                         </div>
@@ -465,7 +517,6 @@ use kartik\file\FileInput;
             }
         });
     }
-
 
 
     /*$('.def_change_status').on('ifChecked', function(event){
@@ -558,7 +609,8 @@ use kartik\file\FileInput;
             }
         });
     }
- function getimagelist() {
+
+    function getimagelist() {
         var item_id = $("#item_id").val();
         $.ajax({
             url: "<?php echo \Yii::$app->getUrlManager()->createUrl('item/getimage-list') ?>",
@@ -583,6 +635,7 @@ use kartik\file\FileInput;
             }
         });
     }
+
     function changeimagestatus(req_flag, img_id) {
         var item_id = $("#item_id").val();
 
@@ -599,10 +652,12 @@ use kartik\file\FileInput;
             },
             complete: function () {
                 $(".overlay").hide();
-
+                if(req_flag=="delete"){
+                     $("#nos_of_images").val($("#nos_of_images").val()-1);
+                }
             },
             success: function (data) {
-                 getimagelist();
+                getimagelist();
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 if (errorThrown == 'Forbidden') {
@@ -725,6 +780,7 @@ use kartik\file\FileInput;
                 // for demo we just use some wallpaper
                 var imager = this;
                 var item_id = $("#item_id").val();
+                var nos_of_images = $("#nos_of_images").val();
                 // alert(item_id);
                 //setTimeout(function() {
                 //))  callback('/example/wallpaper-2997883.jpg');
@@ -742,13 +798,16 @@ use kartik\file\FileInput;
                     data: {
                         image_data: imageData,
                         item_id: item_id,
+                        nos_of_images: nos_of_images,
                     },
                     // contentType: 'application/json; charset=utf-8',
                     type: 'POST',
-                    success: function (imageUrl) {
+                    success: function () {
                         // callback(imageUrl); // assuming that server returns an `imageUrl` as a response
-                      // getimagelist();
-                      // $("#imagers").remove();
+                        // getimagelist();
+                        // $("#imagers").remove();
+                        var prev_nos_of_images = $("#nos_of_images").val();
+                        $("#nos_of_images").val(prev_nos_of_images+1);
                         location.reload();
                     },
                     error: function (xhr, status, error) {

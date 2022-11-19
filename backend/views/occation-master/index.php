@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\TypeMasterSearch */
+/* @var $searchModel backend\models\OccationMasterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Item Type';
-
+$this->title = 'Occation Masters';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <style type="text/css">
       .error-summary {
@@ -22,7 +22,7 @@ $this->title = 'Item Type';
 .form-group {
          margin-bottom: 0px;
      }
-     
+
      .form-control {
          font-size: medium;
          font-weight: 500;
@@ -32,14 +32,13 @@ $this->title = 'Item Type';
          font-weight: 500;
      }
   td,th{
-    font-size: 15px; 
+    font-size: 15px;
 }
 
 </style>
-<div class="type-master-index">
+<div class="occation-master-index">
 
-  
-    <div class="row page-titles">
+        <div class="row page-titles">
         <div class="col-md-5 col-8 align-self-center">
             <h3 class="text-themecolor m-b-0 m-t-0"><?= Html::encode($this->title) ?></h3>
             <ol class="breadcrumb">
@@ -50,79 +49,73 @@ $this->title = 'Item Type';
         <div class="col-md-7 col-4 align-self-center">
             <div class="d-flex m-t-10 justify-content-end">
              <button type="button" onclick="addnewItem()" class="btn btn-info pull-right">Add New </button>
-               
+
 
             </div>
         </div>
     </div>
 
+
+ <!--   <h1><?/*= Html::encode($this->title) */?></h1>
+
     <p>
-
-       
+        <?/*= Html::a('Create Occation Master', ['create'], ['class' => 'btn btn-success']) */?>
     </p>
-
+-->
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 <div class="row">
-        <div class="col-12">
-            <div class="card ">
+        <div class="col-10">
+            <div class="card">
                 <div class="card-body">
                     <div class="table-responsive m-t-40">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+           // ['class' => 'yii\grid\SerialColumn'],
 
-          //  'id',
-           // 'name',
-            [ 'attribute'=>'name',
+            [
+            'attribute'=>'id',
+                //'format' => 'raw',
+                'options'=>['width'=>'10%'],
+                'value' =>'id'],
+             [ 'attribute'=>'name',
                 'format' => 'raw',
+                'options'=>['width'=>'60%'],
                 'value' => function($model){
         return Html::a('<span class="text-blue" onclick="open_update('.$model->id.')">'.$model->name.'</span>');
                 },
                 'header'=> 'name',],
+
             [
-                'attribute'=>'category_id',
-                'value' => 'category.name',
-                'header'=> 'Category',
-                //'value'=>'businessPartner.NAME',
-            ],
-            'intial_pre',
+            'attribute'=>'details_occ',
+
+
+                'options'=>['width'=>'15%'],
+                'value' =>'details_occ'],
+[
+            'attribute'=>'main_screen_active',
+                'format' => 'boolean',
+    'header'=>'Website',
+                'options'=>['width'=>'10%'],
+                'value' =>'main_screen_active'],
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{view}{update}{delete}',
-          'buttons' => [
-            'view' => function ($url, $model) {
-                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
-                            'title' => Yii::t('app', 'lead-view'),
-                ]);
-            },
-
-            'update' => function ($url, $model) {
-                return Html::a('<span class="glyphicon glyphicon-pencil" onclick="open_update('.$model->id.')"></span>');
-            },
-            'delete' => function ($url, $model) {
-                return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
-                            'title' => Yii::t('app', 'lead-delete'),
-                ]);
-            }
-
-          ],],
+                'template' => '{delete}',
+                'options'=>['width'=>'5%'],],
         ],
     ]); ?>
-
-
-</div>
-</div>
-</div>
-</div>
-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
+</div>
 <script type="application/javascript">
     function addnewItem() {
 
         $.ajax({
-            url:"<?php echo \Yii::$app->getUrlManager()->createUrl('type/create') ?>",
+            url:"<?php echo \Yii::$app->getUrlManager()->createUrl('occation-master/create') ?>",
             type: 'post',
             dataType:'html',
             beforeSend: function(){
@@ -146,7 +139,7 @@ $this->title = 'Item Type';
     }
         function open_update(type_id) {
         $.ajax({
-            url:"<?php echo \Yii::$app->getUrlManager()->createUrl('type/update') ?>",
+            url:"<?php echo \Yii::$app->getUrlManager()->createUrl('occation-master/update') ?>",
             type: 'get',
             data:{
                 id:type_id
@@ -160,7 +153,7 @@ $this->title = 'Item Type';
             },
             success: function (data) {
                 // console.log(data);
-               
+
                 $('#pModal').modal('show');
                 $('#modalContent').html(data);
             },

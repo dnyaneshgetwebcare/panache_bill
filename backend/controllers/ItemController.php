@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use app\models\ItemMasterImg;
 use backend\models\CategoryMaster;
+use backend\models\DisplayType;
+use backend\models\OccationMaster;
 use backend\models\TypeMaster;
 use backend\models\VendorMaster;
 use Yii;
@@ -22,6 +24,8 @@ use yii\filters\AccessControl;
 
 /**
  * ItemController implements the CRUD actions for ItemMaster model.
+ * ALTER TABLE `item_master` ADD `occcasion_master` VARCHAR(500) NULL AFTER `nos_dry_cleaning`;
+ * ALTER TABLE `item_master` ADD `display_type` VARCHAR(500) NULL AFTER `occasion_master`;
  */
 class ItemController extends Controller
 {
@@ -45,7 +49,7 @@ class ItemController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','getimage-list','img-status', 'upload-mul', 'index', 'view', 'create', 'update', 'delete', 'vendor-list', 'get-type', 'file-upload', 'upload', 'remove', 'create-popup'],
+                        'actions' => ['logout', 'getimage-list', 'img-status', 'upload-mul', 'index', 'view', 'create', 'update', 'delete', 'vendor-list', 'get-type', 'file-upload', 'upload', 'remove', 'create-popup'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -84,43 +88,48 @@ class ItemController extends Controller
     public function actionUploadMul()
     {
         //print_r($_POST['']);die;
-       // $json = file_get_contents('php://input');
+        // $json = file_get_contents('php://input');
 // Converts it into a PHP object
-        $data=$_POST;
-        $item_id=$data['item_id'];
+        $data = $_POST;
+        $item_id = $data['item_id'];
+        $prev_nos_of_images = $data['nos_of_images'];
         //$data = json_decode($json, true);
-        $file_name=$this->base64_to_jpeg($data['image_data'],$item_id);
-        $item_imgs=new ItemMasterImg();
-        $item_imgs->item_id=$item_id;
-        $item_imgs->img_name=$file_name;
+        $file_name = $this->base64_to_jpeg($data['image_data'], $item_id);
+        $item_imgs = new ItemMasterImg();
+        $item_imgs->item_id = $item_id;
+        $item_imgs->img_name = $file_name;
+        $item_imgs->default_image =($prev_nos_of_images==0)?1:0;
         $item_imgs->save();
+        if($prev_nos_of_images==0){
+            ItemMaster::updateAll(['images'=>$file_name],['id'=>$item_id]);
+        }
         return true;
     }
 
-    function base64_to_jpeg($base64_string,$item_id)
+    function base64_to_jpeg($base64_string, $item_id)
     {
-        $output_file=$item_id.'/';
-        $output_path='/uploads/'.$item_id.'/';
+        $output_file = $item_id . '/';
+        $output_path = '/uploads/' . $item_id . '/';
         //$output_file = Yii::getAlias('@web') . '\uploads';
         // open the output file for writing
         $data = explode(',', $base64_string);
-         $file_ext_arr=explode('/',explode(';',$data[ 0 ])[0]);
-         $file_ext=$file_ext_arr[1];
+        $file_ext_arr = explode('/', explode(';', $data[0])[0]);
+        $file_ext = $file_ext_arr[1];
 //print_r($file_ext);die;
-          if (!file_exists(Yii::getAlias('@webroot') . $output_path)) {  // '/uploads/'
+        if (!file_exists(Yii::getAlias('@webroot') . $output_path)) {  // '/uploads/'
             mkdir(Yii::getAlias('@webroot') . $output_path, 0777, true);
         }
-        $path = realpath(dirname(__FILE__) . '/../..'.$output_path);
-         $get_next_imageno = true;
-                    while ($get_next_imageno) {
-                        $rand_no = rand(1, 99999);
-                        $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $file_ext);
-                        // $get_next_imageno=$this->getnext_img_id($rand_no);
+        $path = realpath(dirname(__FILE__) . '/../..' . $output_path);
+        $get_next_imageno = true;
+        while ($get_next_imageno) {
+            $rand_no = rand(1, 99999);
+            $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $file_ext);
+            // $get_next_imageno=$this->getnext_img_id($rand_no);
 
-                    }
+        }
 
-        $ifp = fopen($path."\\".$rand_no.".".$file_ext, 'wb');
-                    $output_file.="/".$rand_no.".".$file_ext;
+        $ifp = fopen($path . "\\" . $rand_no . "." . $file_ext, 'wb');
+        $output_file .=  $rand_no . "." . $file_ext;
         // split the string on commas
         // $data[ 0 ] == "data:image/png;base64"
         // $data[ 1 ] == <actual base64 string>
@@ -134,42 +143,46 @@ class ItemController extends Controller
 
         return $output_file;
     }
-    function actionGetimageList(){
-        $item_id=$_POST['item_id'];
-        $img_list=ItemMasterImg::find()->where(['item_id'=>$item_id])->all();
-         return $this->renderPartial('img_list', [
-                                    'img_list' => $img_list
-                                ]);
+
+    function actionGetimageList()
+    {
+        $item_id = $_POST['item_id'];
+        $img_list = ItemMasterImg::find()->where(['item_id' => $item_id])->all();
+        return $this->renderPartial('img_list', [
+            'img_list' => $img_list
+        ]);
     }
-    public function actionImgStatus(){
-        $flag= $_POST['req_flag'];  // delete || change status
-        $item_id=$_POST['item_id'];
-        $img_id=$_POST['img_id'];
-        $item_images=ItemMasterImg::find()->where(['id'=>$img_id])->one();
-        $item_master=ItemMaster::find()->where(['id'=>$item_id])->one();
-        if($flag=='delete'){
-            if($item_images->default_image==1){
-                    $new_default=ItemMasterImg::find()->where(['!=','id',$img_id])->andWhere(['item_id'=>$item_id])->one();
-                    if($new_default!=null){
-                        $item_master->images =$new_default->img_name;
-                        $new_default->default_image=1;
-                        $new_default->save();
-                    }else{
-                         $item_master->images =null;
-                    }
-                    $item_master->save();
+
+    public function actionImgStatus()
+    {
+        $flag = $_POST['req_flag'];  // delete || change status
+        $item_id = $_POST['item_id'];
+        $img_id = $_POST['img_id'];
+        $item_images = ItemMasterImg::find()->where(['id' => $img_id])->one();
+        $item_master = ItemMaster::find()->where(['id' => $item_id])->one();
+        if ($flag == 'delete') {
+            if ($item_images->default_image == 1) {
+                $new_default = ItemMasterImg::find()->where(['!=', 'id', $img_id])->andWhere(['item_id' => $item_id])->one();
+                if ($new_default != null) {
+                    $item_master->images = $new_default->img_name;
+                    $new_default->default_image = 1;
+                    $new_default->save();
+                } else {
+                    $item_master->images = null;
+                }
+                $item_master->save();
             }
             $path = realpath(dirname(__FILE__) . '/../../uploads');
             $item_images->delete();
-             if (file_exists($path . "\\" . $item_images->img_name)) {
-            unlink($path . "\\" . $item_images->img_name);
-        }
-        }elseif ($flag=='change'){
-             $item_master->images =$item_images->img_name;
-             $item_master->save();
-             ItemMasterImg::updateAll(['default_image'=>0],['item_id'=>$item_id]);
-             $item_images->default_image=1;
-             $item_images->save();
+            if (file_exists($path . "\\" . $item_images->img_name)) {
+                unlink($path . "\\" . $item_images->img_name);
+            }
+        } elseif ($flag == 'change') {
+            $item_master->images = $item_images->img_name;
+            $item_master->save();
+            ItemMasterImg::updateAll(['default_image' => 0], ['item_id' => $item_id]);
+            $item_images->default_image = 1;
+            $item_images->save();
         }
         return true;
     }
@@ -314,6 +327,7 @@ class ItemController extends Controller
 
     public function actionCreate()
     {
+         //print_r($_POST['ItemMaster']['occcasion_master']);die;
         $model = new ItemMaster();
         $img_list = [new ItemMasterImg()];
         $model_category = ArrayHelper::map(CategoryMaster::find()->all(), 'id', 'name');
@@ -321,40 +335,52 @@ class ItemController extends Controller
 
         $model_vendor = ArrayHelper::map(VendorMaster::find()->all(), 'id', 'name');
         $color_model = ArrayHelper::map(ColorMaster::find()->all(), 'id', 'name');
+        $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id', 'name');
+        $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id', 'name');
         $model->setScenario('create_new');
         if ($model->load(Yii::$app->request->post())) {
-
+//rint_r($model);die;
             $path = realpath(dirname(__FILE__) . '/../../uploads');
 
             if ($_POST["delete_status"] == "1") {
                 $model->images = "";
             }
             if (is_array($_FILES)) {
+                if (isset($_FILES['fileToUpload'])) {
+                    if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
+                        $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
+                        $sourcePath = $_FILES['fileToUpload']['tmp_name'];
+                        $get_next_imageno = true;
+                        while ($get_next_imageno) {
+                            $rand_no = rand(1, 99999);
+                            $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $id);
+                            // $get_next_imageno=$this->getnext_img_id($rand_no);
 
-                if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
-                    $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
-                    $sourcePath = $_FILES['fileToUpload']['tmp_name'];
-                    $get_next_imageno = true;
-                    while ($get_next_imageno) {
-                        $rand_no = rand(1, 99999);
-                        $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $id);
-                        // $get_next_imageno=$this->getnext_img_id($rand_no);
+                        }
+                        //die;
+                        $targetPath = $path . "/" . $rand_no . '.' . $id;
 
-                    }
+                        if (move_uploaded_file($sourcePath, $targetPath)) {
 
-                    //die;
+                            $model->images = $rand_no . '.' . $id;
 
-                    $targetPath = $path . "/" . $rand_no . '.' . $id;
-
-                    if (move_uploaded_file($sourcePath, $targetPath)) {
-
-                        $model->images = $rand_no . '.' . $id;
-
+                        }
                     }
                 }
                 //=$targetPath;
             }
-
+            if($model->occasion_master!=''){
+               $occ_str=  implode(',', $model->occasion_master);
+               $model->occasion_master=$occ_str;
+            }else{
+                $model->occasion_master=null;
+            }
+             if($model->display_type!=''){
+               $dis_str=  implode(',', $model->display_type);
+               $model->display_type=$dis_str;
+            }else{
+                $model->display_type=null;
+            }
             $model->item_code = $model->getNextCode();
             //print_r($model);die;
             $model->purchase_date = $this->dateFormat($model->purchase_date);
@@ -368,6 +394,8 @@ class ItemController extends Controller
             'model_category' => $model_category,
             'model_vendor' => $model_vendor,
             'color_model' => $color_model,
+            'occasion_master' => $occasion_master,
+            'display_type' => $display_type,
             'img_list' => $img_list
 
         ]);
@@ -397,24 +425,25 @@ class ItemController extends Controller
                     $model->images = "";
                 }
                 if (is_array($_FILES)) {
+                    if (isset($_FILES['fileToUpload'])) {
+                        if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
+                            $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
+                            $sourcePath = $_FILES['fileToUpload']['tmp_name'];
+                            $get_next_imageno = true;
+                            while ($get_next_imageno) {
+                                $rand_no = rand(1, 99999);
+                                $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $id);
+                                // $get_next_imageno=$this->getnext_img_id($rand_no);
 
-                    if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
-                        $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
-                        $sourcePath = $_FILES['fileToUpload']['tmp_name'];
-                        $get_next_imageno = true;
-                        while ($get_next_imageno) {
-                            $rand_no = rand(1, 99999);
-                            $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $id);
-                            // $get_next_imageno=$this->getnext_img_id($rand_no);
+                            }
 
-                        }
+                            $targetPath = $path . "/" . $rand_no . '.' . $id;
 
-                        $targetPath = $path . "/" . $rand_no . '.' . $id;
+                            if (move_uploaded_file($sourcePath, $targetPath)) {
 
-                        if (move_uploaded_file($sourcePath, $targetPath)) {
+                                $model->images = $rand_no . '.' . $id;
 
-                            $model->images = $rand_no . '.' . $id;
-
+                            }
                         }
                     }
                     //=$targetPath;
@@ -472,40 +501,56 @@ class ItemController extends Controller
     {
         $model = $this->findModel($id);
         $model_category = ArrayHelper::map(CategoryMaster::find()->all(), 'id', 'name');
-        $img_list = ItemMasterImg::find()->where(['item_id'=>$id,'status'=>1])->all();
+        $img_list = ItemMasterImg::find()->where(['item_id' => $id, 'status' => 1])->all();
         // $model_type= ArrayHelper::map(TypeMaster::find()->all(),'id','name');
         $color_model = ArrayHelper::map(ColorMaster::find()->all(), 'id', 'name');
         $model_vendor = ArrayHelper::map(VendorMaster::find()->all(), 'id', 'name');
+        $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id', 'name');
+        $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id', 'name');
         if ($model->load(Yii::$app->request->post())) {
-
+            $post_occ=isset($_POST['ItemMaster']['occasion_master'])?$_POST['ItemMaster']['occasion_master']:'';
+            $post_dis=isset($_POST['ItemMaster']['display_type'])?$_POST['ItemMaster']['display_type']:'';
             $path = realpath(dirname(__FILE__) . '/../../uploads');
 
             if ($_POST["delete_status"] == "1") {
                 $model->images = "";
             }
             if (is_array($_FILES)) {
+                if(isset($_FILES['fileToUpload'])) {
+                    if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
+                        $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
+                        $sourcePath = $_FILES['fileToUpload']['tmp_name'];
+                        $get_next_imageno = true;
+                        while ($get_next_imageno) {
+                            $rand_no = rand(1, 99999);
+                            $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $id);
+                            // $get_next_imageno=$this->getnext_img_id($rand_no);
 
-                if (is_uploaded_file($_FILES['fileToUpload']['tmp_name'])) {
-                    $id = substr($_FILES['fileToUpload']['name'], strrpos($_FILES['fileToUpload']['name'], '.') + 1);
-                    $sourcePath = $_FILES['fileToUpload']['tmp_name'];
-                    $get_next_imageno = true;
-                    while ($get_next_imageno) {
-                        $rand_no = rand(1, 99999);
-                        $get_next_imageno = file_exists($path . "\\" . $rand_no . "." . $id);
-                        // $get_next_imageno=$this->getnext_img_id($rand_no);
+                        }
+
+                        $targetPath = $path . "/" . $rand_no . '.' . $id;
+
+                        if (move_uploaded_file($sourcePath, $targetPath)) {
+
+                            $model->images = $rand_no . '.' . $id;
+
+                        }
 
                     }
-
-                    $targetPath = $path . "/" . $rand_no . '.' . $id;
-
-                    if (move_uploaded_file($sourcePath, $targetPath)) {
-
-                        $model->images = $rand_no . '.' . $id;
-
-                    }
-
                 }
-
+            }
+            //print_r($model);die;
+              if($post_occ!=''){
+               $occ_str=  implode(',', $model->occasion_master);
+               $model->occasion_master=$occ_str;
+            }else{
+                $model->occasion_master=null;
+            }
+              if($post_dis!=''){
+               $dis_str=  implode(',', $model->display_type);
+               $model->display_type=$dis_str;
+            }else{
+                $model->display_type=null;
             }
             $model->purchase_date = $this->dateFormat($model->purchase_date);
             if ($model->save()) {
@@ -519,6 +564,8 @@ class ItemController extends Controller
             'model_vendor' => $model_vendor,
             'color_model' => $color_model,
             'img_list' => $img_list,
+            'occasion_master' => $occasion_master,
+            'display_type' => $display_type,
         ]);
     }
 
