@@ -64,7 +64,7 @@ class BookingController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'customer-autocomplete', 'item-details-popup', 'item-details-autocomplete', 'item-booking-details', 'customer-details', 'delivery', 'delivery-item', 'return-item', 'index-payment', 'index-sales', 'item-check-autocomplete', 'item-booking-details', 'item-booking-check', 'cancel-delivery', 'pending-deposite', 'carry-frd'],
+                        'actions' => ['logout', 'index','view','create','update','delete','customer-autocomplete','item-details-popup','item-details-autocomplete','item-booking-details','customer-details','delivery','delivery-item','return-item','index-payment','index-sales','item-check-autocomplete','item-booking-details','item-booking-check','cancel-delivery','pending-deposite','get-whatsapp','carry-frd'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -651,9 +651,33 @@ class BookingController extends Controller
         ]);
     }
 
-    public function updateRentCount($item_id)
-    {
-        $item_master = ItemMaster::find()->where(['id' => $item_id])->one();
+public function actionGetWhatsapp()
+{
+  $booking_id=$_POST['booking_id'];
+  $booking_header = BookingHeader::find()->where(['booking_id'=>$booking_id])->one();
+  $customer_model=$booking_header->customer;
+  Yii::$app->response->format = Response::FORMAT_JSON;
+         if($customer_model!=null){
+            if($customer_model->email_id!=''){
+                //$this->sendemail($booking_header);
+            }
+            if($customer_model->contact_nos!=''){
+               // $message="Thanks ".$customer_model->name." for shopping with Panache Rental Boutique. Your order of Rs.".round($booking_header->net_value)."\nRent-Rs.".round($booking_header->rent_amount)."\nDeposit-Rs.".round($booking_header->deposite_amount)."";
+        $message="Thanks ".$customer_model->name." for shopping with Panache Rental Boutique. Your order of Rs.".round($booking_header->net_value)." Booked.\n For invoice please check ".$this->short_url($booking_header->encryted_id)." ";
+               /* if($booking_header->discount!=0){
+                $message.="\nDiscount-Rs.".round($booking_header->discount);
+            }*/
+           // $message.="\nPaid-Rs.".round($booking_header->paid_amount)."\nReturn date: ".date_format(date_create($booking_header->return_date),'d-m-y')."\nNote:Please Return on given date or you will be charged extra per day.\n\n";
+            $message.="\nPaid-Rs.".round($booking_header->paid_amount)."\nReturn date: ".date_format(date_create($booking_header->return_date),'d-m-y')."\nNote:Please Return on given date or you will be charged extra per day.\n\n";
+          // echo $this->short_url($booking_header->encryted_id);die;
+           // $this->sendSMS($customer_model->contact_nos,$message);
+            return array('message'=>$message,'contact_nos'=>"91".$customer_model->contact_nos);
+            }
+         }
+}
+
+    public function updateRentCount($item_id){
+        $item_master=ItemMaster::find()->where(['id'=>$item_id])->one();
         //print_r($item_master);die;
         $item_master->rent_times += 1;
         $item_master->save();
@@ -1454,6 +1478,7 @@ class BookingController extends Controller
         if (!$forwrd_model->save()) {
             return array('errors' => $forwrd_model->errors);
         }
+
         if ($carry_frd_details != '') {
             $carry_frd_details->status = 1;
             $carry_frd_details->settle_with_booking_id = $booking_id;

@@ -2188,7 +2188,7 @@ function settlebooking(carry_frd_id,booking_id) {
         //alert(description);
         $(result + 'item_desc').closest('.desc').find('.temp_change_item_row').hide();
         $(result + 'item_desc').closest('.desc').find('.temp_change_item_row').css('display', 'none');
-        //  obj.closest('.desc').find('.item_content').html(value); 
+        //  obj.closest('.desc').find('.item_content').html(value);
 
         $(result + 'item_desc').show();
         $(description).val(item_details);
@@ -2282,6 +2282,41 @@ function settlebooking(carry_frd_id,booking_id) {
 
 
     }
+
+   function sendwhatsapp(booking_id){
+
+var r = confirm("Are you sure do you want to send WhatsApp!");
+if (r == false) {
+  return;
+}
+    $.ajax({
+        url:"<?php echo \Yii::$app->getUrlManager()->createUrl('booking/get-whatsapp') ?>",
+      type: 'post',
+      dataType:'json',
+      data:{
+        booking_id:booking_id,
+
+      },
+    beforeSend: function(){
+          $(".overlay").show();
+        },
+     complete: function(){
+      $(".overlay").hide();
+
+     },
+      success: function (data) {
+
+        console.log(data);
+        var message=encodeURI(data['message']);
+        // window.open('https://api.whatsapp.com/send/?phone='+data["contact_nos"]+'&text='+message, '_blank').focus();
+          window.open('https://web.whatsapp.com/send/?phone='+data["contact_nos"]+'&text='+message, '_blank').focus();
+    //window.location.reload();
+      },
+      error: function(jqXhr, textStatus, errorThrown ){
+
+      }
+    });
+  }
 
     function cancel_pickup(booking_id, booking_item, item_status) {
         if (item_status != 'Picked') {

@@ -85,6 +85,7 @@ $this->title = 'Update Booking: #' . $model->booking_id;
           </div>
         </div>
                              <?php //echo Html::a('Create New Booking', ['create'], ['class' => 'btn btn-success pull-right']) ?>
+    <button type="button" class="btn btn-danger btn-square" title="Send Invoice" onclick="sendwhatsapp('<?= $model->booking_id; ?>')"><i class="fa fa-whatsapp "></i> </button> 
     <button type="button" class="btn btn-danger btn-square" title="Send Invoice" onclick="printInvoiceSend()"><i class="fa fa-send-o "></i> </button> 
  <button type="button" class="btn btn-danger btn-print" title="Send Invoice" onclick="printInvoice('<?= $model->encryted_id ?>')"><i class="fa fa-print"></i> </button> 
                         </div>
