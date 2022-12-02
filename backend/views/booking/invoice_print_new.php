@@ -13,7 +13,7 @@
       <div id="company">
         <h2 class="name">Panache Rental Boutique</h2>
         <div>C-52, Navshantiniketan Hsg.Soc., Akurdi, Pune</div>
-        <div>+91 9881414990/8237703030</div>
+        <div>+91 84446287792</div>
         <div><a href="www.panachewears.in">www.panachewears.in</a></div>
       </div>
       </div>
@@ -104,12 +104,32 @@
       </table>
       <div id="thanks">Thank you!</div>
       <div id="notices">
-        <div>NOTICE:</div>
-        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+          <div><b>Terms & Conditions :-</b></div>
+        <div class="notice"><br>
+By making payment. you agree to the following Terms and Conditions :-<br>
+            <ul><li>All dress shall remain the property of panache and must be returned upon demand.</li>
+            <li>Renter will return/ship dress(es) back to Panache with No damage. Any damage to any rental dress(es) will be charged to the Renter. Damage fees will be  held from any deposit.</li>
+            <li>Security Deposit :- Panache dress rentals further stipulates that a security deposit equal to the amount of the dress. And will be return in next 24 working hours through online process.</li>
+            <li>ID proof :-  ID proof with address is mandatory for booking the outfit/accesories.</li>
+            <li>Appointment :- Prior Appointment is mandatory.Kindly follow office timings 11am to 8pm for pickup and return. Also  make confirmation call for availability of outfit/accesories the day you want to visit.</li>
+                <li>Dress(es) will not be altered by the Renter. Do not dry clean the dress for any reason .Professional cleaning is included in the rental price and no additional cleaning charge will be assessed unless the dress is returned damaged.</li>
+                <li>.Booking - Panache will take 20% of rental amount as booking amount for online/offline bookings which is non-refundable if cancelled.</li>
+                <li>Fixed Rent :- Kindly Do not argue with staff members for price matters. Rent and Deposit amount is fixed.</li>
+                <li>Safety :- In terms of cleanliness regular drycleaning is placed, Also we have limited trails allowed for maintaining purpose.</li>
+                <li>Renter is responsible for the safe return of the dress(es). Renter is responsible for any theft/loss of dress(es).Bill receipt is mandatory while returning the dress(es).</li>
+            <li>Check your outfits/ accesories at the time of pickup. Panache will not responsible for any alterations/misplaced/finishing etc once handover to the client after his/her confirmation about cross- check.</li>
+                <li>Late fees - Dresses/accesories if not returned on or before the specified date 20% of the total rent will be charged for delayed return per day basis. Amount will immediately deducted from any deposit held.
+
+                </li>
+                <li>Cancellation charges :- Any cancellation after booking will have deduction of 20% of Total Rent</li>
+                <li>.Loss/Theft : Loss or Theft of any dress(es) will be charged the full purchase price of the dress.<br><br>
+I agree to all terms & conditions & agree to cover the cost of the dress(es) rental(s), shipping & any damages/loss/theft or late charges</li>
+            </ul>
+ </div>
       </div>
     </main>
     <footer>
-      Invoice was created on a computer and is valid without the signature and seal.
+        <b>Invoice was created on a computer and is valid without the signature and seal.</b>
     </footer>
   </body>
 </html>
