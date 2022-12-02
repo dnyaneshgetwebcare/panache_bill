@@ -46,7 +46,7 @@ use kartik\date\DatePicker;
             'wrapper' => 'col-sm-6',
         ]]]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name',['class'=>'form-control input-text'])->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email_id')->textInput(['maxlength' => true]) ?>
 

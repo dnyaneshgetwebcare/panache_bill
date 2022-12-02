@@ -71,6 +71,7 @@ $this->title = $model->name;
                                 <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab" style="font-size: large;">Profile</a> </li>
                                 <li class="nav-item"> <a  style="font-size: large;" class="nav-link" data-toggle="tab" href="#purchase" role="tab">Booking History</a> </li>
                                 <li class="nav-item"> <a   style="font-size: large;" class="nav-link" data-toggle="tab" href="#settings" role="tab">Payment</a> </li>
+                                <li class="nav-item"> <a   style="font-size: large;" class="nav-link" data-toggle="tab" href="#settl" role="tab">Settlement</a> </li>
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
@@ -225,6 +226,73 @@ $this->title = $model->name;
                                     <div class="clearfix"></div>
                                     <hr>
                                     
+                                </div>
+                                </div>
+
+                            </div>
+                                </div>
+                                <div class="tab-pane" id="settl" role="tabpanel">
+                                  <div class="card-body">
+                               <!--  <h4 class="card-title">Items Purchased History </h4> -->
+
+                                <div class="table-responsive">
+                                    <table class="table color-table red-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Booking ID</th>
+                                                <th>Settle With ID</th>
+                                                <th>Type</th>
+                                                <th>Mode</th>
+                                                <th>Recived By</th>
+                                                <th>Recived In</th>
+                                                <th>During</th>
+                                                <th>Amount</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $total_amount=0;
+                                            foreach ($carry_frd_booking as $key => $carry_frd_item) {
+                                                # code...
+
+                                             ?>
+                                            <tr>
+                                                <td><a target="_blank" rel="noopener noreferrer" href="index.php?r=booking%2Fupdate&id=<?= $carry_frd_item->booking_id; ?>">#<?= $carry_frd_item->booking_id; ?></a></td>
+
+
+                                                <td> <?= $carry_frd_item->settle_with;  ?></td>
+                                                  <td><?= $carry_frd_item->status; ?></td>
+                                                  <td><?= number_format($carry_frd_item->carry_return); ?></td>
+                                                  <td><?= number_format($carry_frd_item->carry_balance); ?></td>
+                                                  <td><?= number_format($carry_frd_item->total_bal); ?></td>
+
+
+
+                                            </tr>
+                                          <?php  }
+
+                                          if($booking_items==null){
+                                            ?>
+                                            <tr>
+                                                <td colspan="7">No Items booking yet</td>
+                                            </tr>
+                                        <?php
+                                          }
+                                           ?>
+
+                                        </tbody>
+                                    </table>
+                                    <hr>
+                                    <div class="col-md-12">
+                                    <div class="pull-right m-t-30 text-right">
+
+                                        <h3><b>Total :</b> <?= number_format($total_amount); ?></h3>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <hr>
+
                                 </div>
                                 </div>
 
