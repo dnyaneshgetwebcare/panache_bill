@@ -204,18 +204,12 @@ $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'booking_header
                                         <!--/row-->
                                       
                                     </div>
-                                    
+
                             
                          
                     </div>
                     <div class="col-lg-4">
-              <?php if($model['image']){ 
-             $image_path= Yii::getAlias('@web').'/purchase/'.$model['image'];
-           
-            
-            }else{ 
-             $image_path= Yii::getAlias('@web').'/img/no-image.jpg';
-             } ?>
+
 
                         <div class="form-body">
 
@@ -247,11 +241,7 @@ $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'booking_header
                                 </div>
 
                             </div>
-                           <div class="row">
-                               <div class="col-md-12">
-                                <input type="file" id="input-file-now-custom-1" name="fileToUpload" class="dropify" data-default-file="<?= $image_path; ?>" />
-                                </div>
-                            </div>
+
                             <!--/row-->
                             <div class="row">
                                 <div class="col-md-12">
@@ -411,7 +401,44 @@ $form = ActiveForm::begin(['enableClientValidation'=>false,'id'=>'booking_header
             </div>
         </div>
     </div>
-   
+     <div class="row">
+              <?php if($model['image']){
+             $image_path= Yii::getAlias('@web').'/purchase/'.$model['image'];
+             $image_path_2= Yii::getAlias('@web').'/purchase/'.$model['image1'];
+             $image_path_3= Yii::getAlias('@web').'/purchase/'.$model['image2'];
+             $image_path_4= Yii::getAlias('@web').'/purchase/'.$model['image3'];
+             $image_path_5= Yii::getAlias('@web').'/purchase/'.$model['image4'];
+             $image_path_6= Yii::getAlias('@web').'/purchase/'.$model['image5'];
+
+
+            }else{
+             $image_path= Yii::getAlias('@web').'/img/no-image.jpg';
+             $image_path_2= Yii::getAlias('@web').'/img/no-image.jpg';
+             $image_path_3= Yii::getAlias('@web').'/img/no-image.jpg';
+             $image_path_4= Yii::getAlias('@web').'/img/no-image.jpg';
+             $image_path_5= Yii::getAlias('@web').'/img/no-image.jpg';
+             $image_path_6= Yii::getAlias('@web').'/img/no-image.jpg';
+             } ?>
+                               <div class="col-md-2">
+                                <input type="file" id="input-file-now-custom-1" name="fileToUpload" class="dropify" data-default-file="<?= $image_path; ?>" multiple />
+                                </div>
+
+                               <div class="col-md-2">
+                                <input type="file" id="input-file-now-custom-2" name="fileToUpload-2" class="dropify" data-default-file="<?= $image_path_2; ?>" multiple />
+                                </div>
+                                <div class="col-md-2">
+                                <input type="file" id="input-file-now-custom-3" name="fileToUpload-3" class="dropify" data-default-file="<?= $image_path_3; ?>" multiple />
+                                </div>
+                                <div class="col-md-2">
+                                <input type="file" id="input-file-now-custom-4" name="fileToUpload-4" class="dropify" data-default-file="<?= $image_path_4; ?>" multiple />
+                                </div>
+                                <div class="col-md-2">
+                                <input type="file" id="input-file-now-custom-5" name="fileToUpload-5" class="dropify" data-default-file="<?= $image_path_5; ?>" multiple />
+                                </div>
+                                 <div class="col-md-2">
+                                <input type="file" id="input-file-now-custom-6" name="fileToUpload-6" class="dropify" data-default-file="<?= $image_path_6; ?>" multiple />
+                                </div>
+                            </div>
 </div>
 
 <div class="row" style="position: fixed;bottom: 0;width: 100%; z-index:1500">
@@ -443,6 +470,10 @@ var form_submit=true;
 
         });*/
        var drEvent = $('#input-file-now-custom-1').dropify();
+       var drEvent = $('#input-file-now-custom-2').dropify();
+       var drEvent = $('#input-file-now-custom-3').dropify();
+       var drEvent = $('#input-file-now-custom-4').dropify();
+       var drEvent = $('#input-file-now-custom-5').dropify();
 
  $("form#booking_header_form").submit(function(e){
        e.preventDefault();    
