@@ -26,9 +26,8 @@ use yii\bootstrap\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'details_occ')->textInput(['maxlength' => true]) ?>
- <?= $form->field($model, 'main_screen_active')->dropDownList(['0'=>'NO','1'=>'Yes'], [ 'class' => 'form-control']);
-
-                                                    ?>
+    <?= $form->field($model, 'main_screen_active')->dropDownList(['0'=>'NO','1'=>'Yes'], [ 'class' => 'form-control']); ?>
+    <?= $form->field($model, 'website')->dropDownList(['0'=>'NO','1'=>'Yes'], [ 'class' => 'form-control']); ?>
 
 
     <div class="box-footer pull-right">

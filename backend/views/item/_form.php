@@ -411,6 +411,15 @@ use kartik\file\FileInput;
                                                     ]);
                                                     ?> </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group" style="margin-top: 20px; font-size: 14px;margin-left: 20px">
+                                                    <!--<label class="control-label">
+                                                        <?php /*= $model->getAttributeLabel('skip_website'); */?>
+                                                    </label>-->
+                                                    <?= $form->field($model, 'skip_website')
+                                            ->checkBox(['class' => 'skip_website_class check col-sm-offset-0', 'data-checkbox' => "icheckbox_square-red"]); ?>
+                                                     </div>
+                                            </div>
                                         </div>
 
                                         <hr>
@@ -420,7 +429,8 @@ use kartik\file\FileInput;
                                             <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-inverse ']) ?>
                                             <?php if ($model->id != "") {
                                                 echo Html::a('Create Item', ['create'], ['class' => 'btn btn-info']);
-                                            } ?></div>
+                                            } ?>
+                                        </div>
 
                                         <?php ActiveForm::end(); ?>
                                         <!--   <label class="control-label col-sm-2 control-label" for="itemmaster-expense_amount">Image </label>

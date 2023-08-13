@@ -27,6 +27,8 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?=$form->field($model, 'category_id')->dropDownList($category,['prompt'=>'Select Category','class'=>'form-control']);?>
    <?= $form->field($model, 'intial_pre')->textInput(['maxlength' => true]) ?>
+    <?=$form->field($model, 'dispaly_main_site')->dropDownList($status_array,['prompt'=>'Select','class'=>'form-control']);?>
+
     <div class="box-footer pull-right">
          <button type="button" onclick="submitTypeForm()" class="btn btn-info save_submit" data-toggle="tooltip" data-original-title="Save"><img src="img/icons/save.png" style="height:12px"> Save</button>
     </div>

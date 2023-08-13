@@ -87,6 +87,7 @@ class TypeController extends Controller
     {
         $model = new TypeMaster();
         $category = ArrayHelper::map(CategoryMaster::find()->all(),'id','name');
+        $status_array= array(0=>'Yes',1=>'No');
         if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
            $result= ActiveForm::validate($model);
@@ -102,6 +103,7 @@ class TypeController extends Controller
         return $this->renderPartial('create', [
             'model' => $model,
             'category'=>$category,
+            'status_array'=>$status_array,
         ]);
     }
 
@@ -121,7 +123,7 @@ class TypeController extends Controller
         }else{
             $category = ArrayHelper::map(CategoryMaster::find()->where(['id'=>$model->category_id])->all(),'id','name');
         }
-        
+           $status_array= array(0=>'Yes',1=>'No');
          if ($model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
            $result= ActiveForm::validate($model);
@@ -137,6 +139,7 @@ class TypeController extends Controller
         return $this->renderPartial('update', [
             'model' => $model,
              'category'=>$category,
+             'status_array'=>$status_array,
         ]);
     }
 

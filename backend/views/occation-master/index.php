@@ -96,9 +96,15 @@ $this->params['breadcrumbs'][] = $this->title;
 [
             'attribute'=>'main_screen_active',
                 'format' => 'boolean',
-    'header'=>'Website',
+    'header'=>'Main Page',
                 'options'=>['width'=>'10%'],
                 'value' =>'main_screen_active'],
+            [
+            'attribute'=>'website',
+                'format' => 'boolean',
+    'header'=>'Website',
+                'options'=>['width'=>'10%'],
+                'value' =>'website'],
             ['class' => 'yii\grid\ActionColumn',
                 'template' => '{delete}',
                 'options'=>['width'=>'5%'],],

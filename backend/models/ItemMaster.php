@@ -52,7 +52,7 @@ class ItemMaster extends \yii\db\ActiveRecord
             [[ 'name', 'details', 'type_id', 'category_id',  'rent_amount', 'deposit_amount'], 'required'],
             [[  'purchase_date', 'purchase_amount'], 'required','on'=>'create_new'],
             [['type_id', 'category_id', 'vendor_id', 'rent_times', 'colour_cat', 'nos_dry_cleaning'], 'integer'],
-            [['purchase_date', 'vendor_id', 'scrab_status', 'rent_times', 'expense_amount','item_code','images','occasion_master','display_type'], 'safe'],
+            [['purchase_date', 'vendor_id', 'scrab_status', 'rent_times', 'expense_amount','item_code','images','occasion_master','display_type','skip_website'], 'safe'],
             [['rent_times','rent_amount', 'deposit_amount', 'nos_dry_cleaning', 'expense_amount'], 'default', 'value'=> 0],
             [['purchase_amount', 'rent_amount', 'deposit_amount', 'expense_amount'], 'number'],
             [['scrab_status', 'item_status'], 'string'],
@@ -95,6 +95,7 @@ class ItemMaster extends \yii\db\ActiveRecord
             'occasion_master' => 'Occasion',
             'display_type' => 'Display Under',
             'nos_dry_cleaning' => 'Nos Dry Cleaning',
+            'skip_website' => 'Hide in website',
         ];
     }
 

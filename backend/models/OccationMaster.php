@@ -28,7 +28,7 @@ class OccationMaster extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['status','main_screen_active'], 'integer'],
+            [['status','main_screen_active','website'], 'integer'],
             [['details_occ'], 'safe'],
             [['name'], 'string', 'max' => 150],
         ];
@@ -45,6 +45,7 @@ class OccationMaster extends \yii\db\ActiveRecord
             'status' => 'Status',
             'details_occ' => 'Info',
             'main_screen_active' => 'Show on First Page',
+            'website' => 'Show on Website',
         ];
     }
 }

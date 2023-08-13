@@ -11,7 +11,8 @@ $this->title = 'Update Type: ' . $model->name;
 <div class="type-master-update">
     <?= $this->render('_form', [
         'model' => $model,
-        'category'=>$category
+        'category'=>$category,
+        'status_array'=>$status_array,
     ]) ?>
 
 </div>

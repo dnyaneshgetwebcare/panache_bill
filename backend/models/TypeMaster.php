@@ -34,11 +34,12 @@ class TypeMaster extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'category_id','intial_pre'], 'required'],
-            [['category_id', 'curent_number'], 'integer'],
+            [['name', 'category_id','intial_pre','dispaly_main_site'], 'required'],
+            [['category_id', 'curent_number','dispaly_main_site'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['intial_pre'], 'string', 'max' => 5],
             [['intial_pre'], 'unique'],
+            [['dispaly_main_site'], 'default','value'=>0],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoryMaster::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -53,6 +54,7 @@ class TypeMaster extends \yii\db\ActiveRecord
             'name' => 'Name',
             'category_id' => 'Category',
             'intial_pre' => 'Intial',
+            'dispaly_main_site' => 'Hide Website',
             'curent_number' => 'Curent Number',
         ];
     }

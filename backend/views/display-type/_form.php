@@ -29,9 +29,8 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'deatils_type')->textInput(['maxlength' => true]) ?>
 
 
- <?= $form->field($model, 'main_screen_active')->dropDownList(['0'=>'NO','1'=>'Yes'], [ 'class' => 'form-control']);
-
-                                                    ?>
+    <?= $form->field($model, 'main_screen_active')->dropDownList(['0'=>'NO','1'=>'Yes'], [ 'class' => 'form-control']); ?>
+    <?= $form->field($model, 'website')->dropDownList([0=>'NO',1=>'Yes'], [ 'class' => 'form-control']); ?>
 
 
 

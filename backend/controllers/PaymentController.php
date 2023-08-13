@@ -103,12 +103,15 @@ public function actionPaymentReport()
         //$model = new BillingItem();
     
         //echo '<pre>';print_r(Yii::$app->request->post());die;
-        if(!isset(Yii::$app->request->queryParams['PaymentMasterSearch']) && !isset(Yii::$app->request->post()['PaymentMasterSearch']) && !isset(Yii::$app->request->queryParams['sort']) ){
+        if(!isset(Yii::$app->request->queryParams['PaymentMasterSearch']) && !isset(Yii::$app->request->post()['PaymentMasterSearch']) && !isset(Yii::$app->request->queryParams['sort']) && !isset(Yii::$app->request->post()['export_type'])){
             //&& !isset(Yii::$app->request->post()['export_type']) && !isset($_GET['no_page'])
             return $this->redirect(['payment/payment-search']);
         }
-$view_name='payment_report';
-       
+        $view_name='payment_report';
+        if (isset(Yii::$app->request->post()['export_type'])) { // For Full Export
+      $searchModel->attributes = Yii::$app->request->post();
+      Yii::$app->request->queryParams = array('PaymentMasterSearch' => $searchModel);
+    }
         if(isset(Yii::$app->request->post()['PaymentMasterSearch'])){
             if(Yii::$app->request->post()['PaymentMasterSearch']['view_level']=='DETAIL'){
             $dataProvider = $searchModel->searchReport(Yii::$app->request->post());
@@ -119,7 +122,8 @@ $view_name='payment_report';
         }
         Yii::$app->request->queryParams=Yii::$app->request->post();
         }else{
-            if(Yii::$app->request->post()['PaymentMasterSearch']['view_level']=='DETAIL'){
+            $view_level = isset(Yii::$app->request->post()['PaymentMasterSearch']['view_level'])?Yii::$app->request->post()['PaymentMasterSearch']['view_level']:'DETAIL';
+            if($view_level=='DETAIL'){
             $dataProvider = $searchModel->searchReport(Yii::$app->request->queryParams);
             
         }else{

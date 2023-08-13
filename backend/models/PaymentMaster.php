@@ -74,7 +74,7 @@ class PaymentMaster extends \yii\db\ActiveRecord
                 if($column_key!='total_earn'){
                     $result+=$model[$column_key];
                 }else{
-                    $total_ern=(($model['rent_amount']-$model['discount']) +$model['cancellation_charges']+$model['other_charges']-$model['issues_penalty']);
+                    $total_ern=(($model['rent_amount']-$model['discount']) +$model['cancellation_charges']+$model['other_charges']+$model['extra_amount']-$model['issues_penalty']);
                     $result+=$total_ern;
                 }
                  

@@ -12,7 +12,8 @@ $this->title = 'Create Type Master';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'category'=>$category
+        'category'=>$category,
+        'status_array'=>$status_array,
     ]) ?>
 
 </div>

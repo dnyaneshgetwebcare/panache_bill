@@ -30,7 +30,7 @@ class DisplayType extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['status', 'main_screen_active'], 'integer'],
+            [['status', 'main_screen_active','website'], 'integer'],
             [['name'], 'string', 'max' => 250],
             [['deatils_type'], 'string', 'max' => 500],
         ];
@@ -47,6 +47,7 @@ class DisplayType extends \yii\db\ActiveRecord
             'deatils_type' => 'Info',
             'status' => 'Status',
             'main_screen_active' => 'Show on main screen',
+            'website' => 'Show on website',
         ];
     }
 }

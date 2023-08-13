@@ -87,6 +87,13 @@ $this->title = 'Item Type';
                 'header'=> 'Category',
                 //'value'=>'businessPartner.NAME',
             ],
+            [
+                'attribute'=>'dispaly_main_site',
+                'value' => 'dispaly_main_site',
+                'format' => 'boolean',
+                'header'=> 'Website',
+                //'value'=>'businessPartner.NAME',
+            ],
             'intial_pre',
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{view}{update}{delete}',
