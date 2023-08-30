@@ -379,6 +379,8 @@ position:absolute;top:0;left:0;width:100%;height:100%;
                                 <li><a href="index.php?r=type/index">Item Type</a></li>
                                 <li><a href="index.php?r=cater/index">Item Category</a></li>
                                 <li><a href="index.php?r=color-master/index">Colors</a></li>
+                                <li><a href="index.php?r=occation-master/index">Occasion</a></li>
+                                <li><a href="index.php?r=display-type/index">Display Type</a></li>
                                 <li><a href="index.php?r=expsense-category/index">Expense Category</a></li>
                                 <li><a href="index.php?r=address-group/index">Address Group</a></li>
                                 <li><a href="index.php?r=formula/create">Split Formula</a></li>

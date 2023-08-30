@@ -1858,7 +1858,9 @@ function settlebooking(carry_frd_id,booking_id) {
             var deposit_amount = "#bookingitem-" + i + "-deposit_amount";
             var amount = "#bookingitem-" + i + "-amount";
             var extra_per = "#bookingitem-" + i + "-extra_per";
-
+            if($(discount).val() === undefined){
+                continue;
+            }
             var numb = parseFloat(Number($(discount).val()));
 
             var extra_percent = parseFloat(Number($(extra_per).val()));

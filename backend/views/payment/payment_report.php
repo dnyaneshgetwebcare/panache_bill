@@ -1,5 +1,6 @@
 <?php
 
+use kartik\export\ExportMenu;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use kartik\date\DatePicker;
@@ -16,6 +17,9 @@ $this->title = 'Transaction';
   td,th{
     font-size: 12px; 
 }
+  .btn-group label {
+      color: black !important;
+  }
 .form-group {
          margin-bottom: 0px;
      }
@@ -32,21 +36,364 @@ $this->title = 'Transaction';
    
   <div class="row">
                     <div class="col-12" style="overflow: auto;">
-                        <div class="card" style="width: 130%; ">
+                        <div class="card" style="width: 100%; ">
                             <div class="card-body">
 
 <div class="table-responsive m-t-40">
-    <?php echo GridView::widget([
+    <?php
+   //echo "<pre>"; echo json_encode($searchModel); print_r($searchModel);die;
+    $exportParamData = array();
+      $post_data = !empty(Yii::$app->request->queryParams) ? Yii::$app->request->queryParams['PaymentMasterSearch'] : array();
+      if (!empty($post_data)) {
+        foreach ($post_data as $key => $value) {
+          $exportParamData[$key]['value'] = $value;
+        }
+      }
+
+    $gridColumns = [
+           // ['class' => 'yii\grid\SerialColumn'],
+
+            //'payment_id',
+            //'date',
+           [
+              'attribute'=>'pickup_date',
+              'headerOptions' => ['style' => 'width:10%'],
+              'group'=>true,
+              'value'=> function($model, $key, $index, $grid){
+                return Yii::$app->formatter->asDate($model['pickup_date'],'dd-MM-yy');
+               },
+                    /*'filter'=>DatePicker::widget([
+                    'type' => DatePicker::TYPE_INPUT,
+                    'attribute' => 'pickup_date',
+                    'model' => $searchModel,
+                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
+                     'options' => [
+                         'placeholder' => 'dd-mm-yyyy',
+                     ],
+                     'pluginOptions' => [
+                         'autoclose'=>true,
+                         'format' => 'dd-mm-yyyy',
+                         //'todayHighlight'=>true,
+                     ]
+                 ]),*/
+            ],
+                  [
+              'attribute'=>'booking_id',
+              'format'=>'raw',
+             'headerOptions' => ['style' => 'width:15%'],
+             'group'=>true
+             /*'value' => function($model, $key, $index, $grid){
+                 return Html::a( $model['customer_name'], ['booking/update','id' => $model['booking_id']], ['title' => 'View','class'=>'link_cust']);
+                },*/
+            ],
+            [
+              'attribute'=>'customer_name',
+              'format'=>'raw',
+             'headerOptions' => ['style' => 'width:15%'],
+             'group'=>true,
+             'subGroupOf'=>1,
+             /*'value' => function($model, $key, $index, $grid){
+                 return Html::a( $model['customer_name'], ['booking/update','id' => $model['booking_id']], ['title' => 'View','class'=>'link_cust']);
+                },*/
+            ],
+
+            [
+              'attribute'=>'booking_date',
+              'headerOptions' => ['style' => 'width:10%'],
+              'group'=>true,
+              'subGroupOf'=>1,
+              'value'=> function($model, $key, $index, $grid){
+                return Yii::$app->formatter->asDate($model['booking_date'],'dd-MM-yyyy');
+               },
+                    /*'filter'=>DatePicker::widget([
+                    'type' => DatePicker::TYPE_INPUT,
+                    'attribute' => 'pickup_date',
+                    'model' => $searchModel,
+                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
+                     'options' => [
+                         'placeholder' => 'dd-mm-yyyy',
+                     ],
+                     'pluginOptions' => [
+                         'autoclose'=>true,
+                         'format' => 'dd-mm-yyyy',
+                         //'todayHighlight'=>true,
+                     ]
+                 ]),*/
+            ],
+
+
+              [
+              'attribute'=>'return_date',
+              'headerOptions' => ['style' => 'width:10%'],
+              'group'=>true,
+               'subGroupOf'=>1,
+              'value'=> function($model, $key, $index, $grid){
+                return Yii::$app->formatter->asDate($model['return_date'],'dd-MM-yyyy');
+               },
+                    /*'filter'=>DatePicker::widget([
+                    'type' => DatePicker::TYPE_INPUT,
+                    'attribute' => 'pickup_date',
+                    'model' => $searchModel,
+                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
+                     'options' => [
+                         'placeholder' => 'dd-mm-yyyy',
+                     ],
+                     'pluginOptions' => [
+                         'autoclose'=>true,
+                         'format' => 'dd-mm-yyyy',
+                         //'todayHighlight'=>true,
+                     ]
+                 ]),*/
+            ],
+            [
+              'attribute'=>'order_status',
+              'format'=>'raw',
+
+             'headerOptions' => ['style' => 'width:15%'],
+             /*'group'=>true,
+             'subGroupOf'=>1,*/
+             /*'value' => function($model, $key, $index, $grid){
+                 return Html::a( $model['customer_name'], ['booking/update','id' => $model['booking_id']], ['title' => 'View','class'=>'link_cust']);
+                },*/
+            ],
+            [
+              'attribute'=>'date',
+              'headerOptions' => ['style' => 'width:10%'],
+              'value'=> function($model, $key, $index, $grid){
+                return Yii::$app->formatter->asDate($model['date'],'dd-MM-yy');
+               },
+                    'filter'=>DatePicker::widget([
+                    'type' => DatePicker::TYPE_INPUT,
+                    'attribute' => 'date',
+                    'model' => $searchModel,
+                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
+                     'options' => [
+                         'placeholder' => 'dd-mm-yyyy',
+                     ],
+                     'pluginOptions' => [
+                         'autoclose'=>true,
+                         'format' => 'dd-mm-yyyy',
+                         //'todayHighlight'=>true,
+                     ]
+                 ]),
+            ],
+
+            [
+              'attribute' => 'type',
+              'headerOptions' => ['style' => 'width:15%'],
+             // 'label' => 'Type of Payment',
+              'filter'=>Html::activeDropDownList($searchModel, 'type',([''=>'Select', 'Advance' => 'Advance', 'Per-payment' => 'Per-payment', 'Deposit' => 'Deposit', 'Final-Payment' => 'Final-Payment', 'Return-Deposit' => 'Return-Deposit' ]),['class'=>'form-control']),
+
+            ],
+            [
+              'attribute' => 'mode_of_payment',
+              'headerOptions' => ['style' => 'width:5%'],
+              'label' => 'Mode',
+              'filter'=>Html::activeDropDownList($searchModel, 'mode_of_payment',([''=>'Select', 'Cash' => 'Cash', 'Google Pay' => 'Google Pay', 'Phone Pe' => 'Phone Pe', 'Bank Transfer' => 'Bank Transfer', 'Paytm' => 'Paytm', 'Other' => 'Other', ]),['class'=>'form-control']),
+
+            ],
+            [
+              'attribute' => 'received_by',
+              'headerOptions' => ['style' => 'width:10%'],
+             // 'label' => 'Type of Payment',
+              'filter'=>Html::activeDropDownList($searchModel, 'received_by',([''=>'Select', 'Varsha' => 'Varsha', 'Pranali' => 'Pranali', 'Others' => 'Others', ]),['class'=>'form-control']),
+
+            ],
+            [
+              'attribute' => 'sendto',
+              'headerOptions' => ['style' => 'width:5%'],
+              //'label' => 'Type of Payment',
+              'filter'=>Html::activeDropDownList($searchModel, 'sendto',([''=>'Select', 'Company' => 'Company', 'Pranali' => 'Pranali', 'Varsha' => 'Varsha', ]),['class'=>'form-control']),
+
+            ],
+         [
+              'attribute' => 'received_during',
+              'headerOptions' => ['style' => 'width:15%'],
+             // 'label' => 'Type of Payment',
+              'filter'=>Html::activeDropDownList($searchModel, 'received_during',([''=>'Select', 'Booking' => 'Booking', 'Pickup' => 'Pickup', 'Return' => 'Return', 'Other' => 'Other', ]),['class'=>'form-control']),
+
+            ],
+      /*   [
+              'attribute' => 'sendto',
+              'headerOptions' => ['style' => 'width:5%'],
+              'label' => 'Type of Payment',
+              'filter'=>Html::activeDropDownList($searchModel, 'payment_status',([ 'Company' => 'Company', 'Pranali' => 'Pranali', 'Varsha' => 'Varsha', ]),
+
+            ],
+         */
+
+
+            //'received_during',
+
+            //'dom',
+            //'amount',
+
+            [ 'attribute'=>'rent_amount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Rent Amt.',
+                 'group'=>true,
+             'subGroupOf'=>1,
+              'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'rent_amount'),
+                //'footer' => PaymentMaster::getTotal($dataProvider->models, 'rent_amount'),
+
+            ],
+            [ 'attribute'=>'deposite_amount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Depst. Amt.',
+                 'group'=>true,
+             'subGroupOf'=>1,
+              //'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'deposite_amount'),
+            ],
+             [ 'attribute'=>'discount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Discount',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'discount'),
+            ],
+         /*   [ 'attribute'=>'return_amount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Return Amt.',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'return_amount'),
+            ],*/
+               [ 'attribute'=>'extra_amount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Extra Amt.',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'extra_amount'),
+            ],
+            [ 'attribute'=>'cancellation_charges',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Cancellation Chrg.',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'cancellation_charges'),
+            ],
+            [ 'attribute'=>'other_charges',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Othr. Chrg.',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'other_charges'),
+            ],
+            [ 'attribute'=>'issues_penalty',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Penalty',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'issues_penalty'),
+            ],
+             [
+                 //'attribute'=>'other_charges',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Total Earning',
+                 'group'=>true,
+             'subGroupOf'=>1,
+             'value'=> function($model, $key, $index, $grid){
+                 return (($model['rent_amount']-$model['discount']) +$model['cancellation_charges']+$model['extra_amount']+$model['other_charges']-$model['issues_penalty']);
+             },
+             // 'pageSummary' => true,
+                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'total_earn'),
+            ],
+            [ 'attribute'=>'amount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Paid',
+                'value'=> function($model, $key, $index, $grid){
+                return ($model['type']!='Return-Payment' && $model['type']!='Return-Deposit' && $model['type']!='Other-Charges' &&$model['type']!='Cancel-Charge')?$model['amount']:0;
+               },
+                'xlFormat'=>'0',
+               'pageSummary' => true,
+                //'footer' => PaymentHeader::getTotal($dataProvider->models, 'amount'),
+            ],
+             [ 'attribute'=>'amount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'header'=>'Deduction',
+                'value'=> function($model, $key, $index, $grid){
+                return ($model['type']=='Other-Charges' || $model['type']=='Cancel-Charge')?$model['amount']:0;
+               },
+               'pageSummary' => true,
+                //'footer' => PaymentHeader::getTotal($dataProvider->models, 'amount'),
+            ],
+            [ 'attribute'=>'amount',
+                'headerOptions' => ['style' => 'width:8%'],
+                'format'=>['decimal',0],
+                'xlFormat'=>'Number',
+                'header'=>'Return',
+                'value'=> function($model, $key, $index, $grid){
+
+               return ($model['type']=='Return-Payment' || $model['type']=='Return-Deposit')?($model['amount']*-1):0;
+               },
+                'pageSummary' => true,
+                //'footer' => PaymentHeader::getTotal($dataProvider->models, 'amount'),
+            ],
+        [
+              'attribute' => 'view_level',
+            ]
+            //'booking_id',
+
+
+
+
+        ];
+    $fullExportMenu = ExportMenu::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => $gridColumns,
+    'batchSize' => 1000,
+    'target' => '_blank',
+    'pjax' => true,
+    'exportConfig' => [
+        ExportMenu::FORMAT_TEXT => false,
+        ExportMenu::FORMAT_HTML => false,
+        ExportMenu::FORMAT_EXCEL => false,
+        ExportMenu::FORMAT_PDF => false,
+    ],
+    //'folder' => '@webroot/tmp', // this is default save folder on server
+        'exportFormHiddenInputs' => $exportParamData,
+    'exportContainer' => [
+      'class' => 'btn-group mr-2'
+    ],
+    'exportRequestParam'=>"PaymentMasterSearch=".json_encode($searchModel),
+    'dropdownOptions' => [
+        'label' => 'Export',
+        'class' => 'btn btn-outline-secondary',
+        'itemsBefore' => [
+            '<div class="dropdown-header">Export All Data</div>',
+        ],
+    ],
+  ]);
+
+    echo GridView::widget([
        /* 'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'toolbar'=>[
         '{export}',
         '{toggleData}'
     ],*/
-
+'autoXlFormat'=>true,
                 'id' => 'kv-grid-demo',
                 'dataProvider' => $dataProvider,
-                //'filterModel' => $searchModel,
+                'filterModel' => $searchModel,
                 'floatHeader'=>true,
                 // 'showFooter' => true,
                 'footerRowOptions'=>['style'=>'background-color:#f7f78b;'],
@@ -87,14 +434,8 @@ $this->title = 'Transaction';
                     ]
                 ],
                 'toolbar' =>  [
-
-                    [
-                        'content' =>
-                            '<button class="search-button btn btn-default" onclick="search()" data-toggle ="tooltip" title="search"><i class="glyphicon glyphicon-search"></i></button>'
-                    ],
-
                     '{export}',
-                   // $fullExportMenu,
+                   $fullExportMenu,
                 ],
                 'export' => [
                     'fontAwesome' => true
@@ -106,8 +447,7 @@ $this->title = 'Transaction';
                 'panel' =>
                     [
                         'type' => GridView::TYPE_PRIMARY,
-                        'before'=>' 
-       
+                        'before'=>'  
     <div class="pull-left report-back-btn-ar" style="margin-left:20px;">
       
     </div>
@@ -117,287 +457,7 @@ $this->title = 'Transaction';
                 'persistResize' => false,
                 'toggleDataOptions' => ['minCount' => 10],
             
-        'columns' => [
-           // ['class' => 'yii\grid\SerialColumn'],
-
-            //'payment_id',
-            //'date',
-           [
-              'attribute'=>'pickup_date',
-              'headerOptions' => ['style' => 'width:10%'],
-              'group'=>true,
-              'value'=> function($model, $key, $index, $grid){
-                return Yii::$app->formatter->asDate($model['pickup_date'],'dd-MM-yy');
-               },
-                    /*'filter'=>DatePicker::widget([
-                    'type' => DatePicker::TYPE_INPUT,
-                    'attribute' => 'pickup_date',
-                    'model' => $searchModel,                   
-                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                     'options' => [
-                         'placeholder' => 'dd-mm-yyyy',
-                     ],
-                     'pluginOptions' => [
-                         'autoclose'=>true,
-                         'format' => 'dd-mm-yyyy',
-                         //'todayHighlight'=>true,
-                     ]
-                 ]),*/
-            ],
-                  [ 
-              'attribute'=>'booking_id',
-              'format'=>'raw',
-             'headerOptions' => ['style' => 'width:15%'],
-             'group'=>true
-             /*'value' => function($model, $key, $index, $grid){
-                 return Html::a( $model['customer_name'], ['booking/update','id' => $model['booking_id']], ['title' => 'View','class'=>'link_cust']);
-                },*/
-            ],
-            [ 
-              'attribute'=>'customer_name',
-              'format'=>'raw',
-             'headerOptions' => ['style' => 'width:15%'],
-             'group'=>true,
-             'subGroupOf'=>1,
-             /*'value' => function($model, $key, $index, $grid){
-                 return Html::a( $model['customer_name'], ['booking/update','id' => $model['booking_id']], ['title' => 'View','class'=>'link_cust']);
-                },*/
-            ],
-          
-            [
-              'attribute'=>'booking_date',
-              'headerOptions' => ['style' => 'width:10%'],
-              'group'=>true,
-              'subGroupOf'=>1,
-              'value'=> function($model, $key, $index, $grid){
-                return Yii::$app->formatter->asDate($model['booking_date'],'dd-MM-yyyy');
-               },
-                    /*'filter'=>DatePicker::widget([
-                    'type' => DatePicker::TYPE_INPUT,
-                    'attribute' => 'pickup_date',
-                    'model' => $searchModel,                   
-                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                     'options' => [
-                         'placeholder' => 'dd-mm-yyyy',
-                     ],
-                     'pluginOptions' => [
-                         'autoclose'=>true,
-                         'format' => 'dd-mm-yyyy',
-                         //'todayHighlight'=>true,
-                     ]
-                 ]),*/
-            ],
-           
-              
-              [
-              'attribute'=>'return_date',
-              'headerOptions' => ['style' => 'width:10%'],
-              'group'=>true,
-               'subGroupOf'=>1,
-              'value'=> function($model, $key, $index, $grid){
-                return Yii::$app->formatter->asDate($model['return_date'],'dd-MM-yyyy');
-               },
-                    /*'filter'=>DatePicker::widget([
-                    'type' => DatePicker::TYPE_INPUT,
-                    'attribute' => 'pickup_date',
-                    'model' => $searchModel,                   
-                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                     'options' => [
-                         'placeholder' => 'dd-mm-yyyy',
-                     ],
-                     'pluginOptions' => [
-                         'autoclose'=>true,
-                         'format' => 'dd-mm-yyyy',
-                         //'todayHighlight'=>true,
-                     ]
-                 ]),*/
-            ],
-            [
-              'attribute'=>'date',
-              'headerOptions' => ['style' => 'width:10%'],
-              'value'=> function($model, $key, $index, $grid){
-                return Yii::$app->formatter->asDate($model['date'],'dd-MM-yy');
-               },
-                    'filter'=>DatePicker::widget([
-                    'type' => DatePicker::TYPE_INPUT,
-                    'attribute' => 'date',
-                    'model' => $searchModel,                   
-                     //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                     'options' => [
-                         'placeholder' => 'dd-mm-yyyy',
-                     ],
-                     'pluginOptions' => [
-                         'autoclose'=>true,
-                         'format' => 'dd-mm-yyyy',
-                         //'todayHighlight'=>true,
-                     ]
-                 ]),
-            ],
-
-            [
-              'attribute' => 'type',
-              'headerOptions' => ['style' => 'width:15%'],
-             // 'label' => 'Type of Payment',
-              'filter'=>Html::activeDropDownList($searchModel, 'type',([''=>'Select', 'Advance' => 'Advance', 'Per-payment' => 'Per-payment', 'Deposit' => 'Deposit', 'Final-Payment' => 'Final-Payment', 'Return-Deposit' => 'Return-Deposit' ]),['class'=>'form-control']),
-              
-            ],
-            [
-              'attribute' => 'mode_of_payment',
-              'headerOptions' => ['style' => 'width:5%'],
-              'label' => 'Mode',
-              'filter'=>Html::activeDropDownList($searchModel, 'mode_of_payment',([''=>'Select', 'Cash' => 'Cash', 'Google Pay' => 'Google Pay', 'Phone Pe' => 'Phone Pe', 'Bank Transfer' => 'Bank Transfer', 'Paytm' => 'Paytm', 'Other' => 'Other', ]),['class'=>'form-control']),
-              
-            ],
-            [
-              'attribute' => 'received_by',
-              'headerOptions' => ['style' => 'width:10%'],
-             // 'label' => 'Type of Payment',
-              'filter'=>Html::activeDropDownList($searchModel, 'received_by',([''=>'Select', 'Varsha' => 'Varsha', 'Pranali' => 'Pranali', 'Others' => 'Others', ]),['class'=>'form-control']),
-              
-            ],
-            [
-              'attribute' => 'sendto',
-              'headerOptions' => ['style' => 'width:5%'],
-              //'label' => 'Type of Payment',
-              'filter'=>Html::activeDropDownList($searchModel, 'sendto',([''=>'Select', 'Company' => 'Company', 'Pranali' => 'Pranali', 'Varsha' => 'Varsha', ]),['class'=>'form-control']),
-              
-            ],
-         [
-              'attribute' => 'received_during',
-              'headerOptions' => ['style' => 'width:15%'],
-             // 'label' => 'Type of Payment',
-              'filter'=>Html::activeDropDownList($searchModel, 'received_during',([''=>'Select', 'Booking' => 'Booking', 'Pickup' => 'Pickup', 'Return' => 'Return', 'Other' => 'Other', ]),['class'=>'form-control']),
-              
-            ],
-      /*   [
-              'attribute' => 'sendto',
-              'headerOptions' => ['style' => 'width:5%'],
-              'label' => 'Type of Payment',
-              'filter'=>Html::activeDropDownList($searchModel, 'payment_status',([ 'Company' => 'Company', 'Pranali' => 'Pranali', 'Varsha' => 'Varsha', ]),
-              
-            ],
-         */
-           
-           
-            //'received_during',
-            
-            //'dom',
-            //'amount',
-             
-            [ 'attribute'=>'rent_amount',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Rent Amt.',
-                 'group'=>true,
-             'subGroupOf'=>1,
-              'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'rent_amount'),
-                //'footer' => PaymentMaster::getTotal($dataProvider->models, 'rent_amount'),
-                
-            ],
-            [ 'attribute'=>'deposite_amount',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Depst. Amt.',
-                 'group'=>true,
-             'subGroupOf'=>1,
-              //'pageSummary' => true,
-                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'deposite_amount'),
-            ],
-             [ 'attribute'=>'discount',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Discount',
-                 'group'=>true,
-             'subGroupOf'=>1,
-             // 'pageSummary' => true,
-                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'discount'),
-            ],
-         /*   [ 'attribute'=>'return_amount',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Return Amt.',
-                 'group'=>true,
-             'subGroupOf'=>1,
-             // 'pageSummary' => true,
-                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'return_amount'),
-            ],*/
-            [ 'attribute'=>'cancellation_charges',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Cancellation Chrg.',
-                 'group'=>true,
-             'subGroupOf'=>1,
-             // 'pageSummary' => true,
-                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'cancellation_charges'),
-            ],
-            [ 'attribute'=>'other_charges',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Othr. Chrg.',
-                 'group'=>true,
-             'subGroupOf'=>1,
-             // 'pageSummary' => true,
-                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'other_charges'),
-            ],
-            [ 'attribute'=>'issues_penalty',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Penalty',
-                 'group'=>true,
-             'subGroupOf'=>1,
-             // 'pageSummary' => true,
-                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'issues_penalty'),
-            ],
-             [ 
-                 //'attribute'=>'other_charges',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Total Earning',
-                 'group'=>true,
-             'subGroupOf'=>1,
-             'value'=> function($model, $key, $index, $grid){
-                 return (($model['rent_amount']-$model['discount']) +$model['cancellation_charges']+$model['extra_amount']+$model['other_charges']-$model['issues_penalty']);
-             },
-             // 'pageSummary' => true,
-                'pageSummary' => PaymentMaster::getTotal($dataProvider->models, 'total_earn'),
-            ],
-            [ 'attribute'=>'amount',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Paid',
-                'value'=> function($model, $key, $index, $grid){
-                return ($model['type']!='Return-Payment' && $model['type']!='Return-Deposit' && $model['type']!='Other-Charges')?$model['amount']:0;
-               },
-               'pageSummary' => true,
-                //'footer' => PaymentHeader::getTotal($dataProvider->models, 'amount'),
-            ],
-             [ 'attribute'=>'amount',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Deduction',
-                'value'=> function($model, $key, $index, $grid){
-                return ($model['type']=='Other-Charges')?$model['amount']:0;
-               },
-               'pageSummary' => true,
-                //'footer' => PaymentHeader::getTotal($dataProvider->models, 'amount'),
-            ],
-            [ 'attribute'=>'amount',
-                'headerOptions' => ['style' => 'width:8%'],
-                'format'=>['decimal',0],
-                'header'=>'Return',
-                'value'=> function($model, $key, $index, $grid){
-
-               return ($model['type']=='Return-Payment' || $model['type']=='Return-Deposit')?($model['amount']*-1):0;
-               },
-                'pageSummary' => true,
-                //'footer' => PaymentHeader::getTotal($dataProvider->models, 'amount'),
-            ],
-            //'booking_id',
-
-           
-
-            
-        ],
+        'columns' => $gridColumns,
     ]); ?>
 
 
