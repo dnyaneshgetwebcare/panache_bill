@@ -335,8 +335,8 @@ class ItemController extends Controller
 
         $model_vendor = ArrayHelper::map(VendorMaster::find()->all(), 'id', 'name');
         $color_model = ArrayHelper::map(ColorMaster::find()->all(), 'id', 'name');
-        $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id', 'name');
-        $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id', 'name');
+        $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['details_occ'].')';} );
+        $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['deatils_type'].')';} );
         $model->setScenario('create_new');
         if ($model->load(Yii::$app->request->post())) {
 //rint_r($model);die;
@@ -505,8 +505,8 @@ class ItemController extends Controller
         // $model_type= ArrayHelper::map(TypeMaster::find()->all(),'id','name');
         $color_model = ArrayHelper::map(ColorMaster::find()->all(), 'id', 'name');
         $model_vendor = ArrayHelper::map(VendorMaster::find()->all(), 'id', 'name');
-        $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id', 'name');
-        $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id', 'name');
+        $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['details_occ'].')';});
+        $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['deatils_type'].')';});
         if ($model->load(Yii::$app->request->post())) {
             $post_occ=isset($_POST['ItemMaster']['occasion_master'])?$_POST['ItemMaster']['occasion_master']:'';
             $post_dis=isset($_POST['ItemMaster']['display_type'])?$_POST['ItemMaster']['display_type']:'';
