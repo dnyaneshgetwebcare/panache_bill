@@ -86,6 +86,8 @@ class SiteController extends Controller
         for ($i=0; $i <12 ; $i++) { 
            $total_sales[$i]=(isset($graph_summary[$i]))?$graph_summary[$i]:0;
         }
+        $user = Yii::$app->user->identity;
+        $is_admin = ($user->user_type == "admin") ? true: false;
         return $this->render('index',
             ['model_delivarys'=>$model_delivary,
                 'model_returns'=>$model_returns,
@@ -97,6 +99,7 @@ class SiteController extends Controller
                 'dep_pending'=>$dep_pending,
                 'total_sales'=>$total_sales,
                 'invoice_list'=>$invoice_list,
+                'is_admin'=>$is_admin,
                 'sale_monthly_summary'=>$sale_monthly_summary]);
     }
 
