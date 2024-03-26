@@ -46,9 +46,9 @@ $view_levels=array('DETAIL'=>'Detail View','CATEGORY_DETAIL'=> 'Category Wise','
                      <?php
                         echo $form->field($model, 'view_level')->widget(Select2::classname(), [
                          'data' => $view_levels,
-                         'options' => ['onchange'=>"changeName(this.value)"], //,'onchange'=>"changeName(this.value)"
+                        // 'options' => ['onchange'=>"changeName(this.value)"], //,'onchange'=>"changeName(this.value)"
                          'pluginOptions' => [
-                             'allowClear' => false,
+                             'allowClear' => true,
                              //'dropdownParent' => new yii\web\JsExpression('$("#pModal")'),
                          ],
                      ])->label(false); ?>

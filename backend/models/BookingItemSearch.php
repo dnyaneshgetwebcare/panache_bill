@@ -94,7 +94,7 @@ class BookingItemSearch extends BookingItem
     {
         $query = ItemMaster::find()->select(['item_master.id as item_id', "sum(booking_item.`earning_amount`) as earning_amount", "sum(booking_item.`amount`) as amount", 'sum(case when `booking_item`.`item_status` = "Booked" OR `booking_item`.`item_status` = "Picked" OR `booking_item`.`item_status` = "Returned"  then 1 else 0 end) as rented_time', 'item_master.name as item_name', 'category_master.name as cat_name', 'type_master.name as type_name', 'item_master.item_code']);
         $query->leftJoin('booking_item', 'item_master.id = booking_item.product_id');
-        $query->leftJoin('booking_header', 'booking_item.booking_id = booking_item.booking_id');
+        //$query->leftJoin('booking_header', 'booking_item.booking_id = booking_item.booking_id');
         $query->leftJoin('type_master', 'type_master.id = item_master.type_id');
         $query->leftJoin('category_master', 'category_master.id = item_master.category_id');
         //$query->andWhere([ 'booking_item.item_status' => 'Returned']);
@@ -139,9 +139,11 @@ class BookingItemSearch extends BookingItem
                 ->andFilterWhere(['like', 'item_master.name', $this->item_name])
                 ->andFilterWhere(['like', 'booking_item.deposite_status', $this->deposite_status]);
             if ($this->from_date != '' && $this->to_date != '') {
+
                 $date_format_from = ($this->from_date != '') ? date('Y-m-d', strtotime($this->from_date)) : '';
                 $date_format_to = ($this->to_date != '') ? date('Y-m-d', strtotime($this->to_date)) : '';
-                $query->andWhere(['OR',['AND',['<=', 'booking_header.pickup_date', $date_format_to],['>=', 'booking_header.pickup_date', $date_format_from]],['booking_header.pickup_date'=>null]]);
+                $booking_header = BookingHeader::find()->select('booking_id')->andWhere(['<=', 'booking_header.pickup_date', $date_format_to])->andWhere(['>=', 'booking_header.pickup_date', $date_format_from]);
+                $query->andWhere(['OR',['booking_item.booking_id'=>$booking_header],['booking_item.booking_id'=>null]]);
                 //$query->andWhere();
             }
 
@@ -209,9 +211,11 @@ class BookingItemSearch extends BookingItem
 
         }
         if ($this->from_date != '' && $this->to_date != '') {
+
                 $date_format_from = ($this->from_date != '') ? date('Y-m-d', strtotime($this->from_date)) : '';
                 $date_format_to = ($this->to_date != '') ? date('Y-m-d', strtotime($this->to_date)) : '';
-                $query->andWhere(['OR',['AND',['<=', 'booking_header.pickup_date', $date_format_to],['>=', 'booking_header.pickup_date', $date_format_from]],['booking_header.pickup_date'=>null]]);
+                $booking_header = BookingHeader::find()->select('booking_id')->andWhere(['<=', 'booking_header.pickup_date', $date_format_to])->andWhere(['>=', 'booking_header.pickup_date', $date_format_from]);
+                $query->andWhere(['OR',['booking_item.booking_id'=>$booking_header],['booking_item.booking_id'=>null]]);
                 //$query->andWhere();
             }
         $dataProvider = new ArrayDataProvider([
@@ -276,9 +280,11 @@ class BookingItemSearch extends BookingItem
 
         }
         if ($this->from_date != '' && $this->to_date != '') {
+
                 $date_format_from = ($this->from_date != '') ? date('Y-m-d', strtotime($this->from_date)) : '';
                 $date_format_to = ($this->to_date != '') ? date('Y-m-d', strtotime($this->to_date)) : '';
-                $query->andWhere(['OR',['AND',['<=', 'booking_header.pickup_date', $date_format_to],['>=', 'booking_header.pickup_date', $date_format_from]],['booking_header.pickup_date'=>null]]);
+                $booking_header = BookingHeader::find()->select('booking_id')->andWhere(['<=', 'booking_header.pickup_date', $date_format_to])->andWhere(['>=', 'booking_header.pickup_date', $date_format_from]);
+                $query->andWhere(['OR',['booking_item.booking_id'=>$booking_header],['booking_item.booking_id'=>null]]);
                 //$query->andWhere();
             }
         $dataProvider = new ArrayDataProvider([

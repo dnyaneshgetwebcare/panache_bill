@@ -51,7 +51,7 @@ class ItemWiseReportController extends \yii\web\Controller
 
             }elseif(Yii::$app->request->post()['BookingItemSearch']['view_level'] == 'Type_Wise'){
                 $view_name = 'item_type_report';
-                $dataProvider = $searchModel->searchItemType(Yii::$app->request->queryParams);
+                $dataProvider = $searchModel->searchItemType(Yii::$app->request->post());
             } else {
                 $view_name = 'item_cat_report';
                 $dataProvider = $searchModel->searchItemCategory(Yii::$app->request->post());
