@@ -13,7 +13,10 @@ use common\widgets\Alert;
 use yii\widgets\ActiveForm;
 AppAsset::register($this);
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage();
+$user = Yii::$app->user->identity;
+$is_admin = ($user->user_type == "admin") ? true: false;
+?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
@@ -22,6 +25,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
     <?php $this->head() ?>
 </head>
 <!-- <body> -->
@@ -29,6 +33,10 @@ AppAsset::register($this);
     /*  .table-bordered>tbody>tr>td,.table-bordered>thead>tr>th{
   border:1px solid #eee !important;
  }*/
+
+  .name-input {
+  text-transform: capitalize;
+}
     .form-group {
         margin-bottom: 0px;
     }
@@ -342,13 +350,14 @@ position:absolute;top:0;left:0;width:100%;height:100%;
                                 <li><a href="index.php?r=booking/index">Booking</a></li>
                                 <li><a href="index.php?r=booking-item/index">Item Picked</a></li>
                                 <li><a href="index.php?r=booking-item/index-return">Return Item</a></li>
-
+                                 <li><a href="index.php?r=booking/pending-deposite">Return Deposite Pending</a></li>
                                <li><a href="index.php?r=booking/index-payment">Pending Payment</a></li>
                                 <li><a href="index.php?r=payment/index">Transaction</a></li>
                                 <li><a href="index.php?r=booking/index-sales">Total Sales</a></li>
                                 <li><a href="index.php?r=booking-item/sales-item">Total Item Sales</a></li>
                             </ul>
-                        </li> 
+                        </li>
+                        <?php if($is_admin){ ?>
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-cart"></i><span class="hide-menu">Purchase</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 
@@ -360,6 +369,7 @@ position:absolute;top:0;left:0;width:100%;height:100%;
                                 <li><a href="index.php?r=booking/index-sales">Total Sales</a></li> -->
                             </ul>
                         </li>
+                        <?php } ?>
                         <!-- <li><a href="index.php?r=purchase/index"><i class="mdi mdi-cart"></i>Purchase</a></li> -->
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-square-inc-cash"></i><span class="hide-menu">Expense</span></a>
                             <ul aria-expanded="false" class="collapse">
@@ -379,9 +389,9 @@ position:absolute;top:0;left:0;width:100%;height:100%;
                                 <li><a href="index.php?r=type/index">Item Type</a></li>
                                 <li><a href="index.php?r=cater/index">Item Category</a></li>
                                 <li><a href="index.php?r=color-master/index">Colors</a></li>
+                                <li><a href="index.php?r=expsense-category/index">Expense Category</a></li>
                                 <li><a href="index.php?r=occation-master/index">Occasion</a></li>
                                 <li><a href="index.php?r=display-type/index">Display Type</a></li>
-                                <li><a href="index.php?r=expsense-category/index">Expense Category</a></li>
                                 <li><a href="index.php?r=address-group/index">Address Group</a></li>
                                 <li><a href="index.php?r=formula/create">Split Formula</a></li>
                             </ul>
@@ -390,9 +400,13 @@ position:absolute;top:0;left:0;width:100%;height:100%;
                         
                         <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-file-document"></i><span class="hide-menu">Reports</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="index.php?r=reports/index-item-master">Item</a></li>
+                                <?php
+                                if($is_admin){
+                                ?>
+                                <li><a href="index.php?r=item-wise-report/item-filter">Item</a></li>
                                 <li><a href="index.php?r=reports/index">Booking Orders</a></li>
                                 <li><a href="index.php?r=reports/index-item">Booking Item Report</a></li>
+                                <?php } ?>
                                 <li><a href="index.php?r=payment/payment-search">Payment Report</a></li>
                             </ul>
                         </li>
