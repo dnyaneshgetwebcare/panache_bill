@@ -297,12 +297,12 @@ $this->title = 'Panache Store';
 
                                 <td><?=  date('F', mktime(0, 0, 0, $sales_summary['month'], 10));?></td>
 
-                                <td <?= $display_hide; ?> ><?= $sales_summary['amount'];?></td>
-                                <td <?= $display_hide; ?> ><?= $sales_summary['pending_amount'];?></td>
+                                <td style="<?= $display_hide; ?>" ><?= $sales_summary['amount'];?></td>
+                                <td style="<?= $display_hide; ?>" ><?= $sales_summary['pending_amount'];?></td>
                                 <td  ><?= isset($cust_list[$sales_summary['month']])?$cust_list[$sales_summary['month']]:'-';?></td>
                                 <td><?= isset($invoice_list[$sales_summary['month']])?$invoice_list[$sales_summary['month']]:'-';?></td>
-                                <td <?= $display_hide; ?> ><?= $sales_summary['total_purchase'];?></td>
-                                <td <?= $display_hide; ?> ><?= $sales_summary['total_expense'];?></td>
+                                <td style="<?= $display_hide; ?>" ><?= $sales_summary['total_purchase'];?></td>
+                                <td style="<?= $display_hide; ?>" ><?= $sales_summary['total_expense'];?></td>
                             </tr>
                         <?php
                         }
