@@ -109,6 +109,10 @@ class BookingItem extends \yii\db\ActiveRecord
     {
         return $this->hasOne(TypeMaster::className(), ['id' => 'item_category']);
     }
+    public function getCategoryMaster()
+    {
+        return $this->hasOne(CategoryMaster::className(), ['id' => 'item_category']);
+    }
         public static function getTotal($provider, $columnName)
 {
     $total = 0;
