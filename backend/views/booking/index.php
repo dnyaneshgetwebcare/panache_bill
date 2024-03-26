@@ -66,7 +66,9 @@ $this->title = $title;
 <div class="card-group" style="margin-bottom: 30px">
   <?php //foreach ($item_summary as $key => $item_sum) {
     # code...
+  if($is_admin) {
    ?>
+
                     <div class="card">
                         <div class="card-body">
                            <div class="d-flex flex-row">
@@ -137,7 +139,8 @@ $this->title = $title;
                    
                     
                 
-<?php // } ?>
+<?php }
+  // } ?>
 
 </div>
 

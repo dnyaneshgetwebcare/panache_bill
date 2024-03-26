@@ -18,6 +18,8 @@ use kartik\file\FileInput;
 /* @var $this yii\web\View */
 /* @var $model backend\models\ItemMaster */
 /* @var $form yii\widgets\ActiveForm */
+$user = Yii::$app->user->identity;
+$is_admin = ($user->user_type == "admin") ? true : false;
 ?>
 <link rel="stylesheet" type="text/css" href="css/gccsite.css">
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -187,7 +189,7 @@ use kartik\file\FileInput;
 
                                         <div class="row">
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="<?= ($is_admin)?"":"display:none"; ?>">
                                                 <div class="form-group">
                                                     <?= $form->field($model, 'purchase_amount')->widget(NumberControl::classname(), [
                                                         'maskedInputOptions' => [
@@ -204,7 +206,7 @@ use kartik\file\FileInput;
                                                 </div>
                                             </div>
                                             <!--/span-->
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="<?= ($is_admin)?"":"display:none"; ?>">
                                                 <div class="form-group">
                                                     <?php
                                                     /*  echo DatePicker::widget([
@@ -358,7 +360,7 @@ use kartik\file\FileInput;
                                         <div class="row">
 
                                             <!--/span-->
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" style="<?= ($is_admin)?"":"display:none"; ?>">
                                                 <div class="form-group">
                                                     <?= $form->field($model, 'vendor_id')->dropDownList($model_vendor, ['prompt' => 'Select Vendor', 'class' => 'form-control']); ?>
                                                 </div>

@@ -9,7 +9,7 @@ $this->title = 'Panache Store';
         font-size: 15px ;
     }
 </style>
-        
+
        
                 <div class="row page-titles">
                     <div class="col-md-5 col-8 align-self-center">
@@ -21,6 +21,7 @@ $this->title = 'Panache Store';
                     </div>
                     <div class="col-md-7 col-4 align-self-center">
                         <div class="d-flex m-t-10 justify-content-end">
+                            <?php if($is_admin) {  ?>
                             <div class="d-flex m-r-20 m-l-10 hidden-md-down">
                                 <div class="chart-text m-r-10">
                                     <h6 class="m-b-0"><small>THIS MONTH</small></h6>
@@ -51,6 +52,7 @@ $this->title = 'Panache Store';
                                     <div id="lastmonthchart"></div>
                                 </div>
                             </div>
+                            <?php } ?>
                             <div class="">
                                 <button class="right-side-toggle waves-effect waves-light btn-success btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
                             </div>
@@ -63,6 +65,8 @@ $this->title = 'Panache Store';
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
+<?php
+  if($is_admin) {  ?>
 <div class="row">
     <!-- Column -->
     <div class="col-lg-3 col-md-6">
@@ -121,7 +125,7 @@ $this->title = 'Panache Store';
     </div>
     <!-- Column -->
 </div>
-
+<?php } ?>
 
 <div class="row">
     <div class="col-lg-4 col-md-3">
@@ -263,7 +267,11 @@ $this->title = 'Panache Store';
                     <table class="table stylish-table full-color-table full-red-table hover-table">
                         <thead>
                         <tr>
-
+                            <?php
+                            $display_hide = "";
+                            if($is_admin) {
+                                $display_hide ="display = none;";
+                                ?>
                             <th>Month</th>
                             <th>Total Sales</th>
                             <th>Pending</th>
@@ -271,6 +279,15 @@ $this->title = 'Panache Store';
                              <th>Nos. Invoice</th>
                               <th>Total Purchase</th>
                               <th>Total Expense</th>
+                            <?php  }else{ ?>
+                                <th>Month</th>
+
+
+                                <th>New Customer</th>
+                                <th>Nos. Invoice</th>
+
+                                <?php
+                            } ?>
                         </tr>
                         </thead>
                         <tbody>
@@ -280,12 +297,12 @@ $this->title = 'Panache Store';
 
                                 <td><?=  date('F', mktime(0, 0, 0, $sales_summary['month'], 10));?></td>
 
-                                <td><?= $sales_summary['amount'];?></td>
-                                <td><?= $sales_summary['pending_amount'];?></td>
-                                <td><?= isset($cust_list[$sales_summary['month']])?$cust_list[$sales_summary['month']]:'-';?></td>
+                                <td <?= $display_hide; ?> ><?= $sales_summary['amount'];?></td>
+                                <td <?= $display_hide; ?> ><?= $sales_summary['pending_amount'];?></td>
+                                <td  ><?= isset($cust_list[$sales_summary['month']])?$cust_list[$sales_summary['month']]:'-';?></td>
                                 <td><?= isset($invoice_list[$sales_summary['month']])?$invoice_list[$sales_summary['month']]:'-';?></td>
-                                <td><?= $sales_summary['total_purchase'];?></td>
-                                <td><?= $sales_summary['total_expense'];?></td>
+                                <td <?= $display_hide; ?> ><?= $sales_summary['total_purchase'];?></td>
+                                <td <?= $display_hide; ?> ><?= $sales_summary['total_expense'];?></td>
                             </tr>
                         <?php
                         }
@@ -299,6 +316,7 @@ $this->title = 'Panache Store';
     </div>
 
 </div>
+<?php  if($is_admin){  ?>
 <div class="col-lg-8 col-xlg-9 col-md-7">
                         <div class="card">
                             <div class="card-body">
@@ -325,7 +343,8 @@ $this->title = 'Panache Store';
                                 </div> -->
                             </div>
                         </div>    
-                    </div>    
+                    </div>
+<?php  } ?>
                      <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript">
     
