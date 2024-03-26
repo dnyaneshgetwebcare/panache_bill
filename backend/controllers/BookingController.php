@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\BookingCarryFrd;
+use backend\models\BookingCarryFrd;
 use backend\models\AddressGroup;
 use backend\models\BookingItem;
 use backend\models\CustomerMaster;
@@ -64,7 +64,7 @@ class BookingController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','view','create','update','delete','customer-autocomplete','item-details-popup','item-details-autocomplete','item-booking-details','customer-details','delivery','delivery-item','return-item','index-payment','index-sales','item-check-autocomplete','item-booking-details','item-booking-check','cancel-delivery','pending-deposite','get-whatsapp','carry-frd'],
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'customer-autocomplete', 'item-details-popup', 'item-details-autocomplete', 'item-booking-details', 'customer-details', 'delivery', 'delivery-item', 'return-item', 'index-payment', 'index-sales', 'item-check-autocomplete', 'item-booking-details', 'item-booking-check', 'cancel-delivery', 'pending-deposite', 'get-whatsapp', 'carry-frd'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -95,13 +95,15 @@ class BookingController extends Controller
 
 
         $booking_header_summmary = BookingHeader::find()->select(['sum(net_value) as total_rent', 'sum((paid_amount-net_value-refunded)) as total_pending', 'count(*) as number_invoice', 'sum(paid_amount) total_paid', 'sum(deposite_amount) total_deposite_amount', 'sum(net_value) total_net_value', 'sum(extra_amount) total_extra_amount'])->where(['order_status' => array('Open')])->createCommand()->queryOne();
-
+        $user = Yii::$app->user->identity;
+        $is_admin = ($user->user_type == "admin") ? true : false;
 //->andWhere('DATE_FORMAT(pickup_date, "%m-%Y") = "'. $date.'"')
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'booking_header_summmary' => $booking_header_summmary,
             'title' => "Open Booking",
+            'is_admin' => $is_admin,
         ]);
     }
 
@@ -148,13 +150,15 @@ class BookingController extends Controller
         $dataProvider->pagination = false;
 
         $booking_header_summmary = BookingHeader::find()->select(['sum(earning_amount) as total_rent', 'sum((paid_amount-net_value -refunded)) as total_pending', 'count(*) as number_invoice', 'sum(paid_amount) total_paid', 'sum(deposite_amount) total_deposite_amount', 'sum(net_value) total_net_value', 'sum(extra_amount) total_extra_amount'])->where(['order_status' => array('Open', 'Closed', 'Cancelled')])->andWhere('DATE_FORMAT(pickup_date, "%m-%Y") = "' . $date . '"')->createCommand()->queryOne();
-
+        $user = Yii::$app->user->identity;
+        $is_admin = ($user->user_type == "admin") ? true : false;
 
         return $this->render('index_total_sales', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'booking_header_summmary' => $booking_header_summmary,
             'title' => "Total Sales",
+            'is_admin' => $is_admin,
         ]);
     }
 
@@ -193,11 +197,14 @@ class BookingController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $date = date('m-Y');
         $booking_header_summmary = BookingHeader::find()->select(['sum(net_value) as total_rent', 'sum((paid_amount-net_value -refunded)) as total_pending', 'count(*) as number_invoice', 'sum(paid_amount) total_paid', 'sum(deposite_amount) total_deposite_amount', 'sum(net_value) total_net_value', 'sum(extra_amount) total_extra_amount'])->where(['order_status' => array('Open', 'Closed', 'Cancelled')])->andWhere('DATE_FORMAT(pickup_date, "%m-%Y") = "' . $date . '"')->createCommand()->queryOne();
+        $user = Yii::$app->user->identity;
+        $is_admin = ($user->user_type == "admin") ? true : false;
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'booking_header_summmary' => $booking_header_summmary,
             'title' => "Payment",
+            'is_admin' => $is_admin,
         ]);
     }
 
@@ -233,6 +240,7 @@ class BookingController extends Controller
 
     function short_url($booking_id)
     {
+        return "http://inv.panachewears.in/?" . $booking_id;
         $appkey = 'R_e74b011fabe44b52a45c406d087dda35';
         $login = 'o_523d7el29b';
         $url = Url::base(true) . '' . Yii::$app->request->baseUrl . '/index.php?r=booking/invoice-view&id=' . $booking_id;
@@ -494,7 +502,7 @@ class BookingController extends Controller
             array_shift($payment_models);
             $result_payment_item = array();
             $no_payment = false;
-            if ((sizeof($payment_models) == 1) && ($model->paid_amount != '' && $model->paid_amount != '0')) {
+            if ((sizeof($payment_models) == 1) && ($payment_models[0]['amount'] != '')) {
                 $result_payment_item = ActiveForm::validateMultiple($payment_models);
                 $no_payment = true;
             }
@@ -651,33 +659,34 @@ class BookingController extends Controller
         ]);
     }
 
-public function actionGetWhatsapp()
-{
-  $booking_id=$_POST['booking_id'];
-  $booking_header = BookingHeader::find()->where(['booking_id'=>$booking_id])->one();
-  $customer_model=$booking_header->customer;
-  Yii::$app->response->format = Response::FORMAT_JSON;
-         if($customer_model!=null){
-            if($customer_model->email_id!=''){
+    public function actionGetWhatsapp()
+    {
+        $booking_id = $_POST['booking_id'];
+        $booking_header = BookingHeader::find()->where(['booking_id' => $booking_id])->one();
+        $customer_model = $booking_header->customer;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($customer_model != null) {
+            if ($customer_model->email_id != '') {
                 //$this->sendemail($booking_header);
             }
-            if($customer_model->contact_nos!=''){
-               // $message="Thanks ".$customer_model->name." for shopping with Panache Rental Boutique. Your order of Rs.".round($booking_header->net_value)."\nRent-Rs.".round($booking_header->rent_amount)."\nDeposit-Rs.".round($booking_header->deposite_amount)."";
-        $message="Thanks ".$customer_model->name." for shopping with Panache Rental Boutique. Your order of Rs.".round($booking_header->net_value)." Booked.\n For invoice please check ".$this->short_url($booking_header->encryted_id)." ";
-               /* if($booking_header->discount!=0){
-                $message.="\nDiscount-Rs.".round($booking_header->discount);
-            }*/
-           // $message.="\nPaid-Rs.".round($booking_header->paid_amount)."\nReturn date: ".date_format(date_create($booking_header->return_date),'d-m-y')."\nNote:Please Return on given date or you will be charged extra per day.\n\n";
-            $message.="\nPaid-Rs.".round($booking_header->paid_amount)."\nReturn date: ".date_format(date_create($booking_header->return_date),'d-m-y')."\nNote:Please Return on given date or you will be charged extra per day.\n\n";
-          // echo $this->short_url($booking_header->encryted_id);die;
-           // $this->sendSMS($customer_model->contact_nos,$message);
-            return array('message'=>$message,'contact_nos'=>"91".$customer_model->contact_nos);
+            if ($customer_model->contact_nos != '') {
+                // $message="Thanks ".$customer_model->name." for shopping with Panache Rental Boutique. Your order of Rs.".round($booking_header->net_value)."\nRent-Rs.".round($booking_header->rent_amount)."\nDeposit-Rs.".round($booking_header->deposite_amount)."";
+                $message = "Thanks " . $customer_model->name . " for shopping with Panache Rental Boutique. Your order of Rs." . round($booking_header->net_value) . " Booked.\n For invoice please check " . $this->short_url($booking_header->encryted_id) . " ";
+                /* if($booking_header->discount!=0){
+                 $message.="\nDiscount-Rs.".round($booking_header->discount);
+             }*/
+                // $message.="\nPaid-Rs.".round($booking_header->paid_amount)."\nReturn date: ".date_format(date_create($booking_header->return_date),'d-m-y')."\nNote:Please Return on given date or you will be charged extra per day.\n\n";
+                $message .= "\nPaid-Rs." . round($booking_header->paid_amount) . "\nReturn date: " . date_format(date_create($booking_header->return_date), 'd-m-y') . "\nNote:Please Return on given date or you will be charged extra per day.\n\n";
+                // echo $this->short_url($booking_header->encryted_id);die;
+                // $this->sendSMS($customer_model->contact_nos,$message);
+                return array('message' => $message, 'contact_nos' => "91" . $customer_model->contact_nos);
             }
-         }
-}
+        }
+    }
 
-    public function updateRentCount($item_id){
-        $item_master=ItemMaster::find()->where(['id'=>$item_id])->one();
+    public function updateRentCount($item_id)
+    {
+        $item_master = ItemMaster::find()->where(['id' => $item_id])->one();
         //print_r($item_master);die;
         $item_master->rent_times += 1;
         $item_master->save();
@@ -808,7 +817,7 @@ public function actionGetWhatsapp()
         $result_payment_item = array();
         $no_payment = false;
 
-        if ((sizeof($payment_models) == 1) && ($paid_amount != '' && $paid_amount != '0')) {
+        if ((sizeof($payment_models) == 1) && ($payment_models[0]['amount'] != '')) {
             $result_payment_item = ActiveForm::validateMultiple($payment_models);
             $no_payment = true;
         }
@@ -1196,7 +1205,7 @@ public function actionGetWhatsapp()
             $deletedIDs_payment = array_diff($oldIDs_payment, array_filter(ArrayHelper::map($payment_models, 'payment_id', 'payment_id')));
             $result_payment_item = array();
             $no_payment = false;
-            if ((sizeof($payment_models) == 1) && ($model->paid_amount != '' && $model->paid_amount != '0')) {
+            if ((sizeof($payment_models) == 1) && ($payment_models[0]['amount'] != '')) {
                 $result_payment_item = ActiveForm::validateMultiple($payment_models);
                 $no_payment = true;
             }
@@ -1454,6 +1463,9 @@ public function actionGetWhatsapp()
         $booking_header = BookingHeader::find()->where(['order_status' => 'Open', 'booking_id' => $booking_id])->one();
         if ($booking_header == null) {
             return array('errors' => ["Booking alreay settle please check"]);
+        }
+        if ($booking_header->status != 'Returned') {
+            return array('errors' => ["Please complete return"]);
         }
         $carry_frd_details = BookingCarryFrd::find()->where(['status' => 0, 'id' => $carry_frd_id])->one();
         $transaction = Yii::$app->db->beginTransaction();
