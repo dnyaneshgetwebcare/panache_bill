@@ -13,7 +13,7 @@ use backend\models\BillingItem;
 
 $this->title = "Payment";
 $label_select='SELECT';
-$view_levels=array('DETAIL'=>'Detail View','CASH_FLOW'=>'Daily Summary');
+$view_levels=array('DETAIL'=>'Detail View','CASH_FLOW'=>'Daily Summary','OVERVIEW'=>'Detail OverView');
 ?>
 
 <?php
