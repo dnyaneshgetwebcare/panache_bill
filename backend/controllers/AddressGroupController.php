@@ -47,6 +47,7 @@ class AddressGroupController extends Controller
     /**
      * Lists all AddressGroup models.
      * @return mixed
+     * commited in theme branch
      */
     public function actionIndex()
     {
