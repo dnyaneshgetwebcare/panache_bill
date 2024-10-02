@@ -3,10 +3,10 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=panache_final',
+            'dsn' => 'mysql:host=localhost;dbname=billing_application',
             'username' => 'root',
             //'password' => 'password',
-            'password' => '7B3RUJHdAapCFDcA',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'mailer' => [
