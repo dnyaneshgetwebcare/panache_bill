@@ -27,10 +27,10 @@ class AppAsset extends AssetBundle
   public $js = [
 
 
-
-    'kai-admin-assets/js/core/jquery-3.7.1.min.js',
+    //'kai-admin-assets/js/core/jquery-3.7.1.min.js',
     'kai-admin-assets/js/core/popper.min.js',
     'kai-admin-assets/js/core/bootstrap.min.js',
+    'kai-admin-assets/js/plugin/moment/moment.min.js',
     'kai-admin-assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js',
     'kai-admin-assets/js/plugin/chart.js/chart.min.js',
     'kai-admin-assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js',
@@ -41,7 +41,10 @@ class AppAsset extends AssetBundle
     'kai-admin-assets/js/plugin/jsvectormap/world.js',
     'kai-admin-assets/js/plugin/sweetalert/sweetalert.min.js',
     'kai-admin-assets/js/kaiadmin.min.js',
-    'kai-admin-assets/js/setting-demo.js',
+
+    'kai-admin-assets/js/plugin/datepicker/bootstrap-datetimepicker.min.js',
+    'kai-admin-assets/js/plugin/select2/select2.full.min.js',
+    'kai-admin-assets/js/plugin/bootstrap-tagsinput/bootstrap-tagsinput.min.js',
     //'kai-admin-assets/js/demo.js',
 
   ];

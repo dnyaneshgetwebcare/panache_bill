@@ -134,7 +134,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
           </li>
           <li class="nav-item">
             <a href="index.php?r=customer/index">
-              <i class="fas fa-angle-down"></i>
+              <i class="fas fa-user-alt"></i>
               <p>Customer</p>
 
             </a>
@@ -146,7 +146,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
               class="collapsed"
               aria-expanded="false"
             >
-              <i class="fas fa-home"></i>
+              <i class="fas fa-dollar-sign"></i>
               <p>Booking</p>
               <span class="caret"></span>
             </a>
@@ -211,7 +211,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
                 class="collapsed"
                 aria-expanded="false"
               >
-                <i class="fas fa-home"></i>
+                <i class="fas fa-truck"></i>
                 <p>Purchase</p>
                 <span class="caret"></span>
               </a>
@@ -249,7 +249,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
               class="collapsed"
               aria-expanded="false"
             >
-              <i class="fas fa-home"></i>
+              <i class="fas fa-money-bill"></i>
               <p>Expense</p>
               <span class="caret"></span>
             </a>
@@ -281,28 +281,28 @@ $is_admin = ($user->user_type == "admin") ? true : false;
           </li>
           <li class="nav-item">
             <a href="index.php?r=item/index">
-              <i class="fas fa-home"></i>
+              <i class="fas fa-tshirt"></i>
               <p>Item Master</p>
 
             </a>
           </li>
           <li class="nav-item">
             <a href="index.php?r=vendor/index">
-              <i class="fas fa-home"></i>
+              <i class="fas fa-users"></i>
               <p>Vendor</p>
 
             </a>
           </li>
           <li class="nav-item">
             <a href="index.php?r=formula/calculate">
-              <i class="fas fa-home"></i>
+              <i class="fas fa-calculator"></i>
               <p>Run Split</p>
 
             </a>
           </li>
             <li class="nav-section">
                 <span class="sidebar-mini-icon">
-                  <i class="fa fa-ellipsis-h"></i>
+                  <i class="fa fa-file-archive"></i>
                 </span>
             <h4 class="text-section">Report</h4>
           </li>
@@ -340,7 +340,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
 
 <li class="nav-item">
               <a data-bs-toggle="collapse" href="#paymentreport-menu">
-                <i class="fas fa-layer-group"></i>
+                <i class="fas fa-wallet"></i>
                 <p>Payment Reports</p>
                 <span class="caret"></span>
               </a>
