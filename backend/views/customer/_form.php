@@ -46,7 +46,7 @@ use kartik\date\DatePicker;
             'wrapper' => 'col-sm-6',
         ]]]); ?>
 
-    <?= $form->field($model, 'name',['class'=>'form-control input-text'])->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'email_id')->textInput(['maxlength' => true]) ?>
 
@@ -58,7 +58,7 @@ use kartik\date\DatePicker;
 <label class="control-label col-sm-2 control-label" for="customermaster-name">Created  Date</label>
 <div class="col-sm-6">
 <!-- <input type="text" id="customermaster-name" class="form-control" name="CustomerMaster[name]" maxlength="150" aria-required="true"> -->
- <?php  $model['created_on']=($model['created_on'] !='')?Yii::$app->formatter->asDate($model['created_on'],'dd-MM-Y'):date('d-m-Y');
+ <?php /*  $model['created_on']=($model['created_on'] !='')?Yii::$app->formatter->asDate($model['created_on'],'dd-MM-Y'):date('d-m-Y');
 
                                 echo DatePicker::widget([
                                     'name' => 'CustomerMaster[created_on]',
@@ -73,7 +73,7 @@ use kartik\date\DatePicker;
                                         'autoclose'=>true,
                                         'format' => 'dd-mm-yyyy'
                                     ]
-                                ]); ?>
+                                ]); */ ?>
 
 </div>
 

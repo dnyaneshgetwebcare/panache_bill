@@ -15,6 +15,7 @@ class AppAsset extends AssetBundle
     /*Old Css*/
 
     'css/style.css',
+    'css/customize.css',
 
     /*new Css*/
     'kai-admin-assets/css/bootstrap.min.css',
