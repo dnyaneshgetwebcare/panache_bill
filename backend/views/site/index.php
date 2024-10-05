@@ -76,10 +76,10 @@ if ($is_admin) {  ?>
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-row">
-                        <div class="round round-lg align-self-center round-info"><i class="ti-wallet"></i></div>
+                        <div class="round round-lg d-flex align-items-center justify-content-center round-info"><i class="ti-wallet"></i></div>
                         <div class="m-l-10 align-self-center">
-                            <h3 class="m-b-0 font-light">₹ <?php echo (($booking_this_month['numb_booking'] > 0) ? number_format($booking_this_month['total']) : 0) ?></h3>
-                            <h5 class="text-muted m-b-0">Booking(<?= $booking_this_month['numb_booking'] ?>)</h5>
+                            <h5 class="m-b-0 ">₹ <?php echo (($booking_this_month['numb_booking'] > 0) ? number_format($booking_this_month['total']) : 0) ?></h5>
+                            <p class="text-muted m-b-0">Booking(<?= $booking_this_month['numb_booking'] ?>)</p>
                         </div>
                     </div>
                 </div>
@@ -91,10 +91,10 @@ if ($is_admin) {  ?>
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-row">
-                        <div class="round round-lg align-self-center round-warning"><i class="mdi mdi-cellphone-link"></i></div>
+                        <div class="round round-lg d-flex align-items-center justify-content-center round-warning"><i class="mdi mdi-cellphone-link"></i></div>
                         <div class="m-l-10 align-self-center">
-                            <h3 class="m-b-0 font-lgiht">₹ <?php echo (($payment_cash['total'] > 0) ? number_format($payment_cash['total']) : 0) ?></h3>
-                            <h5 class="text-muted m-b-0">Cash</h5>
+                            <h5 class="m-b-0">₹ <?php echo (($payment_cash['total'] > 0) ? number_format($payment_cash['total']) : 0) ?></h5>
+                            <p class="text-muted m-b-0">Cash</p>
                         </div>
                     </div>
                 </div>
@@ -106,10 +106,10 @@ if ($is_admin) {  ?>
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-row">
-                        <div class="round round-lg align-self-center round-primary"><i class="mdi mdi-cart-outline"></i></div>
+                        <div class="round round-lg d-flex align-items-center justify-content-center round-primary"><i class="mdi mdi-cart-outline"></i></div>
                         <div class="m-l-10 align-self-center">
-                            <h3 class="m-b-0 font-lgiht">₹ <?php echo (($deposite_amt['total'] > 0) ? number_format($deposite_amt['total']) : 0) ?></h3>
-                            <h5 class="text-muted m-b-0">Deposite</h5>
+                            <h5 class="m-b-0">₹ <?php echo (($deposite_amt['total'] > 0) ? number_format($deposite_amt['total']) : 0) ?></h5>
+                            <p class="text-muted m-b-0">Deposite</p>
                         </div>
                     </div>
                 </div>
@@ -121,10 +121,10 @@ if ($is_admin) {  ?>
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-row">
-                        <div class="round round-lg align-self-center round-danger"><i class="mdi mdi-bullseye"></i></div>
+                        <div class="round round-lg d-flex align-items-center justify-content-center round-danger"><i class="mdi mdi-bullseye"></i></div>
                         <div class="m-l-10 align-self-center">
-                            <h3 class="m-b-0 font-lgiht">₹ <?php echo (($expense['total'] > 0) ? number_format($expense['total']) : 0) ?></h3>
-                            <h5 class="text-muted m-b-0">Ad. Expense</h5>
+                            <h5 class="m-b-0">₹ <?php echo (($expense['total'] > 0) ? number_format($expense['total']) : 0) ?></h5>
+                            <p class="text-muted m-b-0">Ad. Expense</p>
                         </div>
                     </div>
                 </div>
@@ -136,10 +136,10 @@ if ($is_admin) {  ?>
 
 <div class="row">
     <div class="col-lg-4 col-md-3">
-        <div class="card client-card">
-            <div class="card-header bg-danger" style="border-radius: 8px 8px 0 0;">
-                <h4 class="text-white card-title">Upcoming Deliveries </h4>
-                <h6 class="card-subtitle text-white op-5" style="margin-bottom: 0;">Next 3days</h6>
+        <div class="card card-round">
+            <div class="card-header ">
+                <h4 class="card-title">Upcoming Deliveries </h4>
+                <h6 class="card-subtitle op-5" style="margin-bottom: 0;">Next 3days</h6>
             </div>
             <!-- <div class="card-body bg-danger">
         <h4 class="text-white card-title">Upcoming Deliveries </h4>
@@ -155,10 +155,10 @@ if ($is_admin) {  ?>
                                 <!-- Message -->
                                 <li class="list-group-item px-3">
                                     <a href="index.php?r=booking/delivery&id=<?= $model_delivary->booking_id ?>">
-                                        <div class="user-img"> <span class="round"><?= date_format(date_create($model_delivary->pickup_date), "d/M") ?></span>
+                                        <div class="user-img" style="width: 56px"> <span class="round"><?= date_format(date_create($model_delivary->pickup_date), "d/M") ?></span>
                                         </div>
                                         <div class="mail-contnet">
-                                            <h5><?= $model_delivary->customer->name ?></h5> <span class="mail-desc"><?= $model_delivary->customer->contact_nos ?></span>
+                                            <h5 style="font-size: 16px"><?= $model_delivary->customer->name ?></h5> <span class="mail-desc" style="font-size: 12px"><?= $model_delivary->customer->contact_nos ?></span>
                                         </div>
                                     </a>
                                 </li>
@@ -189,10 +189,10 @@ if ($is_admin) {  ?>
         </div>
     </div>
     <div class="col-lg-4 col-md-3">
-        <div class="card client-card">
-            <div class="card-header bg-danger" style="border-radius: 8px 8px 0 0;">
-                <h4 class="text-white card-title">Upcoming Returns </h4>
-                <h6 class="card-subtitle text-white op-5" style="margin-bottom: 0;">Next 3days</h6>
+        <div class="card card-round">
+            <div class="card-header">
+                <h4 class="card-title">Upcoming Returns </h4>
+                <h6 class="card-subtitle op-5" style="margin-bottom: 0;">Next 3days</h6>
             </div>
             <div class="card-body client-card-body">
                 <div class="message-box contact-box">
@@ -204,9 +204,9 @@ if ($is_admin) {  ?>
                                 <!-- Message -->
                                 <li class="list-group-item px-3">
                                     <a href="index.php?r=booking/return-item&id=<?= $model_return->booking_id ?>">
-                                        <div class="user-img"> <span class="round"><?= date_format(date_create($model_return->return_date), "d/M") ?></span> </div>
+                                        <div class="user-img" style="width: 56px"> <span class="round"><?= date_format(date_create($model_return->return_date), "d/M") ?></span> </div>
                                         <div class="mail-contnet">
-                                            <h5><?= $model_return->customer->name ?></h5> <span class="mail-desc"><?= $model_return->customer->contact_nos ?></span>
+                                            <h5 style="font-size: 16px"><?= $model_return->customer->name ?></h5> <span class="mail-desc" style="font-size: 12px"><?= $model_return->customer->contact_nos ?></span>
                                         </div>
                                     </a>
                                 </li>
@@ -227,10 +227,10 @@ if ($is_admin) {  ?>
         </div>
     </div>
     <div class="col-lg-4 col-md-3">
-        <div class="card client-card">
-            <div class="card-header bg-danger" style="border-radius: 8px 8px 0 0;">
-                <h4 class="text-white card-title">Return Deposite Pending </h4>
-                <h6 class="card-subtitle text-white op-5" style="margin-bottom: 0;">Open Order</h6>
+        <div class="card card-round">
+            <div class="card-header">
+                <h4 class="card-title">Return Deposite Pending </h4>
+                <h6 class="card-subtitle op-5" style="margin-bottom: 0;">Open Order</h6>
             </div>
             <div class="card-body client-card-body">
                 <div class="message-box contact-box">
@@ -242,9 +242,9 @@ if ($is_admin) {  ?>
                                 <!-- Message -->
                                 <li class="list-group-item px-3">
                                     <a href="index.php?r=booking/update&id=<?= $model_return->booking_id ?>">
-                                        <div class="user-img"> <span class="round"><?= date_format(date_create($model_return->return_date), "d/M") ?></span> </div>
+                                        <div class="user-img" style="width: 56px"> <span class="round"><?= date_format(date_create($model_return->return_date), "d/M") ?></span> </div>
                                         <div class="mail-contnet">
-                                            <h5><?= $model_return->customer->name ?></h5> <span class="mail-desc"><?= $model_return->customer->contact_nos ?></span>
+                                            <h5 style="font-size: 16px"><?= $model_return->customer->name ?></h5> <span class="mail-desc" style="font-size: 12px"><?= $model_return->customer->contact_nos ?></span>
                                         </div>
                                     </a>
                                 </li>
