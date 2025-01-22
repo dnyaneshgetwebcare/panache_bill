@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
     'kai-admin-assets/css/bootstrap.min.css',
     'kai-admin-assets/css/plugins.min.css',
     'kai-admin-assets/css/kaiadmin.min.css',
+    'assets/plugins/icheck/skins/all.css',
     //'kai-admin-assets/css/demo.css'
   ];
 
@@ -41,6 +42,8 @@ class AppAsset extends AssetBundle
     'kai-admin-assets/js/plugin/jsvectormap/world.js',
     'kai-admin-assets/js/plugin/sweetalert/sweetalert.min.js',
     'kai-admin-assets/js/kaiadmin.min.js',
+    'assets/plugins/icheck/icheck.min.js',
+     'assets/plugins/icheck/icheck.init.js',
 
     'kai-admin-assets/js/plugin/datepicker/bootstrap-datetimepicker.min.js',
     'kai-admin-assets/js/plugin/select2/select2.full.min.js',

@@ -72,7 +72,7 @@ $this->title = 'Update Booking: #' . $model->booking_id;
             <div class="d-flex m-t-10 justify-content-end">
 
                 <div class="btn-group" style="margin-right: 5px;">
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                    <button type="button" class="btn btn-primary btn-border dropdown-toggle" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                         Action
                     </button>
@@ -90,12 +90,12 @@ $this->title = 'Update Booking: #' . $model->booking_id;
                     </div>
                 </div>
                 <?php //echo Html::a('Create New Booking', ['create'], ['class' => 'btn btn-success pull-right']) ?>
-                <button type="button" class="btn btn-danger btn-square" title="Send Invoice"
-                        onclick="sendwhatsapp('<?= $model->booking_id; ?>')"><i class="fa fa-whatsapp-square "></i></button>
-                <button type="button" class="btn btn-danger btn-square" title="Send Invoice"
-                        onclick="printInvoiceSend()"><i class="fa fa-send-o "></i></button>
-                <button type="button" class="btn btn-danger btn-print" title="Send Invoice"
-                        onclick="printInvoice('<?= $model->encryted_id ?>')"><i class="fa fa-print"></i></button>
+                <button type="button" class="btn btn-secondary btn-border" title="Send Invoice"
+                        onclick="sendwhatsapp('<?= $model->booking_id; ?>')"><i class="fab fa-whatsapp"></i></button>
+                <button type="button" class="btn btn-secondary btn-border" title="Send Invoice"
+                        onclick="printInvoiceSend()"><i class="far fa-paper-plane"></i></button>
+                <button type="button" class="btn btn-secondary btn-border" title="Send Invoice"
+                        onclick="printInvoice('<?= $model->encryted_id ?>')"><i class="fas fa-print"></i></button>
             </div>
         </div>
     </div>

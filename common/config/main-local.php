@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=billing_application',
+            'dsn' => 'mysql:host=localhost;dbname=soyara_rental',
             'username' => 'root',
             //'password' => 'password',
             'password' => '',
