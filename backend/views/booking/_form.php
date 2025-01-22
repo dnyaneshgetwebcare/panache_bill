@@ -746,7 +746,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                 <!--                </ul>-->
 
                 <div class="tab-content master-main-tab"> <!-- General Tab-->
-                    <div class="tab-pane fade show active in" id="component_pills" role="tabpanel"
+                    <div class="tab-pane  show active in" id="component_pills" role="tabpanel"
                          aria-labelledby="pills-items-tab">
                         <div class="row ">
                             <div class="col-lg-12" id="sales_items_tab" style="margin-top: 10px">
@@ -764,7 +764,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                         'description',
                                     ],
                                 ]); ?>
-                                <table class="table table-hover ">
+                                <table class="table table-hover table-bordered table-head-bg-info table-bordered-bd-info">
                                     <thead>
                                     <tr>
                                         <th style="width: 3%">#</th>
@@ -1021,7 +1021,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                         </div>
 
                     </div>
-                    <div class="tab-pane fade" id="operation-pills" role="tabpanel" aria-labelledby="pills-payment-tab">
+                    <div class="tab-pane " id="operation-pills" role="tabpanel" aria-labelledby="pills-payment-tab">
 
                         <div class="row  col-lg-12" style="padding-left: 0px;">
 
@@ -1353,7 +1353,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                         </div>
 
                     </div>
-                    <div class="tab-pane fade" id="measure-pills" role="tabpanel"
+                    <div class="tab-pane " id="measure-pills" role="tabpanel"
                          aria-labelledby="pills-measurement-tab" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div class="row right_section">
@@ -2469,7 +2469,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
     }
 
     function printInvoice(id) {
-        window.open("http://billing.panachewears.in/index.php?r=booking/invoice-view&id=" + id, "_blank");
+        window.open("http://billing.thesoyara.com/index.php?r=booking/invoice-view&id=" + id, "_blank");
     }
 
     function addPaymentitem() {

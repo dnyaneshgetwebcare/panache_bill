@@ -26,7 +26,7 @@ use yii\helpers\CHtml;
              <span><img src="<?php echo 'img/logo.png' ?>" style="width: 150px"></span>
              <?php //} ?>
           <div> 
-           <!--  <span style="font-size:24px;color: #272727 !important; font-family:'Arial Unicode MS, Sans-serif'">Panache Wears</span> -->
+           <!--  <span style="font-size:24px;color: #272727 !important; font-family:'Arial Unicode MS, Sans-serif'">Soyara Rental Couture</span> -->
            </div>
          </div>
    

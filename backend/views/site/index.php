@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Panache Store';
+$this->title = 'Soyara Rental Couture';
 ?>
 <style type="text/css">
     th,

@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
-    <title>Panache Rental Boutique </title>
+    <title>Soyara Rental Couture </title>
     <!-- Bootstrap Core CSS -->
     <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->

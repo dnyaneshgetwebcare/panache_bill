@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="booking-header-create">
     <!--   <h3><?= Html::encode($this->title) ?></h3> -->
-    <div class="row page-titles">
+    <!--<div class="row page-titles">
         <div class="col-md-5 col-8 align-self-center">
             <h3 class="text-themecolor m-b-0 m-t-0">Booking</h3>
             <ol class="breadcrumb">
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <li class="breadcrumb-item active">Create Booking</li>
             </ol>
         </div>
-    </div>
+    </div>-->
   <?= $this->render('_form', [
     'model' => $model,
     'booking_items' => $booking_items,

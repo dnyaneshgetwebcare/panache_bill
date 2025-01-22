@@ -102,7 +102,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
       <div class="logo-header" data-background-color="dark">
         <a href="index.php" class="logo">
           <img
-            src="assets/images/logo3.png"
+            src="assets/images/logo.png"
             alt="navbar brand"
             class="navbar-brand"
             height="20"
@@ -455,7 +455,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
             <div class="logo-header" data-background-color="dark">
               <a href="index.html" class="logo">
                 <img
-                  src="assets/images/logo3.png"
+                  src="assets/images/logo.png"
                   alt="navbar brand"
                   class="navbar-brand"
                   height="20"

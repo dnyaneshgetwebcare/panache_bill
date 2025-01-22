@@ -11,10 +11,10 @@
         <img src="img/logo.png">
       </div>
       <div id="company">
-        <h2 class="name">Panache Rental Boutique</h2>
+        <h2 class="name">Soyara Rental Couture</h2>
         <div>C-52, Navshantiniketan Hsg.Soc., Akurdi, Pune</div>
         <div>+91 84446287792</div>
-        <div><a href="www.panachewears.in">www.panachewears.in</a></div>
+        <div><a href="www.thesoyara.com">www.thesoyara.com</a></div>
       </div>
       </div>
     </header>
@@ -107,17 +107,17 @@
           <div><b>Terms & Conditions :-</b></div>
         <div class="notice"><br>
 By making payment. you agree to the following Terms and Conditions :-<br>
-            <ul><li>All dress shall remain the property of panache and must be returned upon demand.</li>
-            <li>Renter will return/ship dress(es) back to Panache with No damage. Any damage to any rental dress(es) will be charged to the Renter. Damage fees will be  held from any deposit.</li>
-            <li>Security Deposit :- Panache dress rentals further stipulates that a security deposit equal to the amount of the dress. And will be return in next 24 working hours through online process.</li>
+            <ul><li>All dress shall remain the property of Soyara and must be returned upon demand.</li>
+            <li>Renter will return/ship dress(es) back to Soyara with No damage. Any damage to any rental dress(es) will be charged to the Renter. Damage fees will be  held from any deposit.</li>
+            <li>Security Deposit :- Soyara dress rentals further stipulates that a security deposit equal to the amount of the dress. And will be return in next 24 working hours through online process.</li>
             <li>ID proof :-  ID proof with address is mandatory for booking the outfit/accesories.</li>
             <li>Appointment :- Prior Appointment is mandatory.Kindly follow office timings 11am to 8pm for pickup and return. Also  make confirmation call for availability of outfit/accesories the day you want to visit.</li>
                 <li>Dress(es) will not be altered by the Renter. Do not dry clean the dress for any reason .Professional cleaning is included in the rental price and no additional cleaning charge will be assessed unless the dress is returned damaged.</li>
-                <li>.Booking - Panache will take 20% of rental amount as booking amount for online/offline bookings which is non-refundable if cancelled.</li>
+                <li>.Booking - Soyara will take 20% of rental amount as booking amount for online/offline bookings which is non-refundable if cancelled.</li>
                 <li>Fixed Rent :- Kindly Do not argue with staff members for price matters. Rent and Deposit amount is fixed.</li>
                 <li>Safety :- In terms of cleanliness regular drycleaning is placed, Also we have limited trails allowed for maintaining purpose.</li>
                 <li>Renter is responsible for the safe return of the dress(es). Renter is responsible for any theft/loss of dress(es).Bill receipt is mandatory while returning the dress(es).</li>
-            <li>Check your outfits/ accesories at the time of pickup. Panache will not responsible for any alterations/misplaced/finishing etc once handover to the client after his/her confirmation about cross- check.</li>
+            <li>Check your outfits/ accesories at the time of pickup. Soyara will not responsible for any alterations/misplaced/finishing etc once handover to the client after his/her confirmation about cross- check.</li>
                 <li>Late fees - Dresses/accesories if not returned on or before the specified date 20% of the total rent will be charged for delayed return per day basis. Amount will immediately deducted from any deposit held.
 
                 </li>
