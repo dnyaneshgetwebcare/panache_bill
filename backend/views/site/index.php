@@ -72,61 +72,109 @@ $this->title = 'Soyara Rental Couture';
 if ($is_admin) {  ?>
     <div class="row">
         <!-- Column -->
+
+
         <div class="col-lg-3 col-md-6">
-            <div class="card">
+            <div class="card card-stats card-success card-round" style="background-color: #68b96a !important">
                 <div class="card-body">
-                    <div class="d-flex flex-row">
+
+                  <div class="row">
+										<div class="col-5">
+											<div class="icon-big text-center">
+												<i class="ti-wallet"></i>
+											</div>
+										</div>
+										<div class="col-7 col-stats">
+											<div class="numbers">
+												<p class="card-category">Booking(<?= $booking_this_month['numb_booking'] ?>)</p>
+												<h4 class="card-title">₹ <?php echo (($booking_this_month['numb_booking'] > 0) ? number_format($booking_this_month['total']) : 0) ?></h4>
+											</div>
+										</div>
+									</div>
+
+
+                  <!--  <div class="d-flex flex-row">
                         <div class="round round-lg d-flex align-items-center justify-content-center round-info"><i class="ti-wallet"></i></div>
                         <div class="m-l-10 align-self-center">
-                            <h5 class="m-b-0 ">₹ <?php echo (($booking_this_month['numb_booking'] > 0) ? number_format($booking_this_month['total']) : 0) ?></h5>
-                            <p class="text-muted m-b-0">Booking(<?= $booking_this_month['numb_booking'] ?>)</p>
+                            <h5 class="m-b-0 ">₹ <?php /*echo (($booking_this_month['numb_booking'] > 0) ? number_format($booking_this_month['total']) : 0) */?></h5>
+                            <p class="text-muted m-b-0">Booking(<?php /*= $booking_this_month['numb_booking'] */?>)</p>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
         <!-- Column -->
         <!-- Column -->
         <div class="col-lg-3 col-md-6">
-            <div class="card">
+            <div class="card card-stats card-secondary card-round">
                 <div class="card-body">
-                    <div class="d-flex flex-row">
+                  <div class="row">
+										<div class="col-5">
+											<div class="icon-big text-center">
+												<i class="ti-money"></i>
+											</div>
+										</div>
+										<div class="col-7 col-stats">
+											<div class="numbers">
+												<p class="card-category">Cash</p>
+												<h4 class="card-title">₹ <?php echo (($payment_cash['total'] > 0) ? number_format($payment_cash['total']) : 0) ?></h4>
+											</div>
+										</div>
+									</div>
+
+
+                    <!--<div class="d-flex flex-row">
                         <div class="round round-lg d-flex align-items-center justify-content-center round-warning"><i class="mdi mdi-cellphone-link"></i></div>
                         <div class="m-l-10 align-self-center">
-                            <h5 class="m-b-0">₹ <?php echo (($payment_cash['total'] > 0) ? number_format($payment_cash['total']) : 0) ?></h5>
+                            <h5 class="m-b-0">₹ <?php /*echo (($payment_cash['total'] > 0) ? number_format($payment_cash['total']) : 0) */?></h5>
                             <p class="text-muted m-b-0">Cash</p>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
         <!-- Column -->
         <!-- Column -->
         <div class="col-lg-3 col-md-6">
-            <div class="card">
+            <div class="card card-stats card-warning card-round">
                 <div class="card-body">
-                    <div class="d-flex flex-row">
-                        <div class="round round-lg d-flex align-items-center justify-content-center round-primary"><i class="mdi mdi-cart-outline"></i></div>
-                        <div class="m-l-10 align-self-center">
-                            <h5 class="m-b-0">₹ <?php echo (($deposite_amt['total'] > 0) ? number_format($deposite_amt['total']) : 0) ?></h5>
-                            <p class="text-muted m-b-0">Deposite</p>
-                        </div>
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="icon-big text-center">
+                        <i class="ti-briefcase"></i>
+                      </div>
                     </div>
+                    <div class="col-7 col-stats">
+                      <div class="numbers">
+                        <p class="card-category">Deposite</p>
+                        <h4 class="card-title">
+                          ₹ <?php echo(($deposite_amt['total'] > 0) ? number_format($deposite_amt['total']) : 0) ?></h4>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
         <!-- Column -->
         <!-- Column -->
         <div class="col-lg-3 col-md-6">
-            <div class="card">
+            <div class="card  card-stats card-danger card-round">
                 <div class="card-body">
-                    <div class="d-flex flex-row">
-                        <div class="round round-lg d-flex align-items-center justify-content-center round-danger"><i class="mdi mdi-bullseye"></i></div>
-                        <div class="m-l-10 align-self-center">
-                            <h5 class="m-b-0">₹ <?php echo (($expense['total'] > 0) ? number_format($expense['total']) : 0) ?></h5>
-                            <p class="text-muted m-b-0">Ad. Expense</p>
-                        </div>
-                    </div>
+
+                  <div class="row">
+										<div class="col-5">
+											<div class="icon-big text-center">
+												<i class="ti-agenda"></i>
+											</div>
+										</div>
+										<div class="col-7 col-stats">
+											<div class="numbers">
+												<p class="card-category">Ad. Expense</p>
+												<h4 class="card-title">₹ <?php echo (($expense['total'] > 0) ? number_format($expense['total']) : 0) ?></h4>
+											</div>
+										</div>
+									</div>
+
                 </div>
             </div>
         </div>
@@ -136,10 +184,10 @@ if ($is_admin) {  ?>
 
 <div class="row">
     <div class="col-lg-4 col-md-3">
-        <div class="card card-round">
-            <div class="card-header ">
-                <h4 class="card-title">Upcoming Deliveries </h4>
-                <h6 class="card-subtitle op-5" style="margin-bottom: 0;">Next 3days</h6>
+        <div class="card card-round card-outline-info card-annoucement">
+            <div class="card-header">
+                <h4 class="card-title" style="color: white">Upcoming Deliveries </h4>
+                <h6 class="card-subtitle op-5" style="margin-bottom: 0; color: white">Next 3days</h6>
             </div>
             <!-- <div class="card-body bg-danger">
         <h4 class="text-white card-title">Upcoming Deliveries </h4>
@@ -189,10 +237,10 @@ if ($is_admin) {  ?>
         </div>
     </div>
     <div class="col-lg-4 col-md-3">
-        <div class="card card-round">
+        <div class="card card-round card-outline-info">
             <div class="card-header">
-                <h4 class="card-title">Upcoming Returns </h4>
-                <h6 class="card-subtitle op-5" style="margin-bottom: 0;">Next 3days</h6>
+                <h4 class="card-title" style="color: white">Upcoming Returns </h4>
+                <h6 class="card-subtitle op-5" style="margin-bottom: 0; color: white">Next 3days</h6>
             </div>
             <div class="card-body client-card-body">
                 <div class="message-box contact-box">
@@ -227,10 +275,10 @@ if ($is_admin) {  ?>
         </div>
     </div>
     <div class="col-lg-4 col-md-3">
-        <div class="card card-round">
+        <div class="card card-round card-outline-info">
             <div class="card-header">
-                <h4 class="card-title">Return Deposite Pending </h4>
-                <h6 class="card-subtitle op-5" style="margin-bottom: 0;">Open Order</h6>
+                <h4 class="card-title" style="color: white">Return Deposite Pending </h4>
+                <h6 class="card-subtitle op-5" style="margin-bottom: 0; color: white">Open Order</h6>
             </div>
             <div class="card-body client-card-body">
                 <div class="message-box contact-box">
@@ -277,7 +325,7 @@ if ($is_admin) {  ?>
                 </select>-->
                 <h4 class="card-title">Monthly Summary(<?= date('Y'); ?>)</h4>
                 <div class="table-responsive m-t-20">
-                    <table class="table stylish-table full-color-table full-red-table hover-table">
+                    <table class="table stylish-table full-color-table full-warning-table hover-table">
                         <thead>
                             <tr>
                                 <?php

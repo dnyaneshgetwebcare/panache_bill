@@ -14,14 +14,17 @@ class AppAsset extends AssetBundle
   public $css = [
     /*Old Css*/
 
-    'css/style.css',
-    'css/customize.css',
+
 
     /*new Css*/
     'kai-admin-assets/css/bootstrap.min.css',
     'kai-admin-assets/css/plugins.min.css',
     'kai-admin-assets/css/kaiadmin.min.css',
     'assets/plugins/icheck/skins/all.css',
+    'css/style.css',
+    'css/customize.css',
+    'assets/plugins/dropify/dist/css/dropify.min.css',
+    'assets/plugins/Magnific-Popup-master/dist/magnific-popup.css',
     //'kai-admin-assets/css/demo.css'
   ];
 
@@ -45,9 +48,11 @@ class AppAsset extends AssetBundle
     'assets/plugins/icheck/icheck.min.js',
      'assets/plugins/icheck/icheck.init.js',
 
+
     'kai-admin-assets/js/plugin/datepicker/bootstrap-datetimepicker.min.js',
     'kai-admin-assets/js/plugin/select2/select2.full.min.js',
     'kai-admin-assets/js/plugin/bootstrap-tagsinput/bootstrap-tagsinput.min.js',
+    'assets/plugins/dropify/dist/js/dropify.min.js',
     //'kai-admin-assets/js/demo.js',
 
   ];

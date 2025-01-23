@@ -89,6 +89,9 @@ $is_admin = ($user->user_type == "admin") ? true : false;
     .modal-content {
         margin-top: 200px;
     }
+    #pModal.fade.show{
+        opacity: 1;
+    }
 </style>
 <?php $this->beginBody() ?>
 

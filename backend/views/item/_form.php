@@ -100,7 +100,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
 
     </div>
     <div class="tab-content master-main-tab"> <!-- General Tab-->
-      <div class="tab-pane fade active in" id="component_pills">
+      <div class="tab-pane active in" id="component_pills">
         <div class="row">
           <div class="col-12">
             <div class="card" style="padding-right: 10px">
@@ -200,7 +200,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
                             'options' => $saveOptions,
                             'displayOptions' => $dispOptions,
                             'saveInputContainer' => $saveCont
-                          ]);// $form->field($model, 'purchase_amount')->textInput(['maxlength' => true])        ?>
+                          ]);// $form->field($model, 'purchase_amount')->textInput(['maxlength' => true])          ?>
 
 
                         </div>
@@ -427,10 +427,10 @@ $is_admin = ($user->user_type == "admin") ? true : false;
                     <hr>
                     <input type="hidden" value="0" name="delete_status" id="delete_status"/>
                     <div class="form-actions">
-                      <?= Html::submitButton('Save', ['class' => 'btn btn-success', 'id' => 'submit_item']) ?>
-                      <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-inverse ']) ?>
+                      <?= Html::submitButton('Save', ['class' => 'btn btn-secondary', 'id' => 'submit_item']) ?>
+                      <?= Html::a('Cancel', ['index'], ['class' => 'btn btn-warning']) ?>
                       <?php if ($model->id != "") {
-                        echo Html::a('Create Item', ['create'], ['class' => 'btn btn-info']);
+                        echo Html::a('<i class="fas fa-plus"></i>Create Item', ['create'], ['class' => 'btn btn-info']);
                       } ?>
                     </div>
 
@@ -471,7 +471,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
           </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="operation-pills">
+      <div class="tab-pane" id="operation-pills">
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
@@ -482,7 +482,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
                       'img_list' => $img_list
                     ]) ?>
                   </div>
-                  <button type="button" class="btn btn-primary" onclick="addNew()">Add new
+                  <button type="button" class="btn btn-primary" onclick="addNew()"><i class="fas fa-plus"></i> Add new
                   </button>
                 </div>
                 <div class="form-group" id="imagers">
@@ -500,7 +500,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
 </div>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>-->
 <script type="application/javascript">
 
 
