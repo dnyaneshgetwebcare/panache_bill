@@ -528,7 +528,7 @@ $is_admin = ($user->user_type == "admin") ? true : false;
                 </form>
               </ul>
             </li>
-            <li class="nav-item topbar-icon dropdown hidden-caret">
+            <!--<li class="nav-item topbar-icon dropdown hidden-caret">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -774,14 +774,14 @@ $is_admin = ($user->user_type == "admin") ? true : false;
                   </div>
                 </div>
               </div>
-            </li>
+            </li>-->
 
             <li class="nav-item topbar-user dropdown hidden-caret">
 
 
                 <span class="profile-username">
                       <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Hizrian</span>
+                      <span class="fw-bold"><?= Yii::$app->user->identity->username;;  ?></span>
 
                     </span>
 
