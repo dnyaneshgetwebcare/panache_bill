@@ -69,7 +69,15 @@ $is_admin = ($user->user_type == "admin") ? true : false;
         width: 100%;
         height: 100%;
     }
-
+    .table>tbody>tr>td{
+        padding: 5px !important;
+    }
+    .page-inner {
+        padding: 10px !important;
+    }
+    .table thead th{
+        padding: 5px !important;
+    }
     .overlay {
         z-index: 1100;
         background: rgba(0, 0, 0, 0.3);
