@@ -312,7 +312,7 @@ a:focus, a {
 	border-top: 2px solid #12151C;
 }
 .invoice-table td{
-	padding: 20px 0;
+	padding: 10px 0;
 }
 .invo-tb-body .invo-tb-row {
 	border-bottom: 1px solid #505050;
@@ -525,13 +525,17 @@ img.txt-img {
 .qty-wid {
 	width: 10%;
 }
+
+.invo-tb-header {
+	background-color: #bfbfbf;
+}
 .tax-row.bottom-border, .disc-row.bottom-border {
 	border-bottom: 2px solid #12151C;
 }
 .payment-table-wrap {
-	padding: 10px 20px;
+
 	background: #F5F5F5;
-	margin-top: 35px;
+	margin-top: 5px;
 	position: relative;
 	z-index: 10;
 }
@@ -553,7 +557,7 @@ table.invo-payment-table.invo-payment-table {
 	border-top: 2px solid #12151C;
 }
 .payment-desc.payment-desc {
-	padding: 20px 0 0;
+    padding: 10px 5px 10px 10px;
 }
 .wid-40-hotel{
 	width: 135px;
@@ -1249,6 +1253,7 @@ table.invo-payment-table.invo-payment-table {
 .flight-booking-wrap .payemnt-wid, 
 .date-wid, .trans-wid, .amount-wid{
 	width: 25%;
+	padding-left: 10px;
 }
 .flight-detail-table .invoice-table thead th {
 	padding: 10px 0;
@@ -1695,7 +1700,7 @@ table.invo-payment-table.invo-payment-table {
 	background: #d2afaf;
 }
 .rental-table tbody tr td:nth-child(2) {
-	padding-left: 38px;
+	padding-left: 25px;
 }
 .rental-rule{
 	padding-bottom: 40px;
