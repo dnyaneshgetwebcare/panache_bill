@@ -64,7 +64,7 @@ class BookingController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'customer-autocomplete', 'item-details-popup', 'item-details-autocomplete', 'item-booking-details', 'customer-details', 'delivery', 'delivery-item', 'return-item', 'index-payment', 'index-sales', 'item-check-autocomplete', 'item-booking-details', 'item-booking-check', 'cancel-delivery', 'pending-deposite', 'get-whatsapp', 'carry-frd'],
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'customer-autocomplete', 'item-details-popup', 'item-details-autocomplete', 'item-booking-details', 'customer-details', 'delivery', 'delivery-item', 'return-item', 'index-payment', 'index-sales', 'item-check-autocomplete', 'item-booking-details', 'item-booking-check', 'cancel-delivery', 'pending-deposite', 'get-whatsapp', 'carry-frd', 'select-item'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -969,6 +969,18 @@ class BookingController extends Controller
 
 
         return true;
+    }
+
+    public function actionSelectItem()
+    {
+      $item_type = TypeMaster::find()->all();
+      $item_category_list = CategoryMaster::find()->all();
+      $item_master = ItemMaster::find()->limit(20)->asArray()->all();
+      $item_master = ArrayHelper::index($item_master, null, [function ($element) {
+    return $element['category_id'];
+}, 'type_id']);
+
+      return $this->render('item_select', ['item_type' => $item_type, 'item_category_list' => $item_category_list, 'item_master'=>$item_master]);
     }
 
     public function CustomerSave($customer = '', $created_on = '')
