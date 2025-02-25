@@ -216,12 +216,15 @@ class BookingController extends Controller
         $searchModel->order_status = 'Open';
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $date = date('m-Y');
+        $user = Yii::$app->user->identity;
+        $is_admin = ($user->user_type == "admin") ? true : false;
         $booking_header_summmary = BookingHeader::find()->select(['sum(net_value) as total_rent', 'sum((paid_amount-net_value -refunded)) as total_pending', 'count(*) as number_invoice', 'sum(paid_amount) total_paid', 'sum(deposite_amount) total_deposite_amount', 'sum(net_value) total_net_value', 'sum(extra_amount) total_extra_amount'])->where(['order_status' => array('Open', 'Closed', 'Cancelled')])->andWhere('DATE_FORMAT(pickup_date, "%m-%Y") = "' . $date . '"')->createCommand()->queryOne();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'booking_header_summmary' => $booking_header_summmary,
             'title' => "Return Deposte Pending",
+            'is_admin'=> $is_admin
         ]);
     }
 
