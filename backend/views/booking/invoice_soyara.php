@@ -151,6 +151,7 @@
               $grand_deposite = 0;
               $grand_rent = 0;
               $grand_discount = 0;
+              $extra_amount = $model->extra_amount;
 
               foreach ($item as $key => $data) {
                 $grand_total += $data->net_value;
@@ -211,6 +212,13 @@
                   <td class="font-md color-light-black ">Total Deposit:</td>
                   <td class="font-md-grey color-grey text-right pr-10">₹ <?= number_format($grand_deposite, 2) ?></td>
                 </tr>
+                 <?php if($extra_amount!=0 ){  ?>
+
+                     <tr>
+                         <td class="font-md color-light-black  ">Extra/Other Amt.</td>
+                         <td class="font-md-grey color-grey text-right pr-10">₹ <?= number_format($extra_amount, 2) ?></td>
+                     </tr>
+                 <?php } ?>
 
                 <tr class="invo-grand-total">
                   <td class="color-green-rental  font-18-700 pt-10">Grand Total:</td>
