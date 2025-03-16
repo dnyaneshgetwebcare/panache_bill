@@ -1,10 +1,14 @@
 <?php
 namespace frontend\controllers;
 
+use backend\models\BookingItem;
+use backend\models\CustomerMaster;
+use backend\models\ItemMaster;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\helpers\ArrayHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -113,6 +117,10 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+  public function actionItemList()
+  {
+
+    }
     /**
      * Displays contact page.
      *
@@ -143,7 +151,12 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+      $items = [92, 20, 25 ,15 , 30];
+      $itemmaster = ItemMaster::find()->where(['id' => $items])->asArray()->all();
+      $booking_items = BookingItem::find()->select(['booking_header.booking_date', 'booking_header.pickup_date', 'booking_header.return_date', 'booking_header.customer_id', 'booking_header.order_status',	'product_id', 'customer_master.name as customer_name'])->leftJoin('booking_header','booking_header.booking_id = booking_item.booking_id')->leftJoin('customer_master','booking_header.customer_id = customer_master.id')->where(['product_id'=>$items])->createCommand()->queryAll();
+      $booking_details = ArrayHelper::index($booking_items,null,'product_id');
+
+        return $this->render('about',['item_master' =>$itemmaster, 'booking_details'=> $booking_details]);
     }
 
     /**
