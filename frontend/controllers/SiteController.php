@@ -5,6 +5,8 @@ namespace frontend\controllers;
 use backend\models\BookingItem;
 use backend\models\CustomerMaster;
 use backend\models\ItemMaster;
+use backend\models\VendItemMaster;
+use backend\models\VendorMaster;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -153,13 +155,23 @@ class SiteController extends Controller
    */
   public function actionAbout()
   {
-    $items = [92, 20, 25, 15, 30];
+      /*ALTER TABLE `booking_item` ADD `vendor_visiblity` INT(1) NOT NULL DEFAULT '1' AFTER `payment_status`;
+      ALTER TABLE `vendor_master` CHANGE `group_id` `group_id` ENUM('None','Supplier','Dry Cleaning','Alteration','Commission') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+      ALTER TABLE `vendor_master` ADD `encryption_id` VARCHAR(50) NULL AFTER `status`
+      CREATE TABLE `soyara_rental`.`vend_item_master` (`id` INT(1) NOT NULL AUTO_INCREMENT , `item_id` INT(1) NOT NULL , `vendor_id` INT(1) NOT NULL , `status` ENUM('ACTIVE','DEACTIVATE') NOT NULL DEFAULT 'ACTIVE' , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+      ALTER TABLE `vend_item_master` ADD FOREIGN KEY (`vendor_id`) REFERENCES `vendor_master`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT; ALTER TABLE `vend_item_master` ADD FOREIGN KEY (`item_id`) REFERENCES `item_master`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+      */
+      $encryption = $_GET['encryption_id'];
+      $vendor_id = VendorMaster::find()->where(['encryption_id' => $encryption])->one()->id;
+    $items = VendItemMaster::find()->select('item_id')->where(['vendor_id' => $vendor_id])->createCommand()->queryAll();
+      $items = ArrayHelper::getColumn($items, 'item_id');
+
     $itemmaster = ItemMaster::find()->where(['id' => $items])->asArray()->all();
     $item_by_type = ArrayHelper::index($itemmaster, null, 'category_id');
     $mens = isset($item_by_type[1]) ? count($item_by_type[1]) : 0;
     $womens = isset($item_by_type[2]) ? count($item_by_type[2]) : 0;
     $jewellary = isset($item_by_type[3]) ? count($item_by_type[3]) : 0;
-    $booking_items = BookingItem::find()->select(['booking_header.booking_date', 'booking_header.pickup_date', 'booking_header.return_date', 'booking_header.customer_id', 'booking_header.order_status', 'product_id', 'customer_master.name as customer_name', 'booking_item.amount', 'booking_item.discount',  'booking_item.earning_amount', 'booking_header.status'  ])->leftJoin('booking_header', 'booking_header.booking_id = booking_item.booking_id')->leftJoin('customer_master', 'booking_header.customer_id = customer_master.id')->where(['product_id' => $items, 'booking_header.order_status' =>['Open', 'Closed']])->createCommand()->queryAll();
+    $booking_items = BookingItem::find()->select(['booking_header.booking_date', 'booking_header.pickup_date', 'booking_header.return_date', 'booking_header.customer_id', 'booking_header.order_status', 'product_id', 'customer_master.name as customer_name', 'booking_item.amount', 'booking_item.discount',  'booking_item.earning_amount', 'booking_header.status'  ])->leftJoin('booking_header', 'booking_header.booking_id = booking_item.booking_id')->leftJoin('customer_master', 'booking_header.customer_id = customer_master.id')->where(['product_id' => $items, 'booking_header.order_status' =>['Open', 'Closed'], 'vendor_visiblity' => 1])->orderBy(['booking_header.pickup_date'=> SORT_DESC])->createCommand()->queryAll();
     $booking_details = ArrayHelper::index($booking_items, null, 'product_id');
 
     return $this->render('about', ['item_master' => $itemmaster, 'booking_details' => $booking_details, 'mens' =>
