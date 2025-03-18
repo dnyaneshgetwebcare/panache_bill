@@ -87,9 +87,9 @@ $this->title = 'Soyara Rental Couture';
             $number_of_times = 0;
             $upcoming_booking = 0;
             $upcoming_booking_times = 0;
-            $img =  'http://localhost/soraya_billing/img/no-image.jpg';
+            $img =  '../../img/no-image.jpg';
             if ($item['images'] != '') {
-                $img =  'http://localhost/soraya_billing/uploads/' . $item['images'];
+                $img =  '../../uploads/' . $item['images'];
             }
             ?>
             <div class="col-md-4">
