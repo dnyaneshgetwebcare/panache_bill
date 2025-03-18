@@ -44,7 +44,7 @@ AppAsset::register($this);
 </nav>
 </div>-->
   <div class="main-panel">
-    <div class="overlay bg-primary2"></div>
+    <div class="overlay bg-primary2" style="min-height: 120px !important; background-color: #5d2331 !important;"></div>
     <div class="container container-futuristic">
 
         <?= Alert::widget() ?>

@@ -17,11 +17,15 @@ $this->title = 'Soyara Rental Couture';
     }
 </style>
 
-<div class="d-flex align-items-center py-4 text-white">
+<div class="d-flex align-items-center py-4 text-white" style="padding-top: 5.5rem !important; padding-bottom: 0 !important;">
 					<div class="me-3">
-						<h2 class="mb-3">Dashboard</h2>
-						<h6 class="op-7 mb-3">Premium Bootstrap 5 Admin Dashboard.</h6>
+                        <img src="../../img/logo.PNG" style="width: 172px"/>
+
 					</div>
+    <div class="me-3">
+        <h2 class="mb-3" style="color: #fff;">Soyara Rental Couture</h2>
+
+    </div>
 					<div class="ms-auto">
 
 					</div>
@@ -33,10 +37,7 @@ $this->title = 'Soyara Rental Couture';
       <div class="col-6 col-sm-4 col-lg-2">
 							<div class="card">
 								<div class="card-body p-3 text-center">
-									<div class="text-end text-success">
 
-										<i class="fa fa-chevron-up"></i>
-									</div>
 									<div class="h1 m-0"><?= $women; ?></div>
 									<div class="text-muted mb-3">Women</div>
 								</div>
@@ -45,10 +46,7 @@ $this->title = 'Soyara Rental Couture';
   <div class="col-6 col-sm-4 col-lg-2">
 							<div class="card">
 								<div class="card-body p-3 text-center">
-									<div class="text-end text-success">
 
-										<i class="fa fa-chevron-up"></i>
-									</div>
 									<div class="h1 m-0"><?= $mens; ?></div>
 									<div class="text-muted mb-3">Men</div>
 								</div>
@@ -57,10 +55,7 @@ $this->title = 'Soyara Rental Couture';
         <div class="col-6 col-sm-4 col-lg-2">
 							<div class="card">
 								<div class="card-body p-3 text-center">
-									<div class="text-end text-success">
 
-										<i class="fa fa-chevron-up"></i>
-									</div>
 									<div class="h1 m-0"><?= $jewellary; ?></div>
 									<div class="text-muted mb-3">Jewellary</div>
 								</div>
