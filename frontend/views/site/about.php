@@ -16,65 +16,58 @@ $this->title = 'Soyara Rental Couture';
         padding: 0 30px 0px 30px !important;
     }
 </style>
-<div class="site-about">
-    <div class="row row-card-no-pd">
-        <div class="col-sm-6 col-md-3">
-            <div class="card card-stats card-round">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="icon-big text-center">
-                                <i class="icon-pie-chart text-warning"></i>
-                            </div>
-                        </div>
-                        <div class="col-7 col-stats">
-                            <div class="numbers">
-                                <p class="card-category">Women</p>
-                                <h4 class="card-title"><?= $women; ?></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <div class="card card-stats card-round">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="icon-big text-center">
-                                <i class="icon-wallet text-success"></i>
-                            </div>
-                        </div>
-                        <div class="col-7 col-stats">
-                            <div class="numbers">
-                                <p class="card-category">Men</p>
-                                <h4 class="card-title"><?= $mens ?></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
-            <div class="card card-stats card-round">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="icon-big text-center">
-                                <i class="icon-close text-danger"></i>
-                            </div>
-                        </div>
-                        <div class="col-7 col-stats">
-                            <div class="numbers">
-                                <p class="card-category">Jewellary</p>
-                                <h4 class="card-title"><?= $jewellary ?></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+<div class="d-flex align-items-center py-4 text-white">
+					<div class="me-3">
+						<h2 class="mb-3">Dashboard</h2>
+						<h6 class="op-7 mb-3">Premium Bootstrap 5 Admin Dashboard.</h6>
+					</div>
+					<div class="ms-auto">
+
+					</div>
+				</div>
+
+<div class="site-about page-inner">
+
+    <div class="row ">
+      <div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-end text-success">
+
+										<i class="fa fa-chevron-up"></i>
+									</div>
+									<div class="h1 m-0"><?= $women; ?></div>
+									<div class="text-muted mb-3">Women</div>
+								</div>
+							</div>
+						</div>
+  <div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-end text-success">
+
+										<i class="fa fa-chevron-up"></i>
+									</div>
+									<div class="h1 m-0"><?= $mens; ?></div>
+									<div class="text-muted mb-3">Men</div>
+								</div>
+							</div>
+						</div>
+        <div class="col-6 col-sm-4 col-lg-2">
+							<div class="card">
+								<div class="card-body p-3 text-center">
+									<div class="text-end text-success">
+
+										<i class="fa fa-chevron-up"></i>
+									</div>
+									<div class="h1 m-0"><?= $jewellary; ?></div>
+									<div class="text-muted mb-3">Jewellary</div>
+								</div>
+							</div>
+						</div>
+
+
 
     </div>
 
@@ -189,3 +182,8 @@ $this->title = 'Soyara Rental Couture';
 
     return $num;
 } ?>
+<script>
+  $(document).ready(function(){
+  $("#vend_name").html("test");
+});
+</script>
