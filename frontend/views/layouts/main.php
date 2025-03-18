@@ -22,15 +22,21 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+  <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
   <st
 </head>
 <body>
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-   <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+   <nav class="navbar navbar-expand-lg navbar-dark bg-warning" style ="background-color: #591f2d !important;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+     <img
+            src="../../img/logo.PNG"
+            alt="navbar brand"
+            class="navbar-brand"
+            height="20"
+          />
     <button
       class="navbar-toggler"
       type="button"

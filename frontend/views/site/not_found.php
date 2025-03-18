@@ -1,3 +1,4 @@
+<?php $this->title = 'Soyara Rental Couture'; ?>
 <div class="container d-flex justify-content-center align-items-center">
 				<div class="page-inner">
 					<div class="d-flex flex-column align-items-center">
