@@ -192,7 +192,7 @@ class SiteController extends Controller
     }
 
     return $this->render('about', ['item_master' => $itemmaster, 'booking_details' => $booking_details, 'mens' =>
-      $mens, 'women'=> $womens, 'jewellary' => $jewellary]);
+      $mens, 'women'=> $womens, 'jewellary' => $jewellary, 'vendor_name' =>$vendor_name]);
   }
 
   /**
