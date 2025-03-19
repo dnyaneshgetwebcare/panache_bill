@@ -397,6 +397,29 @@
 <!--<script src="print_assets/js/jspdf.min.js"></script>
 <script src="print_assets/js/html2canvas.min.js"></script>
 <script src="print_assets/js/custom.js"></script>-->
+  <script src="kai-admin-assets/js/core/jquery-3.7.1.min.js"></script>
+  <script src="kai-admin-assets/js/plugin/jquery.magnific-popup/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript">
 
+  $(document).ready(function ($) {
+    $('.image-gallery').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      removalDelay: 300,
+      gallery: {
+        enabled: false,
+      },
+      mainClass: 'mfp-with-zoom',
+      zoom: {
+        enabled: true,
+        duration: 300,
+        easing: 'ease-in-out',
+        opener: function (openerElement) {
+          return openerElement.is('img') ? openerElement : openerElement.find('img');
+        }
+      }
+    });
+  });
+</script>
 </body>
 </html>

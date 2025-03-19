@@ -46,7 +46,9 @@ class AppAsset extends AssetBundle
     'kai-admin-assets/js/plugin/sweetalert/sweetalert.min.js',
     'kai-admin-assets/js/kaiadmin.min.js',
     'assets/plugins/icheck/icheck.min.js',
-     'assets/plugins/icheck/icheck.init.js',
+    'assets/plugins/icheck/icheck.init.js',
+    'kai-admin-assets/js/plugin/jquery.magnific-popup/jquery.magnific-popup.min.js',
+ /*    'kai-admin-assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js',*/
 
 
     'kai-admin-assets/js/plugin/datepicker/bootstrap-datetimepicker.min.js',
