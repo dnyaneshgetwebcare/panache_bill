@@ -10,6 +10,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="print_assets/css/custom.css">
   <link rel="stylesheet" href="print_assets/css/media-query.css">
+  <link rel="stylesheet" href="assets/plugins/Magnific-Popup-master/dist/magnific-popup.css">
 </head>
 <body>
 <!--Invoice wrap start here -->
@@ -133,7 +134,7 @@
 
           <!--Payment detail table end here -->
           <!--Patient report info start here -->
-          <div class="table-wrapper mt-40">
+          <div class="table-wrapper mt-40 image-gallery">
             <table class="invoice-table rental-table">
               <thead class="mt-40">
               <tr class="invo-tb-header bg-green-rental ">
@@ -162,7 +163,12 @@
                 ?>
                 <tr class="invo-tb-row">
                   <td class="invo-tb-data font-sm"><?php echo $key + 1; ?></td>
-                  <td class="invo-tb-data rate-data font-sm"><img src="<?= $image_path; ?>" style="height:80px">
+                  <td class="invo-tb-data rate-data font-sm">
+
+                    <a href="<?= $image_path; ?>" class="test_popup">
+                    <img src="<?= $image_path; ?>" style="height:80px" class="img-fluid">
+                    </a>
+
                     <span
                       style="padding: 5px;position: absolute;width: 225px;text-wrap: auto;">
                       <?php echo $data->item['name']; ?> </span> </td>
@@ -393,7 +399,7 @@
   </div>
 </div>
 <!--Invoice wrap end here -->
-<script src="print_assets/js/jquery.min.js"></script>
+
 <!--<script src="print_assets/js/jspdf.min.js"></script>
 <script src="print_assets/js/html2canvas.min.js"></script>
 <script src="print_assets/js/custom.js"></script>-->
@@ -402,12 +408,13 @@
 <script type="text/javascript">
 
   $(document).ready(function ($) {
+
     $('.image-gallery').magnificPopup({
       delegate: 'a',
       type: 'image',
       removalDelay: 300,
       gallery: {
-        enabled: false,
+        enabled: true,
       },
       mainClass: 'mfp-with-zoom',
       zoom: {

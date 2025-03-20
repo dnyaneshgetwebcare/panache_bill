@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Magnific Popup Gallery</h4>
+        <h4 class="card-title">Item Master</h4>
       </div>
       <div class="card-body">
         <div class="row image-gallery">
@@ -14,11 +14,19 @@
 											min-height: 200px; align-content: center">
                 </a>
               </div>
-              <div class="card-footer">
-                <span class="text-bold text-center"> <?= $item_details->name;
-                  ?> <button class="btn btn-icon"> <i class="fa fa-edit"></i></button>
-                  <button class="btn btn-icon"> <i class="fa fa-eye"></i></button>
+              <div class="card-footer" style="display: flex; flex-direction: row;">
+                <span class="text-bold col-9">
+                  <?= $item_details->name;
+                  ?>
+
                 </span>
+                <div class="col-3" style = "flex-direction: row; display: flex; padding-left: 5px;   padding-right:
+                5px;">
+                <button class="btn btn-icon" type="button" onclick="edit_item('<?= $item_details->id; ?>')"> <i
+                    class="fa
+                fa-edit"></i></button>
+                  <button class="btn btn-icon" type="button" onclick="view_item('<?= $item_details->id; ?>')">  <i class="fa fa-eye"></i></button>
+                  </div>
               </div>
             </div>
           <?php } ?>
@@ -58,4 +66,13 @@
       }
     }
   });
+  function edit_item($item_id) {
+    let url = "index.php?r=item/update&id="+$item_id;
+     window.open(url, '_blank');
+  }
+  function view_item($item_id) {
+    let url = "index.php?r=item/view&id="+$item_id;
+     window.open(url, '_blank');
+  }
+
 </script>

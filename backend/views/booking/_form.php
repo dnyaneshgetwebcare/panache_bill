@@ -36,7 +36,11 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
         font-size: 15px;
         font-weight: 500;
         line-height: 1.5 !important;
+        padding: 5px !important;
     }
+
+
+
 
     th {
         font-size: 15px;
@@ -707,7 +711,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                                     <div class="pull-left item_content" style="width: 90%">
                                                         <div style="<?= $active_div; ?>" class="inner_desc"
                                                              id='<?php echo "bookingitem-{$indexHouse}-item_desc"; ?>'>
-                                                            <?= $form->field($booking_item, "[{$indexHouse}]description")->textarea(['placeholder' => $booking_items[0]->attributeLabels()['description'], 'maxlength' => true, 'class' => 'form-control txt table-feild', 'style' => 'resize: none; height:34px !important;padding:6px 0px 6px 6px !important;margin-bottom:2px;color:#585b5d;background:none;font-weight:600;', 'onkeyup' => 'changeitemdetails(this.value,this.id)', 'autocomplete' => "off",])->label(false); ?>
+                                                            <?= $form->field($booking_item, "[{$indexHouse}]description")->textarea(['placeholder' => $booking_items[0]->attributeLabels()['description'], 'maxlength' => true, 'class' => 'form-control txt table-feild', 'style' => 'resize: none; height:34px !important;padding:6px 0px 6px 6px !important;margin-bottom:2px;color:#585b5d;background:none;font-weight:600; height: auto !important', 'onkeyup' => 'changeitemdetails(this.value,this.id)', 'autocomplete' => "off",])->label(false); ?>
                                                         </div>
 
                                                     </div>
@@ -729,7 +733,8 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
 
                                             </td>
                                             <td>
-                                                <?= $form->field($booking_item, "[{$indexHouse}]amount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]amount")->label
+                                                (false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status  , 'style' => 'text-align : right']) ?>
                                                 <?= $form->field($booking_item, "[{$indexHouse}]product_id")->label(false)->hiddenInput(['maxlength' => true]) ?>
                                                 <?= $form->field($booking_item, "[{$indexHouse}]item_type")->label(false)->hiddenInput(['maxlength' => true]) ?>
                                                 <?= $form->field($booking_item, "[{$indexHouse}]item_category")->label(false)->hiddenInput(['maxlength' => true]) ?>
@@ -737,20 +742,27 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                                 <?= $form->field($booking_item, "[{$indexHouse}]item_status")->label(false)->hiddenInput(['maxlength' => true]) ?>
                                             </td>
                                             <td>
-                                                <?= $form->field($booking_item, "[{$indexHouse}]deposit_amount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]deposit_amount")
+                                                  ->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status , 'style' => 'text-align : right']) ?>
                                             </td>
                                             <td>
-                                                <?= $form->field($booking_item, "[{$indexHouse}]discount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $order_status]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]discount")->label
+                                                (false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $order_status, 'style' => 'text-align : right']) ?>
                                             </td>
                                             <td>
-                                                <?= $form->field($booking_item, "[{$indexHouse}]extra_per")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0', 'readonly' => $order_status]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]extra_per")->label
+                                                (false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0', 'readonly' => $order_status , 'style' => 'text-align : right']) ?>
                                             </td>
 
                                             <td>
-                                                <?= $form->field($booking_item, "[{$indexHouse}]net_value")->label(false)->textInput(['maxlength' => true, 'readonly' => true, 'style' => "border:none;background: none !important;"]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]net_value")->label
+                                                (false)->textInput(['maxlength' => true, 'readonly' => true, 'style' => "border:none;background: none !important; text-align : right"]) ?>
                                             </td>
                                             <td>
-                                                <?= $form->field($booking_item, "[{$indexHouse}]note")->label(false)->textInput(['maxlength' => true]) ?>
+
+                                                <?= $form->field($booking_item, "[{$indexHouse}]note")->label(false)
+                                                  ->textarea(['maxlength' => true, 'row' => 3, 'style'=>'height : auto !important'
+                                                  ]) ?>
                                             </td>
                                             <td class="text-center vcenter" style="width: 90px; verti">
 
@@ -779,6 +791,15 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                     <div class="card-body" <?= ($model->booking_id != "") ? '' : 'style="display: none;"'; ?>>
 
                                         <div class="col-md-12">
+                                          <div>
+                                             <?php echo $form->field($model, 'remark')->textarea(['maxlength' => true,
+                                               'class' => 'form-control', 'style'=> 'height:auto !important', 'row'=>3,
+                                               'placeholder'
+                                               =>
+                                               $model->attributeLabels()
+                                               ['remark']])->label(false); ?>
+                                          </div>
+
                                             <div class="form-group row">
                                                 <label class="control-label text-left col-md-3">Penalty:</label>
                                                 <div class="col-md-9">
@@ -1248,7 +1269,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                     <label class="col-lg-5 control-label"
                                            style="text-align: left"> <?= $model->attributeLabels()['chest'] ?> </label>
                                     <div class="col-lg-6 form-group">
-                                        <?php $model['chest'] = ($model['chest'] != '') ? $model['chest'] : 0;
+                                        <?php $model['chest'] = ($model['chest'] != '') ? $model['chest'] : '';
 
                                         echo $form->field($model, 'chest')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['chest'], 'autocomplete' => "off"])->label(false); ?>
                                     </div>
@@ -1261,7 +1282,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                     <label class="col-lg-5 control-label"
                                            style="text-align: left"> <?= $model->attributeLabels()['waist'] ?> </label>
                                     <div class="col-lg-6 form-group">
-                                        <?php $model['waist'] = ($model['waist'] != '') ? $model['waist'] : 0;
+                                        <?php $model['waist'] = ($model['waist'] != '') ? $model['waist'] : '';
 
                                         echo $form->field($model, 'waist')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['waist'], 'autocomplete' => "off"])->label(false); ?>
 
@@ -1275,7 +1296,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                     <label class="col-lg-5 control-label"
                                            style="text-align: left"> <?= $model->attributeLabels()['hip'] ?> </label>
                                     <div class="col-lg-6 form-group">
-                                        <?php $model['hip'] = ($model['hip'] != '') ? $model['hip'] : 0;
+                                        <?php $model['hip'] = ($model['hip'] != '') ? $model['hip'] : '';
 
                                         echo $form->field($model, 'hip')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['hip'], 'autocomplete' => "off"])->label(false); ?>
 

@@ -303,7 +303,7 @@ class ItemController extends Controller
      */
     public function actionView($id)
     {
-        $booking_items = BookingItem::find()->where(['product_id' => $id])->all();
+        $booking_items = BookingItem::find()->where(['product_id' => $id])->orderBy(['PICKUP_DATE'=>SORT_DESC])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
             'booking_items' => $booking_items,

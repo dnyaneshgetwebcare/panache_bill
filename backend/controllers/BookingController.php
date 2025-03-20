@@ -477,7 +477,9 @@ class BookingController extends Controller
         $req_format = ($req_format == null) ? 'Y-m-d' : $req_format;
         return ($request_date != '') ? date($req_format, strtotime($request_date)) : '';
     }
-
+/*ALTER TABLE `booking_header` CHANGE `waist` `waist` VARCHAR(120) NULL DEFAULT NULL, CHANGE `hip` `hip` VARCHAR(150) NULL DEFAULT NULL, CHANGE `chest` `chest` VARCHAR(150) NULL DEFAULT NULL;
+ALTER TABLE `booking_header` ADD `remark` VARCHAR(500) NULL AFTER `booking_date`;
+*/
     public function actionCreate()
     {
         //$short_url = $this->get_bitly_short_url(,'o_523d7el29b','R_e74b011fabe44b52a45c406d087dda35');
