@@ -129,7 +129,7 @@ class ItemController extends Controller
 
         }
 
-        $ifp = fopen($path . "\\" . $rand_no . "." . $file_ext, 'wb');
+        $ifp = fopen($path . "/" . $rand_no . "." . $file_ext, 'wb');
         $output_file .=  $rand_no . "." . $file_ext;
         // split the string on commas
         // $data[ 0 ] == "data:image/png;base64"
@@ -367,7 +367,10 @@ class ItemController extends Controller
 
     public function actionCreate()
     {
+      /*ALTER TABLE `item_master` CHANGE `purchase_amount` `purchase_amount` DECIMAL(10,2) NULL DEFAULT 1;*/
          //print_r($_POST['ItemMaster']['occcasion_master']);die;
+        $user = Yii::$app->user->identity;
+        $is_admin = ($user->user_type == "admin") ? true : false;
         $model = new ItemMaster();
         $img_list = [new ItemMasterImg()];
         $model_category = ArrayHelper::map(CategoryMaster::find()->all(), 'id', 'name');
@@ -377,7 +380,9 @@ class ItemController extends Controller
         $color_model = ArrayHelper::map(ColorMaster::find()->all(), 'id', 'name');
         $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['details_occ'].')';} );
         $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['deatils_type'].')';} );
-        $model->setScenario('create_new');
+        if($is_admin) {
+          $model->setScenario('create_new');
+        }
         if ($model->load(Yii::$app->request->post())) {
 //rint_r($model);die;
             $path = realpath(dirname(__FILE__) . '/../../uploads');
