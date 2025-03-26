@@ -13,9 +13,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['cla
 </style>
 <div class="col-lg-12 name_input_field search_field" id='<?php echo "itemselection-item_name"; ?>'>
   <div class="col-lg-2 form-group">
-
     <?php
-
     echo $form->field($modelItems, "item_category")->dropdownlist($cat_listAll, ['encode' => false, 'onchange' => 'change_cat(this.value,this.id)'])->label(false); ?>
   </div>
   <div class="col-lg-2 form-group">
@@ -58,7 +56,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['cla
     <div class="btn-group add_button btn">
       <button type="button" class="btn btn-info" style="padding:5px 8px 4px 8px;font-size: 12px"
               onclick="addText('<?= $id; ?>')" data-toggle="tooltip" data-placement="bottom" title=<?= $label ?>>
-        <?= $label ?></a>
+        <?= $label ?></button>
     </div>
   </div>
 
@@ -67,9 +65,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'options' => ['cla
 
 </div>
 
-
-</div>
-<div class="col-lg-12" id='<?php echo "itemselection-quantity_details"; ?>' class="other_quantity"></div>
+<div class="col-lg-12 other_quantity" id='<?php echo "itemselection-quantity_details"; ?>' ></div>
 <?php ActiveForm::end(); ?>
 
 <script type="text/javascript">
