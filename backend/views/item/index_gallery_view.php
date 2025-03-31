@@ -1,4 +1,7 @@
 <?php
+
+use kartik\date\DatePicker;
+
 $this->title = 'Item Masters';
 ?>
 <style>
@@ -11,7 +14,31 @@ $this->title = 'Item Masters';
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Item Master</h4>
+        <h4 class="card-title col-md-8"">Item Master</h4>
+        <div class="col-md-4">
+          <?php
+
+                                        echo DatePicker::widget([
+                                            'name' => 'filter_from_date',
+                                            'name2' => 'filter_from_date',
+
+                                            'type' => DatePicker::TYPE_RANGE,
+                                            //'value' => $model['booking_date'],
+                                            //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
+                                            'options' => [
+                                                'placeholder' => 'dd-mm-yyyy',
+                                                'autocomplete' => 'off',
+                                              'placeholder2' => 'dd-mm-yyyy',
+                                                'autocomplete2' => 'off'
+                                            ],
+                                            'pluginOptions' => [
+                                                'autoclose' => true,
+                                                'format' => 'dd-mm-yyyy',
+                                                'todayHighlight' => true,
+                                                'orientation' => 'bottom',
+                                            ]
+                                        ]); ?>
+          </div>
       </div>
       <div class="card-body">
         <div class="row image-gallery">
