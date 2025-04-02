@@ -89,7 +89,9 @@ if ($is_admin) { ?>
                             <div class="numbers">
                                 <p class="card-category">Booking(<?= $booking_this_month['numb_booking'] ?>)</p>
                                 <h4 class="card-title">
-                                    ₹ <?php echo(($booking_this_month['numb_booking'] > 0) ? number_format($booking_this_month['total']) : 0) ?></h4>
+                                    ₹ <?php echo(($booking_this_month['numb_booking'] > 0) ? number_format(
+                                      ($booking_this_month['rent_amount'] - $booking_this_month['discount']) + $booking_this_month['cancellation_charges']+ $booking_this_month['extra_amount']+ $booking_this_month['other_charges'] - $booking_this_month['issues_penalty']) : 0)
+                                  ?></h4>
                             </div>
                         </div>
                     </div>
