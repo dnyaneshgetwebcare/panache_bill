@@ -5,19 +5,20 @@ use kartik\date\DatePicker;
 $this->title = 'Item Masters';
 ?>
 <style>
-  .close{
-      position: absolute;
-    right: 20px;
-  }
-  .item_rent{
-      position: absolute;
-    right: 20px;
-    text-align: center;
-    bottom: 74px;
-    width: 70%;
-    background-color: #726f6f70;
-    color: #ffffff;
-  }
+    .close {
+        position: absolute;
+        right: 20px;
+    }
+
+    .item_rent {
+        position: absolute;
+        right: 20px;
+        text-align: center;
+        bottom: 74px;
+        width: 70%;
+        background-color: #726f6f70;
+        color: #ffffff;
+    }
 </style>
 <div class="row">
   <div class="col-md-12">
@@ -27,32 +28,32 @@ $this->title = 'Item Masters';
         <div class="col-md-4">
           <?php
 
-                                        echo DatePicker::widget([
-                                            'name' => 'filter_from_date',
-                                            'name2' => 'filter_from_date',
-                                            'attribute' => 'from_date',
-                                          'attribute2' => 'to_date',
-                                            'type' => DatePicker::TYPE_RANGE,
-                                            //'value' => $model['booking_date'],
-                                            //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                                            'options' => [
-                                                'placeholder' => 'dd-mm-yyyy',
-                                                'autocomplete' => 'off',
+          echo DatePicker::widget([
+            'name' => 'filter_from_date',
+            'name2' => 'filter_from_date',
+            'attribute' => 'from_date',
+            'attribute2' => 'to_date',
+            'type' => DatePicker::TYPE_RANGE,
+            //'value' => $model['booking_date'],
+            //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
+            'options' => [
+              'placeholder' => 'dd-mm-yyyy',
+              'autocomplete' => 'off',
 
-                                            ],
-                                            'options2' => [
-                                                'placeholder' => 'dd-mm-yyyy',
-                                                'autocomplete' => 'off',
+            ],
+            'options2' => [
+              'placeholder' => 'dd-mm-yyyy',
+              'autocomplete' => 'off',
 
-                                            ],
-                                            'pluginOptions' => [
-                                                'autoclose' => true,
-                                                'format' => 'dd-mm-yyyy',
-                                                'todayHighlight' => true,
-                                                'orientation' => 'bottom',
-                                            ]
-                                        ]); ?>
-          </div>
+            ],
+            'pluginOptions' => [
+              'autoclose' => true,
+              'format' => 'dd-mm-yyyy',
+              'todayHighlight' => true,
+              'orientation' => 'bottom',
+            ]
+          ]); ?>
+        </div>
       </div>
       <div class="card-body">
         <div class="row image-gallery">
@@ -70,15 +71,16 @@ $this->title = 'Item Masters';
                   <?= $item_details->name;
                   ?>
                 </span>
-                <div class="col-3" style = "flex-direction: row; display: flex; padding-left: 5px;   padding-right:
+                <div class="col-3" style="flex-direction: row; display: flex; padding-left: 5px;   padding-right:
                 5px;">
-                <button class="btn btn-icon" type="button" onclick="edit_item('<?= $item_details->id; ?>')"> <i
-                    class="fa
+                  <button class="btn btn-icon" type="button" onclick="edit_item('<?= $item_details->id; ?>')"><i
+                      class="fa
                 fa-edit"></i></button>
-                  <button class="btn btn-icon" type="button" onclick="view_item('<?= $item_details->id; ?>','<?= $item_details->name;
-                  ?>')">  <i
+                  <button class="btn btn-icon" type="button"
+                          onclick="view_item('<?= $item_details->id; ?>','<?= $item_details->name;
+                          ?>')"><i
                       class="fa fa-eye"></i></button>
-                  </div>
+                </div>
               </div>
             </div>
           <?php } ?>
@@ -119,20 +121,22 @@ $this->title = 'Item Masters';
       }
     }
   });
+
   function edit_item(item_id) {
-    let url = "index.php?r=item/update&id="+item_id;
-     window.open(url, '_blank');
+    let url = "index.php?r=item/update&id=" + item_id;
+    window.open(url, '_blank');
   }
+
   function view_item(item_id, item_name) {
     ///$('#pModal').modal('show');
     /*let url = "index.php?r=item/view&id="+$item_id;
      window.open(url, '_blank');*/
 
-     $.ajax({
+    $.ajax({
       url: "<?php echo \Yii::$app->getUrlManager()->createUrl('item/open-bookings') ?>",
       type: 'get',
       dataType: 'html',
-       data: {
+      data: {
         item_id: item_id
       },
       beforeSend: function () {
