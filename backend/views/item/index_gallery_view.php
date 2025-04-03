@@ -19,12 +19,38 @@ $this->title = 'Item Masters';
         background-color: #726f6f70;
         color: #ffffff;
     }
+
+    .unavailable-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    pointer-events: none; /* Prevent interactions */
+}
+    .booking_dates {
+        position: absolute;
+    top: 11px;
+    font-size: small;
+    color: white;
+    font-weight: 400;
+    align-self: anchor-center;
+    padding-top: 50px;
+    }
 </style>
 <div class="row">
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title col-md-8"">Item Master</h4>
+        <h4 class="card-title col-md-7"">Item Master</h4>
         <div class="col-md-4">
           <?php
 
@@ -32,34 +58,40 @@ $this->title = 'Item Masters';
             'name' => 'filter_from_date',
             'name2' => 'filter_from_date',
             'attribute' => 'from_date',
+
             'attribute2' => 'to_date',
+
             'type' => DatePicker::TYPE_RANGE,
             //'value' => $model['booking_date'],
             //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
             'options' => [
               'placeholder' => 'dd-mm-yyyy',
               'autocomplete' => 'off',
-
+              'id' => 'from_date',
             ],
             'options2' => [
               'placeholder' => 'dd-mm-yyyy',
               'autocomplete' => 'off',
-
+              'id' => 'to_date',
             ],
             'pluginOptions' => [
               'autoclose' => true,
               'format' => 'dd-mm-yyyy',
               'todayHighlight' => true,
               'orientation' => 'bottom',
+
             ]
           ]); ?>
+
         </div>
+         <button type="button" class="btn btn-icon btn-info col-lg-1" onclick="checkAvailable()" ><i class="fa fa-search"></i></button>
+        <button type="button" class="btn btn-link col-lg-1" onclick="clear_check_avaiblity()" >Clear</i></button>
       </div>
       <div class="card-body">
         <div class="row image-gallery">
           <?php foreach ($item_master as $item_details) { ?>
             <div class="card col-6 col-md-3 mb-4">
-              <div class="card-body" style="padding:0; align-self: center;">
+              <div class="card-body" id = "card_body_<?= $item_details->id; ?>" style="padding:0; align-self: center;">
                 <a href="<?= $item_details->imageurl; ?>">
                   <img src="<?= $item_details->imageurl; ?>" class="img-fluid" style="max-height: 200px;
 											min-height: 200px; align-content: center">
@@ -121,6 +153,81 @@ $this->title = 'Item Masters';
       }
     }
   });
+
+function checkAvailable() {
+  let fromdate = $("#from_date").val();
+  let todate = $("#to_date").val();
+  /*      alert("Selected Date Range: " + dateRange);
+          let dates = dateRange.split(" - ");
+    let startDate = dates[0]; // Start Date
+    let endDate = dates[1];   // End Date*/
+  if(fromdate == "" || todate == ""){
+    swal("Dates cannot be blank");
+    return;
+  }
+  clear_check_avaiblity()
+  let pickup_date ;
+  let return_date ;
+  let type_id  = "<?= isset($_GET["type"])? $_GET["type"]:""; ?>";
+  let category_id;
+    $.ajax({
+      url: "<?php echo \Yii::$app->getUrlManager()->createUrl('booking/check-availability') ?>",
+      type: 'post',
+      dataType: 'json',
+      data: {
+        type_id: type_id,
+        pickup_date:fromdate,
+        return_date : todate,
+        category_id : category_id,
+      },
+      beforeSend: function () {
+        $(".overlay").show();
+      },
+      complete: function () {
+        $(".overlay").hide();
+      },
+      success: function (data) {
+         console.log(data['multi_items']);
+        for (let datumKey in data['multi_items']) {
+
+          console.log(datumKey)
+          console.log(data['multi_items'][datumKey])
+          let dates = "";
+          for (let i = 0; i < data['multi_items'][datumKey].length; i++) {
+            dates =dates+"<br>"+data['multi_items'][datumKey][i]
+          }
+          setunavailable(datumKey,dates)
+        }
+
+
+      },
+      error: function (jqXhr, textStatus, errorThrown) {
+        // alert(errorThrown);
+        if (errorThrown == 'Forbidden') {
+          alert(YOU_DONT_HAVE_ACCESS);
+        }
+      }
+    });
+}
+function setunavailable(item_id, booking_dates, message = "Not Available"){
+    $(`#card_body_${item_id}`).css({
+        "filter": "grayscale(100%)",
+        "opacity": "0.6",
+    }).parent().css({"position": "relative",}).append(`<div class="unavailable-overlay">${message} <span
+    class = "booking_dates">
+    ${booking_dates}
+    </span></div>`);
+
+}
+
+function clear_check_avaiblity() {
+  $(".unavailable-overlay").remove();
+   $("#card_body_2").css({
+        "filter": "none",
+        "opacity": "1",
+    })
+
+}
 
   function edit_item(item_id) {
     let url = "index.php?r=item/update&id=" + item_id;

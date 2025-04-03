@@ -115,7 +115,7 @@ return $this->render('quick_search',['searchModel' => $searchModel]);
         $model = new QuickCustomer();
         $address_grup=ArrayHelper::map(AddressGroup::find()->all(),'id','name');
         if ($model->load(Yii::$app->request->post())) {
-            $model->created_on=$this->dateFormat($model->created_on);
+            $model->created_on=date('Y-m-d');
            if(!$model->save()){
 return json_encode(['result'=>false,'errors'=>$model->errors]);
            }
