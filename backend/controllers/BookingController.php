@@ -597,6 +597,7 @@ class BookingController extends Controller
         $model->customer_id = $customer_model->id;
         $model->encryted_id = $this->generateRandomString();
         $model->booking_date = $this->dateFormat($model->booking_date);
+        $model->event_date = ($model->event_date != '') ? $this->dateFormat($model->event_date) : null;
         $model->pickup_date = ($model->pickup_date != '') ? $this->dateFormat($model->pickup_date) : null;
         $model->return_date = ($model->return_date != '') ? $this->dateFormat($model->return_date) : null;
         $model->payment_status = (($model->net_value - $model->paid_amount) == 0);
@@ -1308,6 +1309,7 @@ class BookingController extends Controller
         }
         $model->customer_id = $customer_model->id;
         $model->booking_date = $this->dateFormat($model->booking_date);
+        $model->event_date = ($model->event_date != '') ? $this->dateFormat($model->event_date) : null;
         $model->pickup_date = ($model->pickup_date != '') ? $this->dateFormat($model->pickup_date) : null;
         $model->return_date = ($model->return_date != '') ? $this->dateFormat($model->return_date) : null;
         $model->payment_status = (($model->net_value - $model->paid_amount) == 0);

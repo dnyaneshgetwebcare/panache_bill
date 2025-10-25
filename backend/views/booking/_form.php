@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -477,6 +477,38 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                             ]
                                         ]); ?>
 
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-bottom: 7px;">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-4"
+                                           style="align-self: center"><?= $model->attributeLabels()['event_date'] ?></label>
+                                    <div class="col-md-8">
+                                        <?php 
+                                        $model['event_date'] = ($model['event_date'] != '') ? date('d-m-Y', strtotime($model['event_date'])) : null;
+                                        $startDate = $is_admin ? null : 'today';
+                                        echo DatePicker::widget([
+                                            'name' => 'BookingHeader[event_date]',
+                                            'id' => 'bookingheader-event_date',
+                                            'type' => DatePicker::TYPE_INPUT,
+                                            'value' => $model['event_date'],
+                                            'options' => [
+                                                'placeholder' => 'dd-mm-yyyy',
+                                                'autocomplete' => 'off'
+                                            ],
+                                            'pluginOptions' => [
+                                                'autoclose' => true,
+                                                'format' => 'dd-mm-yyyy',
+                                                'todayHighlight' => true,
+                                                'orientation' => 'bottom',
+                                                'startDate' => $startDate,
+                                            ],
+
+                                        ]); ?>
                                     </div>
                                 </div>
                             </div>
@@ -1515,26 +1547,75 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
         $('.item_details_lable .glyphicon-pencil').unbind().click(function () {
             updateItemRow($(this));
         });
+        
+        // Event date change handler - automatically set pickup (-1 day) and return (+1 day) dates
+        $('#bookingheader-event_date').on('change', function () {
+            let event_date = $(this).val();
+            
+            if (event_date != "") {
+                let event_parts = event_date.split("-");
+                let event_date_obj = new Date(event_parts[2], event_parts[1] - 1, event_parts[0]);
+                
+                // Set pickup date to event date - 1 day
+                let pickup_date_obj = new Date(event_date_obj);
+                pickup_date_obj.setDate(pickup_date_obj.getDate() - 1);
+                $("#bookingheader-pickup_date").kvDatepicker('update', pickup_date_obj);
+                
+                // Set return date to event date + 1 day
+                let return_date_obj = new Date(event_date_obj);
+                return_date_obj.setDate(return_date_obj.getDate() + 1);
+                $("#bookingheader-return_date").kvDatepicker('update', return_date_obj);
+            }
+        });
+        
         $('#bookingheader-pickup_date').on('change', function () {
             let pickup_date = $(this).val();
             let return_date = $("#bookingheader-return_date").val();
-            let pick_parts = pickup_date.split("-");
-            let pickup_date_obj = new Date(pick_parts[2], pick_parts[1] - 1, pick_parts[0]);
+            
+            if (pickup_date != "") {
+                let pick_parts = pickup_date.split("-");
+                let pickup_date_obj = new Date(pick_parts[2], pick_parts[1] - 1, pick_parts[0]);
 
-            if (return_date != "") {
-                let return_parts = return_date.split("-");
-                let return_date_obj = new Date(return_parts[2], return_parts[1] - 1, return_parts[0]);
-                if (return_date_obj < pickup_date_obj) {
-                    return_date = "";
+                if (return_date != "") {
+                    let return_parts = return_date.split("-");
+                    let return_date_obj = new Date(return_parts[2], return_parts[1] - 1, return_parts[0]);
+                    
+                    // Validate: Return date must be >= Pickup date
+                    if (return_date_obj < pickup_date_obj) {
+                        alert("Return Date must be equal to or after Pickup Date. Please adjust the dates.");
+                        // Clear the return date or set it to pickup date
+                        $("#bookingheader-return_date").kvDatepicker('update', '');
+                        return_date = "";
+                    }
+                }
+                
+                // Auto-set return date if empty
+                if (pickup_date != "" && return_date == "") {
+                    pickup_date_obj.setDate(pickup_date_obj.getDate() + 2);
+                    $("#bookingheader-return_date").kvDatepicker('update', pickup_date_obj);
                 }
             }
-            if (pickup_date != "" && return_date == "") {
-                pickup_date_obj.setDate(pickup_date_obj.getDate() + 2);
-                $("#bookingheader-return_date").kvDatepicker('update', pickup_date_obj);
-                //console.log(new_return_date)
-
+        });
+        
+        // Validate return date when it changes
+        $('#bookingheader-return_date').on('change', function () {
+            let return_date = $(this).val();
+            let pickup_date = $("#bookingheader-pickup_date").val();
+            
+            if (return_date != "" && pickup_date != "") {
+                let return_parts = return_date.split("-");
+                let return_date_obj = new Date(return_parts[2], return_parts[1] - 1, return_parts[0]);
+                
+                let pick_parts = pickup_date.split("-");
+                let pickup_date_obj = new Date(pick_parts[2], pick_parts[1] - 1, pick_parts[0]);
+                
+                // Validate: Return date must be >= Pickup date
+                if (return_date_obj < pickup_date_obj) {
+                    alert("Return Date must be equal to or after Pickup Date. Please adjust the dates.");
+                    // Set return date to pickup date as minimum
+                    $("#bookingheader-return_date").kvDatepicker('update', pickup_date_obj);
+                }
             }
-
         });
 
     });
@@ -2292,7 +2373,6 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
     }
 
     function submitForm() {
-
 
         $.ajax({
             url: $('#booking_header_form').attr('action'),
