@@ -11,10 +11,13 @@ $this->title = 'Customer';
 
 ?>
 <style type="text/css">
-  td,th{
-    font-size: 15px; 
-}
+    td, th {
+        font-size: 15px;
+    }
 
+    #example > tbody > tr > td, #example > tbody > tr > th {
+        padding: 4px 10px !important;
+    }
 </style>
 
 <div class="customer-master-index">
@@ -35,33 +38,33 @@ $this->title = 'Customer';
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="table-responsive m-t-40">
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'tableOptions' => [ 'id' => 'example','class' => 'display nowrap table table-hover table-striped table-bordered'],
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+                    <div class="table-responsive m-t-0">
+                        <?= GridView::widget([
+                            'dataProvider' => $dataProvider,
+                            'filterModel' => $searchModel,
+                            'tableOptions' => ['id' => 'example', 'class' => 'display nowrap table table-hover table-striped table-bordered'],
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            'name',
-            'email_id:email',
-            'contact_nos',
-            'contact_nos_2',
-            'address',
-            //'reference',
-            //'reference_name',
-            //'created_date',
-            'cust_group',
+                                //'id',
+                                'name',
+                                'email_id:email',
+                                'contact_nos',
+                                'contact_nos_2',
+                                'address',
+                                //'reference',
+                                //'reference_name',
+                                //'created_date',
+                                'cust_group',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                                ['class' => 'yii\grid\ActionColumn'],
+                            ],
+                        ]); ?>
                     </div>
                 </div>
             </div>

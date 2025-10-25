@@ -30,9 +30,9 @@
                             <div class="row m-t-10">
                                 <div class="col-lg-12">
                                     <div class="col-lg-3" >
-                                        <a class="btn button btn-delete btn-info btn-outline-success"
+                                        <a class="btn button btn-delete btn-success btn-outline-success"
                                                 href="<?= $image_path; ?>" download="<?= $actual_image_name; ?>"
-                                                id="delete_<?= $img_details['id']; ?>"><i class="mdi mdi-download"></i>
+                                                id="delete_<?= $img_details['id']; ?>"><i class="fas fa-download"></i>
                                         </a>
                                     </div>
                                     <div class="col-lg-6" >
@@ -49,9 +49,9 @@
                                         </div>
                                     <div class="col-lg-3" >
 
-                                        <button class="btn button btn-delete btn-info btn-outline-red"
+                                        <button class="btn button btn-delete btn-danger btn-outline-red"
                                                 onclick="changeimagestatus('delete',<?= $img_details['id'] ?>)"
-                                                id="delete_<?= $img_details['id']; ?>"><i class="mdi mdi-delete"></i>
+                                                id="delete_<?= $img_details['id']; ?>"><i class="fas fa-trash-alt"></i>
                                         </button>
 
                                     </div>

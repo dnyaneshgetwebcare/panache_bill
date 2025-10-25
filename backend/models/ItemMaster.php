@@ -37,7 +37,7 @@ class ItemMaster extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-   // public $images;
+   // public $images; ALTER TABLE `item_master` ADD `dry_cleaning_treshold` INT(2) NOT NULL DEFAULT '1' AFTER `nos_dry_cleaning`;
     public static function tableName()
     {
         return 'item_master';

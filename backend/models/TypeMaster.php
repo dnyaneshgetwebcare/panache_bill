@@ -18,6 +18,8 @@ use Yii;
  * @property PurchaseItem[] $purchaseItems
  * @property CategoryMaster $category
  */
+
+/*ALTER TABLE `type_master` ADD `dry_cleaning_treshold` INT(2) NOT NULL DEFAULT '1' AFTER `dispaly_main_site`;*/
 class TypeMaster extends \yii\db\ActiveRecord
 {
     /**
@@ -40,6 +42,7 @@ class TypeMaster extends \yii\db\ActiveRecord
             [['intial_pre'], 'string', 'max' => 5],
             [['intial_pre'], 'unique'],
             [['dispaly_main_site'], 'default','value'=>0],
+            [['dry_cleaning_treshold'], 'default','value'=>1],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoryMaster::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }

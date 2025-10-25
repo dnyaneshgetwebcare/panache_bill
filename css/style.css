@@ -536,7 +536,7 @@ Rounds
   font-weight: 400;
   text-align: center;
   border-radius: 100%;
-  background: #1e88e5; }
+  background: #0558a1; }
   .round img {
     border-radius: 100%; }
 
@@ -1564,6 +1564,7 @@ Form-control
 .form-control {
   color: #131517;
   min-height: 38px;
+  border-color: #939393 !important;
   display: initial; }
 
 .form-control-sm {
@@ -1814,7 +1815,7 @@ File: scss
 *******************/
 .page-titles {
   background: #ffffff;
-  margin: 0 -30px 30px;
+  margin: 0 -10px 10px;
   padding: 15px;
   -webkit-box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1);
   box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1); }
@@ -2190,7 +2191,7 @@ ul#themecolors {
 .card-outline-info {
   border-color: #1e88e5; }
   .card-outline-info .card-header {
-    background: #1e88e5;
+    background: #2c74b3;
     border-color: #1e88e5; }
 
 .card-outline-inverse {
@@ -6622,7 +6623,7 @@ File: scss
  ============================================================== */
 @media (min-width: 768px) {
   .navbar-header {
-    width: 240px;
+    /* width: 240px; */
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0; }
@@ -7239,10 +7240,10 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
   transform-origin: left 0px; }
 
 /*panels*/
-.card {
+/*.card {
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 4px; }
+  border-radius: 4px; }*/
 
 .well, pre {
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);

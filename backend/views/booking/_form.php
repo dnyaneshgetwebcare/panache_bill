@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -10,18 +10,25 @@ use kartik\popover\PopoverX;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 use backend\models\PaymentMaster;
+use kartik\select2\Select2;
 
 ?>
 <?php
 /*$tax_active_string=($model_company->TAX_ACTIVE==1)?'':'display:none';
 $sales_departmnet_string=($model_company->MULTI_SALES_DEPARTMENT==1)?'':'display:none';
 $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:none';*/
+$user = Yii::$app->user->identity;
+$is_admin = ($user->user_type == "admin") ? true : false;
 ?>
 <!-- <script src="js/sweetalert.min.js"></script> -->
 <style type="text/css">
     /*  .table-bordered>tbody>tr>td,.table-bordered>thead>tr>th{
   border:1px solid #eee !important;
  }*/
+      .close{
+      position: absolute;
+    right: 20px;
+  }
     .form-group {
         margin-bottom: 0px;
     }
@@ -30,10 +37,16 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
         margin-bottom: 10px !important;
     }
 
+
     .form-control {
         font-size: 15px;
         font-weight: 500;
+        line-height: 1.5 !important;
+        padding: 5px !important;
     }
+
+
+
 
     th {
         font-size: 15px;
@@ -120,7 +133,8 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
         padding: 12px 0px 12px 10px !important;
     }
 
-    .glyphicon-pencil, .glyphicon-trash {
+    .glyphicon-pencil,
+    .glyphicon-trash {
         /*color: #c9e4ea;*/
         color: transparent;
 
@@ -134,7 +148,8 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
         /*    margin: 0 15px 15px 15px;*/
     }
 
-    .ui-widget-content, .autocomplete {
+    .ui-widget-content,
+    .autocomplete {
         border: 1px solid #aaaaaa !important;
         background: #ffffff url("images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x !important;
         color: #222222 !important;
@@ -145,23 +160,28 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
         padding-left: 0px;
     }
 
-    .ui-menu-item, .autocomplete li {
+    .ui-menu-item,
+    .autocomplete li {
         position: relative !important;
         margin: 0 !important;
         padding: 3px 1em 3px .4em !important;
     }
 
-    .ui-menu-item, .autocomplete li, .ui-widget {
+    .ui-menu-item,
+    .autocomplete li,
+    .ui-widget {
         cursor: pointer !important;
         min-height: 0 !important;
         list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7") !important;
     }
 
-    .ui-widget, .autocomplete li {
+    .ui-widget,
+    .autocomplete li {
         font-family: Verdana, Arial, sans-serif !important;
     }
 
-    .ui-menu-item div:hover, .autocomplete li:hover {
+    .ui-menu-item div:hover,
+    .autocomplete li:hover {
         background: #337ab7 !important;
         font-weight: normal !important;
         color: #fff !important;
@@ -185,7 +205,6 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
     .autocomplete {
         margin-top: 2px;
         width: 85%
-
     }
 
     .autocomplete li {
@@ -196,7 +215,10 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
         text-align: right;
     }
 
-    input[readonly], input[readonly="readonly"], input[disabled], select[disabled] {
+    input[readonly],
+    input[readonly="readonly"],
+    input[disabled],
+    select[disabled] {
         cursor: not-allowed;
         background: transparent !important;
     }
@@ -206,6 +228,14 @@ $sales_location_string=($model_company->MULTI_SALES_LOCATION==1)?'':'display:non
         border-bottom: 1px solid #aaa;
     }
 
+    .form-group {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .nav-secondary .nav-link.active:hover {
+        color: #000 !important;
+    }
 </style>
 
 
@@ -219,14 +249,16 @@ $label_select = 'SELECT';
 $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_header_form', 'options' => ['class' => 'disable-submit-buttons', 'onSubmit' => 'return clientShowLoader()']]);
 ?>
 <div class="row">
-    <div class="card col-lg-12">
-
+    <div class="card col-lg-12" style="margin-bottom: 56px">
         <div class="card-body">
             <div class="col-lg-12">
-                <div class="error-summary-sales alert alert-danger" id="errors_test1" style="display: none;"><p><i
-                                class="fa fa-close pull-right" onclick="$(&quot;#errors_test1&quot;).hide()"></i><h5
+                <div class="error-summary-sales alert alert-danger" id="errors_test1" style="display: none;">
+                    <p><i
+                                class="fa fa-close pull-right" onclick="$(&quot;#errors_test1&quot;).hide()"></i>
+                    <h5
                             class="text-danger"><b><i class="fa fa-exclamation-triangle"></i> <?= 'ERRORS'; ?>:</b>
-                    </h5></p>
+                    </h5>
+                    </p>
                     <hr class="custom_error_hr">
                     <div id="error_display_sales" class="custom_error"></div>
                 </div>
@@ -247,11 +279,10 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="control-label text-left col-md-2">Name</label>
+                                    <label class="control-label text-left col-md-2"
+                                           style="align-self: center">Name</label>
                                     <div class="col-md-8" style="padding-left: 0px!important; margin-left: -12px;">
                                         <?php
-
-
                                         echo $form->field($customer_model, 'name')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => 'Search by Name/Contact nos or Create New', 'autocomplete' => "off", 'readonly' => true])->label(false); ?>
                                         <!-- <div class="form-group field-customermastersearch-name">
 
@@ -275,7 +306,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label class="control-label text-left col-md-3"
-                                           style="padding-right: 0px !important">Mobile No.</label>
+                                           style="padding-right: 0px !important;align-self: center">Mobile No.</label>
                                     <div class="col-md-9">
                                         <?php echo $form->field($customer_model, 'contact_nos')->textInput(['maxlength' => true, 'onfocusin' => '$("#customer_autodata").hide();', 'class' => 'form-control text_first', 'placeholder' => $customer_model->attributeLabels()['contact_nos'], 'autocomplete' => "off"])->label(false); ?>
                                     </div>
@@ -284,7 +315,8 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label class="control-label text-left col-md-3">Email ID</label>
+                                    <label class="control-label text-left col-md-3" style="align-self: center">Email
+                                        ID</label>
                                     <div class="col-md-9">
                                         <?php echo $form->field($customer_model, 'email_id')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'onfocusin' => '$("#customer_autodata").hide();', 'placeholder' => $customer_model->attributeLabels()['email_id'], 'autocomplete' => "off"])->label(false); ?>
                                     </div>
@@ -297,20 +329,41 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label class="control-label text-left col-md-3"
-                                           style="padding-right: 0px !important">Reference</label>
+                                           style="padding-right: 0px !important;align-self: center">Reference</label>
                                     <div class="col-md-9">
-                                        <?= $form->field($customer_model, 'reference')->dropDownList(['None' => 'None', 'FaceBook' => 'FaceBook', 'Instagram' => 'Instagram', 'Google' => 'Google', 'Friend' => 'Friend',], ['class' => 'form-control text_first',])->label(false) ?>
+                                        <!-- --><?php /*= $form->field($customer_model, 'reference')->dropDownList(['None' => 'None', 'FaceBook' => 'FaceBook', 'Instagram' => 'Instagram', 'Google' => 'Google', 'Friend' => 'Friend',], ['class' => 'form-control text_first',])->label(false) */ ?>
+                                        <?php $list = array('None' => 'None', 'FaceBook' => 'FaceBook', 'Instagram' => 'Instagram', 'Google' => 'Google', 'Friend' => 'Friend') ?>
+                                        <?= $form->field($customer_model, 'reference')->widget(Select2::classname(), [
+                                            'data' => $list,
+                                            'size' => Select2::MEDIUM,
+                                            'theme' => Select2::THEME_BOOTSTRAP,
+                                            'options' => ['placeholder' => 'Select Reference'],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ])->label(false); ?>
                                     </div>
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label class="control-label text-left col-md-3" style="padding-right: 0px">Addrs
+                                    <label class="control-label text-left col-md-3"
+                                           style="padding-right: 0px;align-self: center">Addrs
                                         Grp</label>
                                     <div class="col-md-9">
-                                        <?php // $form->field($customer_model, 'cust_group')->dropDownList([ 'None' => 'None', 'Photographer' => 'Photographer', 'Model' => 'Model', 'Friend' => 'Friend', ], ['class'=>'form-control text_first'])->label(false) ?>
-                                        <?= $form->field($customer_model, 'address_group')->dropDownList($address_grup, ['class' => 'form-control text_first'])->label(false) ?>
+                                        <?php // $form->field($customer_model, 'cust_group')->dropDownList([ 'None' => 'None', 'Photographer' => 'Photographer', 'Model' => 'Model', 'Friend' => 'Friend', ], ['class'=>'form-control text_first'])->label(false)
+                                        ?>
+                                        <!--                                        --><?php //= $form->field($customer_model, 'address_group')->dropDownList($address_grup, ['class' => 'form-control text_first'])->label(false) ?>
+                                        <?= $form->field($customer_model, 'address_group')->widget(Select2::classname(), [
+                                            'data' => $address_grup,
+                                            'size' => Select2::MEDIUM,
+                                            'theme' => Select2::THEME_BOOTSTRAP,
+                                            'options' => ['placeholder' => 'Select Address Grp'],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ])->label(false); ?>
                                     </div>
                                 </div>
                             </div>
@@ -347,13 +400,13 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
 
                                     <div class="col-md-12">
                                         <?php
-
+                                        $image_path = Yii::getAlias('@web') . '/img/no-image.jpg';
                                         /*if($model->booking_id=="" ){
                                             // echo $model->deposite_applicable;die;
                                             $model->deposite_applicable=true;
 
                                         }*/
-                                        //$model->deposite_applicable=false;
+                                        $model->deposite_applicable = true;
                                         $model->diplay_amount = true;
                                         ?>
 
@@ -362,23 +415,18 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" >
                                 <div class="form-group row">
-
                                     <div class="col-md-9">
+                                      <?= $form->field($model, 'postpond')
+                                        ->checkBox(['class' => 'deposite_applicable_class check ']); ?>
 
-
-                                        <?= $form->field($model, 'diplay_amount')
-                                            ->checkBox(['class' => 'deposite_applicable_class check control-label', 'data-checkbox' => "icheckbox_square-red"]); ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group row">
-
                                     <div class="col-md-9">
-
-
                                         <?= $form->field($model, 'picked_up')
                                             ->checkBox(['class' => 'deposite_applicable_class check ', 'data-checkbox' => "icheckbox_square-red"]); ?>
                                     </div>
@@ -386,19 +434,12 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group row">
-
                                     <div class="col-md-9">
-
-
                                         <?= $form->field($model, 'complete_order')
                                             ->checkBox(['class' => 'deposite_applicable_class check ', 'data-checkbox' => "icheckbox_square-red"]); ?>
                                     </div>
                                 </div>
                             </div>
-
-                            <!--/span-->
-
-                            <!--/span-->
                         </div>
                     </div>
 
@@ -413,7 +454,8 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                         <div class="row" style="margin-bottom: 7px;">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="control-label text-right col-md-4"><?= $model->attributeLabels()['booking_date'] ?></label>
+                                    <label class="control-label text-right col-md-4"
+                                           style="align-self: center"><?= $model->attributeLabels()['booking_date'] ?></label>
                                     <div class="col-md-8">
                                         <?php $model['booking_date'] = ($model['booking_date'] != '') ? date('d-m-Y', strtotime($model['booking_date'])) : date('d-m-Y');
 
@@ -443,14 +485,47 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                         <div class="row" style="margin-bottom: 7px;">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="control-label text-right col-md-4"><?= $model->attributeLabels()['pickup_date'] ?></label>
+                                    <label class="control-label text-right col-md-4"
+                                           style="align-self: center"><?= $model->attributeLabels()['event_date'] ?></label>
+                                    <div class="col-md-8">
+                                        <?php 
+                                        $model['event_date'] = ($model['event_date'] != '') ? date('d-m-Y', strtotime($model['event_date'])) : null;
+                                        $startDate = $is_admin ? null : 'today';
+                                        echo DatePicker::widget([
+                                            'name' => 'BookingHeader[event_date]',
+                                            'id' => 'bookingheader-event_date',
+                                            'type' => DatePicker::TYPE_INPUT,
+                                            'value' => $model['event_date'],
+                                            'options' => [
+                                                'placeholder' => 'dd-mm-yyyy',
+                                                'autocomplete' => 'off'
+                                            ],
+                                            'pluginOptions' => [
+                                                'autoclose' => true,
+                                                'format' => 'dd-mm-yyyy',
+                                                'todayHighlight' => true,
+                                                'orientation' => 'bottom',
+                                                'startDate' => $startDate,
+                                            ],
+
+                                        ]); ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-bottom: 7px;">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="control-label text-right col-md-4"
+                                           style="align-self: center"><?= $model->attributeLabels()['pickup_date'] ?></label>
                                     <div class="col-md-8">
                                         <?php //$model['pickup_date']=($model['pickup_date'] !='')?date('d-m-Y',strtotime($model['pickup_date'])):date('d-m-Y');
                                         $model['pickup_date'] = ($model['pickup_date'] != '') ? date('d-m-Y', strtotime($model['pickup_date'])) : null;
-
+                                        $startDate = $is_admin ? null : 'today';
                                         echo DatePicker::widget([
                                             'name' => 'BookingHeader[pickup_date]',
-
+                                            'id' => 'bookingheader-pickup_date',
                                             'type' => DatePicker::TYPE_INPUT,
                                             'value' => $model['pickup_date'],
                                             //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
@@ -463,24 +538,26 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                                 'format' => 'dd-mm-yyyy',
                                                 'todayHighlight' => true,
                                                 'orientation' => 'bottom',
-                                            ]
+                                              'startDate' => $startDate,
+                                            ],
+
                                         ]); ?>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="row" style="margin-bottom: 7px;">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="control-label text-right col-md-4"><?= $model->attributeLabels()['return_date'] ?></label>
+                                    <label class="control-label text-right col-md-4"
+                                           style="align-self: center"><?= $model->attributeLabels()['return_date'] ?></label>
                                     <div class="col-md-8">
                                         <?php //$model['return_date']=($model['return_date'] !='')?date('d-m-Y',strtotime($model['return_date'])):date('d-m-Y');
                                         $model['return_date'] = ($model['return_date'] != '') ? date('d-m-Y', strtotime($model['return_date'])) : null;
 
                                         echo DatePicker::widget([
                                             'name' => 'BookingHeader[return_date]',
-
+                                            'id' => 'bookingheader-return_date',
                                             'type' => DatePicker::TYPE_INPUT,
                                             'value' => $model['return_date'],
                                             //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
@@ -493,6 +570,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                                 'format' => 'dd-mm-yyyy',
                                                 'todayHighlight' => true,
                                                 'orientation' => 'bottom',
+                                              'startDate' => $startDate,
                                             ]
                                         ]); ?>
                                         <?php echo $form->field($model, 'booking_id')->hiddenInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['booking_id'], 'autocomplete' => "off"])->label(false); ?>
@@ -506,21 +584,24 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                         <!--/row-->
                         <div class="row">
                             <div class="col-md-12">
-                                <h1><b>
+                                <h3><b>
                                         <center>
-                                            <div id="display_pending" style="background-color: #c4ecba">Amount: 0</div>
+                                            <div id="display_pending"
+                                                 style="background-color: #c4ecba;border-radius: 5px;padding: 5px 0">
+                                                Amount: 0
+                                            </div>
                                         </center>
-                                    </b></h1>
+                                    </b></h3>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="display: none">
                             <div class="form-group row">
 
                                 <div class="col-md-9">
 
 
-                                    <?= $form->field($model, 'postpond')
-                                        ->checkBox(['class' => 'deposite_applicable_class check ', 'data-checkbox' => "icheckbox_square-red"]); ?>
+                                    <?= $form->field($model, 'diplay_amount')
+                                            ->checkBox(['class' => 'deposite_applicable_class check control-label', 'data-checkbox' => "icheckbox_square-red", 'style'=> 'display: none']); ?>
                                 </div>
                             </div>
                         </div>
@@ -547,507 +628,458 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                 </div>
 
             </div>
-            <!-- Row -->
-
-
-            <!-- <div class="row" style="margin-top:0px !important;padding-bottom:0px !important">
-    <div class="col-lg-4 panel panel-default">
-        <div class="panel-body" style="padding-bottom:0px !important">
-
-            <div class="tab-content">
-
-                <div class="col-lg-12">
-                    <div class="row right_section">
-
-                        <div class="form-group cust-group">
-                            <label class="col-lg-5 control-label" style="text-align: left"> <?php // $model->attributeLabels()['booking_date'] ?> </label>
-                            <div class="col-lg-6 form-group">
-                                <?php // $model['booking_date']=($model['booking_date'] !='')?Yii::$app->formatter->asDate($model['booking_date'],'dd-MM-Y'):date('d-m-Y');
-
-            /*echo DatePicker::widget([
-                'name' => 'BookingHeader[booking_date]',
-
-                'type' => DatePicker::TYPE_INPUT,
-                'value'=> $model['booking_date'],
-                //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                'options' => [
-                    'placeholder' => 'dd-mm-yyyy',
-                ],
-                'pluginOptions' => [
-                    'autoclose'=>true,
-                    'format' => 'dd-mm-yyyy'
-                ]
-            ]);*/ ?>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row right_section">
-
-                        <div class="form-group cust-group">
-                            <label class="col-lg-5 control-label" style="text-align: left"> <?php // $model->attributeLabels()['pickup_date'] ?> </label>
-                            <div class="col-lg-6 form-group">
-                                <?php //$model['pickup_date']=($model['pickup_date'] !='')?Yii::$app->formatter->asDate($model['pickup_date'],'dd-MM-Y'):date('d-m-Y');
-
-            /* echo DatePicker::widget([
-                 'name' => 'BookingHeader[pickup_date]',
-
-                 'type' => DatePicker::TYPE_INPUT,
-                 'value'=> $model['pickup_date'],
-                 //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                 'options' => [
-                     'placeholder' => 'dd-mm-yyyy',
-                 ],
-                 'pluginOptions' => [
-                     'autoclose'=>true,
-                     'format' => 'dd-mm-yyyy'
-                 ]
-             ]);*/ ?>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row right_section">
-
-                        <div class="form-group cust-group">
-                            <label class="col-lg-5 control-label" style="text-align: left"> <?php // $model->attributeLabels()['return_date'] ?> </label>
-                            <div class="col-lg-6 form-group">
-                                <?php //$model['return_date']=($model['return_date'] !='')?Yii::$app->formatter->asDate($model['return_date'],'dd-MM-Y'):date('d-m-Y');
-
-            /*echo DatePicker::widget([
-                'name' => 'BookingHeader[return_date]',
-
-                'type' => DatePicker::TYPE_INPUT,
-                'value'=> $model['return_date'],
-                //'disabled' =>($readonly_GOODS_header)?$readonly_GOODS_header:$readonly_closed_string,
-                'options' => [
-                    'placeholder' => 'dd-mm-yyyy',
-                ],
-                'pluginOptions' => [
-                    'autoclose'=>true,
-                    'format' => 'dd-mm-yyyy'
-                ]
-            ]);*/ ?>
-<?php // echo $form->field($model, 'booking_id')->hiddenInput(['maxlength' => true,'class'=>'form-control text_first','placeholder'=> $model->attributeLabels()['booking_id'],'autocomplete'=>"off"])->label(false);?>
-                            </div>
-                        </div>
-                    </div>
-                 
-
-                </div>
-
-            </div>
-        </div>
-        
-    </div>
-    
-</div>
- -->
-
-
             <div class="col-lg-12" style="padding-left: 0px">
-                <div class="list-main-tab">
-                    <div class="list-main-tab-heading" id="matetialServiceTab">
-                        <ul class="nav nav-tabs customtab2" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#component_pills"
-                                                    role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span>
-                                    <span class="hidden-xs-down" style="font-size: 14px;">Items</span></a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#operation-pills"
-                                                    role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span>
-                                    <span style="font-size: 14px;" class="hidden-xs-down">Payment</span></a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#measure-pills" role="tab"><span
-                                            class="hidden-sm-up"><i class="ti-email"></i></span> <span
-                                            style="font-size: 14px;" class="hidden-xs-down">Measurment</span></a></li>
-                        </ul>
-                        <!--   <ul class="nav nav-tabs customtab2">
-                            <li class="active upper_tabs"><a href="#component_pills" data-toggle="tab" aria-expanded="true" id="composite">Items</a>
-                             </li>
-                            <li class="upper_tabs"><a href="#operation-pills" data-toggle="tab" aria-expanded="true" id="expense">Payment</a>
-                              </li>
-                              <li class="upper_tabs"><a href="#measure-pills" data-toggle="tab" aria-expanded="true" id="expense">Measurment</a>
-                              </li>
-                            </ul> -->
-                    </div>
+                <ul class="nav nav-pills nav-secondary  nav-pills-no-bd nav-pills-icons mb-3"
+                    id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-items-tab" data-bs-toggle="pill"
+                           href="#component_pills" role="tab" aria-controls="pills-home-icon" aria-selected="true">
+                            <i class="flaticon-home"></i>
+                            Items
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-payment-tab" data-bs-toggle="pill" href="#operation-pills"
+                           role="tab" aria-controls="pills-profile-icon" aria-selected="false">
+                            <i class="flaticon-user-4"></i>
+                            Payment
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-measurement-tab" data-bs-toggle="pill" href="#measure-pills"
+                           role="tab" aria-controls="pills-contact-icon" aria-selected="false">
+                            <i class="flaticon-mailbox"></i>
+                            Measurment
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content master-main-tab"> <!-- General Tab-->
+                    <div class="tab-pane  show active in" id="component_pills" role="tabpanel"
+                         aria-labelledby="pills-items-tab">
+                        <div class="row ">
+                            <div class="col-lg-12" id="sales_items_tab" style="margin-top: 10px">
+                                <?php DynamicFormWidget::begin([
+                                    'widgetContainer' => 'dynamicform_wrapper_booking',
+                                    'widgetBody' => '.container-items',
+                                    'widgetItem' => '.house-item',
+                                    'limit' => 10,
+                                    'min' => 1,
+                                    'insertButton' => '.add-house',
+                                    'deleteButton' => '.remove-house',
+                                    'model' => $booking_items[0],
+                                    'formId' => 'booking_header_form',
+                                    'formFields' => [
+                                        'description',
+                                    ],
+                                ]); ?>
+                                <table class="table table-hover table-bordered table-head-bg-info table-bordered-bd-info">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 3%">#</th>
+                                        <th style="width: 3%"></th>
+                                        <th style="width: 30%">Item</th>
+                                        <th style="width: 10%">Amount</th>
+                                        <th style="width: 10%">Deposite</th>
+                                        <th style="width: 10%">Discount</th>
+                                        <th style="width: 7px;">Extra</th>
 
-                </div>
-                <div>
-                    <div class="tab-content master-main-tab"> <!-- General Tab-->
-                        <div class="tab-pane fade active in" id="component_pills">
-                            <div class="row ">
+                                        <th style="width: 10%">Net Value</th>
+                                        <th style="width: 20%">Note</th>
+                                        <th class="text-center" style="width: 2%;">
+                                            <button type="button" onclick="addBookingitem()"
+                                                    class="add-house btn btn-success btn-xs">
+                                                <span class="fa fa-plus"></span>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="container-items">
+                                    <?php
+                                    $array1 = [new BookingItem()];
+                                    $booking_items = array_merge($array1, $booking_items);
+                                    $count_item = count($booking_items);
+                                    $sub_total = 0;
+                                    $def_image_path = Yii::getAlias('@web') . '/uploads/';
+                                    foreach ($booking_items as $indexHouse => $booking_item):
+                                        $active_div = ($model->booking_id != '' && $indexHouse != 0) ? '' : 'display:none;';
+                                        $item_status = false;
+                                        $item_master = $booking_item->item;
+                                        $image_pth= ($model->booking_id != '' && $indexHouse != 0) ? $booking_item->item->imageurl : $image_path;
+                                        $booking_item->item_status = ($model->booking_id != '' && $indexHouse != 0) ? $booking_item->item_status : 'Booked';
+                                        if ($model->booking_id != '' && $indexHouse != 0) {
+                                            $item_status = ($booking_item->item_status != 'Booked');
+                                        }
+                                        ?>
+                                        <tr class="house-item" id='<?php echo "bookingitem-{$indexHouse}-test"; ?>'>
+                                            <td id='<?php echo "bookingitem-{$indexHouse}-tax_new_id"; ?>'
+                                                style="text-align: center;vertical-align: middle !important;"><?= $indexHouse; ?>
 
-                                <div class="col-lg-12" id="sales_items_tab" style="margin-top: 10px">
-                                    <?php DynamicFormWidget::begin([
-                                        'widgetContainer' => 'dynamicform_wrapper_booking',
-                                        'widgetBody' => '.container-items',
-                                        'widgetItem' => '.house-item',
-                                        'limit' => 10,
-                                        'min' => 1,
+                                            </td>
+                                            <td>
+                                                <img src="<?= $image_pth ?>" height="70px" width="70px" id='<?php
+                                                echo "bookingitem-{$indexHouse}-img"; ?>' onclick="show_image(this)"/>
+                                            </td>
+                                            <td class="vcenter desc"
+                                                style="width: 300px;max-width: 300px;overflow: visible;word-break: all;vertical-align: top !important;">
 
-                                        'insertButton' => '.add-house',
-                                        'deleteButton' => '.remove-house',
-                                        'model' => $booking_items[0],
-                                        'formId' => 'booking_header_form',
-                                        'formFields' => [
-                                            'description',
-                                        ],
-                                    ]); ?>
-                                    <table class="table color-bordered-table muted-bordered-table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th style="width: 3%">#</th>
-                                            <th style="width: 30%">Item</th>
-                                            <th style="width: 10%">Amount</th>
-                                            <th style="width: 10%">Deposite</th>
-                                            <th style="width: 10%">Discount</th>
-                                            <th style="width: 7px;">Extra</th>
+                                                <div class="row temp_change_item_row"
+                                                     style="margin-left:1px;font-size:13px;padding-bottom: 0px;border-radius: 4px;width:100%;height:34px;border:1px solid #aad0e6;cursor: pointer;<?= ($active_div != '') ? 'display: block' : 'display:none'; ?>">
+                                                    <div class="pull-left temp_change_item"
+                                                         style="padding:0px 0px 0px 10px;cursor: pointer;margin-top: -2px;width: 85%;overflow: hidden; display: flex;align-items: center;height: 100%;">
+                                                        <h6 class="ellipsis" style="margin: 0">
+                                                            <span style="color:#333;font-size: 12px">
+                                                                <b><?= 'Select Item' ?></b>
+                                                            </span>
+                                                        </h6>
 
-                                            <th style="width: 10%">Net Value</th>
-                                            <th style="width: 20%">Note</th>
-                                            <th class="text-center" style="width: 2%;">
-                                                <button type="button" onclick="addBookingitem()"
-                                                " class="add-house btn btn-success btn-xs" ><span
-                                                        class="fa fa-plus"></span></button>
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="container-items">
-                                        <?php
-                                        $array1 = [new BookingItem()];
-                                        $booking_items = array_merge($array1, $booking_items);
-                                        $count_item = count($booking_items);
-                                        $sub_total = 0;
+                                                    </div>
+                                                    <div class="pull-left temp_change_item"
+                                                         style="padding:3px 15px 0px 0px;cursor: pointer;width: 15%;text-align: right;">
+                                                        <i class="glyphicon glyphicon-menu-down"
+                                                           style="font-size: 11px;padding:5px;"></i>
+                                                    </div>
 
-                                        foreach ($booking_items as $indexHouse => $booking_item):
-                                            $active_div = ($model->booking_id != '' && $indexHouse != 0) ? '' : 'display:none;';
-                                            $item_status = false;
-                                            $booking_item->item_status = ($model->booking_id != '' && $indexHouse != 0) ? $booking_item->item_status : 'Booked';
-                                            if ($model->booking_id != '' && $indexHouse != 0) {
-                                                $item_status = ($booking_item->item_status != 'Booked');
-                                            }
-                                            ?>
-                                            <tr class="house-item" id='<?php echo "bookingitem-{$indexHouse}-test"; ?>'>
-                                                <td id='<?php echo "bookingitem-{$indexHouse}-tax_new_id"; ?>'
-                                                    style="text-align: center;vertical-align: middle !important;"><?= $indexHouse; ?>
+                                                </div>
+                                                <div class="row search_row"
+                                                     style="z-index: 1080;position: absolute;width: 95%;min-height:200px;display: none ;background: #fff;    box-shadow: 1px 3px 3px 1px #aaa;padding: 10px;">
 
-                                                </td>
-                                                <td class="vcenter desc"
-                                                    style="width: 300px;max-width: 300px;overflow: visible;word-break: all;vertical-align: top !important;">
+                                                    <div class="col-lg-12 other_details_data"
+                                                         id='<?php echo "bookingitem-{$indexHouse}-item_details_data"; ?>'></div>
 
+                                                </div>
 
-                                                    <div class="row temp_change_item_row"
-                                                         style="padding-bottom: 0px;margin:5px 5px 0px 5px !important;border-radius: 2px;border:1px solid #aad0e6;cursor: pointer;<?= ($active_div != '') ? 'display: block' : 'display:none'; ?>">
-                                                        <div class="pull-left temp_change_item"
-                                                             style="width:auto;padding:0px 0px 0px 10px;cursor: pointer;margin-top: -2px;width: 85%;overflow: hidden;display: inline-block;">
-                                                            <h6 class="ellipsis"
-                                                                style="margin-top: 5px;margin-bottom: 3px;"><span
-                                                                        style="font-weight: 550;color:#333;"><b><?= 'Select Item' ?></b></span>
-                                                            </h6>
-
-                                                        </div>
-                                                        <div class="pull-left temp_change_item"
-                                                             style="padding:3px 15px 0px 0px;cursor: pointer;width: 15%;text-align: right;">
-                                                            <i class="glyphicon glyphicon-menu-down"
-                                                               style="font-size: 11px;padding:5px;"></i>
+                                                <div class="item_details_lable" style="<?= $active_div ?>"
+                                                     id='<?php echo "bookingitem-{$indexHouse}-label_name"; ?>'>
+                                                    <div class="pull-left item_content" style="width: 90%">
+                                                        <div style="<?= $active_div; ?>" class="inner_desc"
+                                                             id='<?php echo "bookingitem-{$indexHouse}-item_desc"; ?>'>
+                                                            <?= $form->field($booking_item, "[{$indexHouse}]description")->textarea(['placeholder' => $booking_items[0]->attributeLabels()['description'], 'maxlength' => true, 'class' => 'form-control txt table-feild', 'style' => 'resize: none; height:34px !important;padding:6px 0px 6px 6px !important;margin-bottom:2px;color:#585b5d;background:none;font-weight:600; height: auto !important', 'onkeyup' => 'changeitemdetails(this.value,this.id)', 'autocomplete' => "off",])->label(false); ?>
                                                         </div>
 
                                                     </div>
-                                                    <div class="row search_row"
-                                                         style="z-index: 1080;position: absolute;width: 95%;min-height:200px;display: none ;background: #fff;    box-shadow: 1px 3px 3px 1px #aaa;padding: 10px;">
-
-                                                        <div class="col-lg-12 other_details_data"
-                                                             id='<?php echo "bookingitem-{$indexHouse}-item_details_data"; ?>'></div>
-
-                                                    </div>
-
-                                                    <div class="item_details_lable" style="<?= $active_div ?>"
-                                                         id='<?php echo "bookingitem-{$indexHouse}-label_name"; ?>'>
-                                                        <div class="pull-left item_content">
-                                                            <div style="<?= $active_div; ?>" class="inner_desc"
-                                                                 id='<?php echo "bookingitem-{$indexHouse}-item_desc"; ?>'>
-                                                                <?= $form->field($booking_item, "[{$indexHouse}]description")->textarea(['placeholder' => $booking_items[0]->attributeLabels()['description'], 'maxlength' => true, 'class' => 'form-control txt table-feild', 'style' => 'resize: none; height:29px !important;padding:0px 0px 2px 0px !important;margin-bottom:2px;color:#585b5d;background:none;font-weight:600;width:300px', 'onkeyup' => 'changeitemdetails(this.value,this.id)', 'autocomplete' => "off",])->label(false); ?>
-                                                            </div>
-
-                                                        </div>
-                                                        <i class="  glyphicon glyphicon-pencil"
-                                                           style="font-size: 11px;padding:5px;color: #00ACD6"></i>
-                                                        <?php //}
-                                                        ?>
-
-                                                    </div>
-
-
-                                                    <?php
-                                                    // necessary for update action.
-                                                    if (!$booking_item->isNewRecord) {
-                                                        echo Html::activeHiddenInput($booking_item, "[{$indexHouse}]item_id");
-                                                    }
+                                                    <i class="  glyphicon glyphicon-pencil"
+                                                       style="font-size: 11px;padding:5px;color: #00ACD6"></i>
+                                                    <?php //}
                                                     ?>
 
+                                                </div>
 
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]amount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status]) ?>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]product_id")->label(false)->hiddenInput(['maxlength' => true]) ?>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]item_type")->label(false)->hiddenInput(['maxlength' => true]) ?>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]item_category")->label(false)->hiddenInput(['maxlength' => true]) ?>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]item_no")->label(false)->hiddenInput(['maxlength' => true]) ?>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]item_status")->label(false)->hiddenInput(['maxlength' => true]) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]deposit_amount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status]) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]discount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $order_status]) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]extra_per")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0', 'readonly' => $order_status]) ?>
-                                                </td>
 
-                                                <td>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]net_value")->label(false)->textInput(['maxlength' => true, 'readonly' => true, 'style' => "border:none;background: none !important;"]) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($booking_item, "[{$indexHouse}]note")->label(false)->textInput(['maxlength' => true]) ?>
-                                                </td>
-                                                <td class="text-center vcenter" style="width: 90px; verti">
+                                                <?php
+                                                // necessary for update action.
+                                                if (!$booking_item->isNewRecord) {
+                                                    echo Html::activeHiddenInput($booking_item, "[{$indexHouse}]item_id");
+                                                }
+                                                ?>
 
-                                                    <button type="button" class="remove-house btn btn-danger btn-xs"
-                                                            onclick="removeBookingitem()" <?php echo ($item_status) ? 'disabled' : ''; ?>>
-                                                        <span class="fa <?= ($item_status) ? 'fa-truck' : 'fa-minus' ?>"></span>
+
+                                            </td>
+                                            <td>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]amount")->label
+                                                (false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status  , 'style' => 'text-align : right']) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]product_id")->label(false)->hiddenInput(['maxlength' => true]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]item_type")->label(false)->hiddenInput(['maxlength' => true]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]item_category")->label(false)->hiddenInput(['maxlength' => true]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]item_no")->label(false)->hiddenInput(['maxlength' => true]) ?>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]item_status")->label(false)->hiddenInput(['maxlength' => true]) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]deposit_amount")
+                                                  ->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $item_status , 'style' => 'text-align : right']) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]discount")->label
+                                                (false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0.00', 'readonly' => $order_status, 'style' => 'text-align : right']) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]extra_per")->label
+                                                (false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total(this.id)', 'placeholder' => '0', 'readonly' => $order_status , 'style' => 'text-align : right']) ?>
+                                            </td>
+
+                                            <td>
+                                                <?= $form->field($booking_item, "[{$indexHouse}]net_value")->label
+                                                (false)->textInput(['maxlength' => true, 'readonly' => true, 'style' => "border:none;background: none !important; text-align : right"]) ?>
+                                            </td>
+                                            <td>
+
+                                                <?= $form->field($booking_item, "[{$indexHouse}]note")->label(false)
+                                                  ->textarea(['maxlength' => true, 'row' => 3, 'style'=>'height : auto !important'
+                                                  ]) ?>
+                                            </td>
+                                            <td class="text-center vcenter" style="width: 90px; verti">
+
+                                                <button type="button" class="remove-house btn btn-danger btn-xs"
+                                                        onclick="removeBookingitem()" <?php echo ($item_status) ? 'disabled' : ''; ?>>
+                                                    <span class="fa <?= ($item_status) ? 'fa-truck' : 'fa-minus' ?>"></span>
+                                                </button>
+                                                <?php if ($item_status) { ?>
+                                                    <button style="margin-top: 5px;" type="button"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="<?php echo ($item_status) ? 'cancel_pickup(' . $model->booking_id . ',' . $booking_item->item_id . ',\'' . $booking_item->item_status . '\')' : ''; ?>"
+                                                            title="Cancel Pickup"><span class="fa fa-ban"></span>
                                                     </button>
-                                                    <?php if ($item_status) { ?>
-                                                        <button style="margin-top: 5px;" type="button"
-                                                                class="btn btn-danger btn-xs"
-                                                                onclick="<?php echo ($item_status) ? 'cancel_pickup(' . $model->booking_id . ',' . $booking_item->item_id . ',\'' . $booking_item->item_status . '\')' : ''; ?>"
-                                                                title="Cancel Pickup"><span class="fa fa-ban"></span>
-                                                        </button>
-                                                    <?php } ?>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                    <?php DynamicFormWidget::end(); ?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="card">
-                                        <div class="card-body" <?= ($model->booking_id != "") ? '' : 'style="display: none;"'; ?>>
-
-                                            <div class="col-md-12">
-                                                <div class="form-group row">
-                                                    <label class="control-label text-left col-md-3">Penalty:</label>
-                                                    <div class="col-md-9">
-                                                        <?php echo $form->field($model, 'issues_penalty')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'onkeyup' => 'add()', 'placeholder' => $model->attributeLabels()['issues_penalty'], 'autocomplete' => "off"])->label(false); ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <?php echo $form->field($model, 'issues_reason')->textarea(['maxlength' => true, 'class' => 'form-control', 'placeholder' => $model->attributeLabels()['issues_reason']])->label(false); ?>
-                                        </div>
-                                    </div>
-                                    <div class="card"
-                                         id="cancel_reason_display" <?= ($model->order_status == "Cancelled" || $model->order_status == "Deleted") ? '' : 'style="display: none;"'; ?> >
-                                        <div class="card-body">
-                                            <h4 class="card-title">Reason to Cancel/Delete:</h4>
-                                            <p><h6 class="card-subtitle"
-                                                   id="cancel_reason_data"><?= ($model->reason == '') ? "Reason not specified" : $model->reason; ?></h6></p>
-                                            <?php echo $form->field($model, 'reason')->hiddenInput(['maxlength' => true, 'class' => 'form-control'])->label(false); ?>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 form-total pull-right">
-                                    <div class="panel panel-default">
-                                        <!--  <div class="panel-heading"></div> -->
-                                        <div class="panel-body"
-                                             style="padding-top:0px !important;padding-bottom:0px !important">
-                                            <!-- Nav tabs -->
-
-                                            <!-- Tab panes -->
-                                            <div class="tab-content">
-
-                                                <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                    <div class="form-group col-12">
-                                                        <label class="col-md-6 control-label"> Rent Amount </label>
-                                                        <div class="col-md-6 number">
-                                                            <input type="text" name="BookingHeader[rent_amount]"
-                                                                   value="<?= $model->rent_amount ?>"
-                                                                   class="form-control total"
-                                                                   style="border:none;background: none !important;"
-                                                                   readonly id="total_rent_amount">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row row_new" style="border-top:1px solid #eee;">
-                                                    <div class="form-group col-12">
-                                                        <label class="col-md-6 control-label"> Deposit Amount </label>
-                                                        <div class="col-md-6 number">
-                                                            <input type="text" name="BookingHeader[deposite_amount]"
-                                                                   value="<?= $model->deposite_amount ?>"
-                                                                   class="form-control total"
-                                                                   style="border:none;background: none !important;"
-                                                                   readonly id="total_deposite_amount">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                    <div class="form-group col-12">
-                                                        <label class="col-md-6 control-label"> Discount </label>
-                                                        <div class="col-md-6 number">
-                                                            <input type="text" name="BookingHeader[discount]"
-                                                                   value="<?= $model->discount ?>"
-                                                                   class="form-control total"
-                                                                   style="border:none;background: none !important;"
-                                                                   readonly id="total_discount">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                    <div class="form-group col-12">
-                                                        <label class="col-md-6 control-label"> Extra Amount </label>
-                                                        <div class="col-md-6 number">
-                                                            <input type="text" name="BookingHeader[extra_amount]"
-                                                                   value="<?= $model->extra_amount ?>"
-                                                                   class="form-control total"
-                                                                   style="border:none;background: none !important;"
-                                                                   readonly id="extra_amount">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row row_new"
-                                                     style="border-top:1px solid #eee;background-color: #c4ecba">
-                                                    <div class="form-group col-12">
-                                                        <label class="col-md-6 control-label total"> Total </label>
-                                                        <div class="col-md-6 number" style="margin-top: 3px;">
-
-                                                            <input type="text" name="BookingHeader[net_value]"
-                                                                   value="<?= $model->net_value ?>"
-                                                                   class="form-control total"
-                                                                   style="border:none;background: none !important;"
-                                                                   readonly id="sub_total">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade" id="operation-pills">
-
-                            <div class="row  col-lg-12" style="padding-left: 0px;">
-
-                                <div class="col-lg-12" id="sales_items_tab_payment" style="margin-top: 10px">
-                                    <?php DynamicFormWidget::begin([
-                                        'widgetContainer' => 'dynamicform_wrapper_payment',
-                                        'widgetBody' => '.container-items-payment',
-                                        'widgetItem' => '.payment-item',
-                                        'limit' => 10,
-                                        'min' => 1,
-                                        'insertButton' => '.add-payment',
-                                        'deleteButton' => '.remove-payment',
-                                        'model' => $payment_models[0],
-                                        'formId' => 'booking_header_form',
-                                        'formFields' => [
-                                            'description',
-                                        ],
-                                    ]); ?>
-                                    <table class="table color-bordered-table muted-bordered-table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th style="width: 10%">Date</th>
-                                            <th style="width: 10%">Remark</th>
-                                            <th style="width: 15%">Type</th>
-                                            <th style="width: 15%">Mode</th>
-                                            <th style="width: 15%">Recived By</th>
-                                            <th style="width: 15%">Recived In</th>
-                                            <th style="width: 15%">During</th>
-                                            <th style="width: 20%">Amount</th>
-                                            <!--<th style="width: 450px;">Quantity</th>-->
-                                            <th class="text-center" style="width: 10%;">
-                                                <button type="button" onclick="addPaymentitem()"
-                                                " class="add-payment btn btn-success btn-xs"><span
-                                                        class="fa fa-plus"></span></button>
-                                            </th>
+                                                <?php } ?>
+                                            </td>
                                         </tr>
-                                        </thead>
-                                        <tbody class="container-items-payment">
-                                        <?php
-                                        $array1 = [new PaymentMaster()];
-                                        $payment_models = array_merge($array1, $payment_models);
-                                        $count_item_payment = count($payment_models);
-                                        $sub_total = 0;
-                                        foreach ($payment_models as $indexHouse => $payment_model):
-                                            $active_div = ($model->booking_id != '' && $indexHouse != 0) ? '' : 'display:none;';
-                                            $payment_model['date'] = ($payment_model['date'] == "") ? date('Y-m-d') : $payment_model['date'];
-                                            ?>
-                                            <tr class="payment-item"
-                                                id='<?php echo "paymentmaster-{$indexHouse}-test"; ?>'>
-                                                <td id='<?php echo "paymentmaster-{$indexHouse}-tax_new_id"; ?>'
-                                                    style="text-align: center;vertical-align: middle !important;">
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <?php DynamicFormWidget::end(); ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body" <?= ($model->booking_id != "") ? '' : 'style="display: none;"'; ?>>
 
-                                                    <input type="date"
-                                                           name="<?php echo "PaymentMaster[{$indexHouse}][date]" ?>"
-                                                           id='<?php echo "pricelistassignmentdiscounts-{$indexHouse}-valid_till" ?>'
-                                                           class="valid_till_date form-control"
-                                                           value="<?php echo $payment_model['date']; ?>">
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]payment_id")->label(false)->hiddenInput(['maxlength' => true,]) ?>
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]booking_id")->label(false)->hiddenInput(['maxlength' => true]) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]remark")->label(false)->textInput(['maxlength' => true, 'placeholder' => 'Remark',]) ?>
-                                                </td>
-
-                                                <td>
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]type")->dropDownList(['Advance' => 'Advance', 'Per-payment' => 'Per-payment', 'Final-Payment' => 'Final-Payment', 'Return-Deposit' => 'Return-Deposit', 'Cancel-Charge' => 'Cancel-Charge', 'Other-Charges' => 'Other-Charges', 'Return-Payment' => 'Return-Payment'], ['onchange' => 'add_total_payment()'])->label(false) ?>
-
-                                                </td>
-                                                <td>
-
-                                                    <?php
-                                                    $option_array = ($payment_model->type == 'Cancel-Charge' || $payment_model->type == 'Other-Charges') ? ['Deposit' => 'Deposit'] : ['Cash' => 'Cash', 'Google Pay' => 'Google Pay', 'Phone Pe' => 'Phone Pe', 'Bank Transfer' => 'Bank Transfer', 'Paytm' => 'Paytm', 'Other' => 'Other', 'Carry_Frwd' => 'Carry Frwd', 'Credit' => 'Balance'];
-
-                                                    echo $form->field($payment_model, "[{$indexHouse}]mode_of_payment")->dropDownList($option_array, ['onchange' => 'change_mode()'])->label(false) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]received_by")->dropDownList(['Varsha' => 'Varsha', 'Pranali' => 'Pranali', 'Others' => 'Others',])->label(false) ?>
-                                                </td>
-
-                                                <td>
-
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]sendto")->dropDownList(['Company' => 'Company', 'Pranali' => 'Pranali', 'Varsha' => 'Varsha',])->label(false) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]received_during")->dropDownList(['Booking' => 'Booking', 'Pickup' => 'Pickup', 'Return' => 'Return', 'Other' => 'Other',])->label(false) ?>
-                                                </td>
-                                                <td>
-                                                    <?= $form->field($payment_model, "[{$indexHouse}]amount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total_payment()', 'placeholder' => '0.00',]) ?>
-                                                </td>
+                                        <div class="col-md-12">
+                                          <label> Remark</label>
+                                             <?php echo $form->field($model, 'remark')->textarea(['maxlength' => true,
+                                               'class' => 'form-control', 'style'=> 'height:auto !important', 'row'=>3,
+                                               'placeholder'
+                                               =>
+                                               $model->attributeLabels()
+                                               ['remark']])->label(false); ?>
 
 
-                                                <td class="text-center vcenter" style="width: 90px; verti">
-                                                    <button type="button" class="remove-payment btn btn-danger btn-xs"
-                                                            onclick="removePaymentitem()"><span
-                                                                class="fa fa-minus"></span></button>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                    <?php DynamicFormWidget::end(); ?>
+                                            <div class="form-group row">
+                                                <label class="control-label text-left col-md-2">Penalty:</label>
+                                                <div class="col-md-3">
+                                                    <?php echo $form->field($model, 'issues_penalty')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'onkeyup' => 'add()', 'placeholder' => $model->attributeLabels()['issues_penalty'], 'autocomplete' => "off", 'style' => "text-align: end"])->label(false); ?>
+                                                </div>
+                                              <div class="col-md-7">
+                                               <?php echo $form->field($model, 'issues_reason')->textarea(['maxlength' => true, 'class' => 'form-control ', 'placeholder' => $model->attributeLabels()['issues_reason']])->label(false); ?>
+                                              </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="card"
+                                     id="cancel_reason_display" <?= ($model->order_status == "Cancelled" || $model->order_status == "Deleted") ? '' : 'style="display: none;"'; ?>>
+                                    <div class="card-body">
+                                        <h4 class="card-title">Reason to Cancel/Delete:</h4>
+                                        <p>
+                                        <h6 class="card-subtitle"
+                                            id="cancel_reason_data"><?= ($model->reason == '') ? "Reason not specified" : $model->reason; ?></h6>
+                                        </p>
+                                        <?php echo $form->field($model, 'reason')->hiddenInput(['maxlength' => true, 'class' => 'form-control'])->label(false); ?>
+                                    </div>
                                 </div>
                             </div>
-                            <?php
-                                        if ($model->booking_id != '') {
 
-                                                    ?>
+                            <div class="col-lg-4 form-total pull-right">
+                                <div class="panel panel-default">
+                                    <!--  <div class="panel-heading"></div> -->
+                                    <div class="panel-body"
+                                         style="padding:0px !important;">
+                                        <!-- Nav tabs -->
+
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+
+                                            <div class="even-strip row_new" style="border-top:1px solid #eee;">
+                                                <div class="form-group row">
+                                                    <label class="col-md-6 control-label"
+                                                           style="align-self: center;margin:0; padding: 10px">
+                                                        Sub-Total(Rent) </label>
+                                                    <div class="col-md-6 number"
+                                                         style="align-content: center; text-align: end;    padding-right: 30px;">
+                                                        <span id="sub_total_rent"> <?= $model->rent_amount; ?> </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="even-strip row_new" style="border-top:1px solid #eee;">
+                                                <div class="form-group row">
+                                                    <label class="col-md-6 control-label"
+                                                           style="align-self: center;margin:0"> Discount </label>
+                                                    <div class="col-md-6 number">
+                                                        <input type="text" name="BookingHeader[discount]"
+                                                               value="<?= $model->discount ?>"
+                                                               class="form-control total"
+                                                               style="border:none;background: none !important;"
+                                                               readonly id="total_discount">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="even-strip row_new" style="border-top:1px solid #eee;">
+                                                <div class="form-group row">
+                                                    <label class="col-md-6 control-label"
+                                                           style="align-self: center;margin:0; padding: 10px"> Rent
+                                                        Amount </label>
+                                                    <div class="col-md-6 number"
+                                                         style="align-content: center; text-align: end;    padding-right: 30px;">
+                                                        <span id="total_rent_after_discount"><?= $model->earning_amount; ?> </span>
+                                                        <input type="text" name="BookingHeader[rent_amount]"
+                                                               value="<?= $model->rent_amount; ?>"
+                                                               class="form-control total"
+                                                               style="border:none;background: none !important; display: none"
+                                                               readonly id="total_rent_amount">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row_new" style="border-top:1px solid #eee;">
+                                                <div class="form-group row">
+                                                    <label class="col-md-6 control-label"
+                                                           style="align-self: center;margin:0"> Deposit
+                                                        Amount </label>
+                                                    <div class="col-md-6 number">
+                                                        <input type="text" name="BookingHeader[deposite_amount]"
+                                                               value="<?= $model->deposite_amount ?>"
+                                                               class="form-control total"
+                                                               style="border:none;background: none !important;"
+                                                               readonly id="total_deposite_amount">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="even-strip row_new" style="border-top:1px solid #eee;">
+                                                <div class="form-group row">
+                                                    <label class="col-md-6 control-label"
+                                                           style="align-self: center;margin:0"> Extra Amount </label>
+                                                    <div class="col-md-6 number">
+                                                        <input type="text" name="BookingHeader[extra_amount]"
+                                                               value="<?= $model->extra_amount ?>"
+                                                               class="form-control total"
+                                                               style="border:none;background: none !important;"
+                                                               readonly id="extra_amount">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row_new"
+                                                 style="border-top:1px solid #eee;background-color: #c4ecba">
+                                                <div class="form-group row">
+                                                    <label class="col-md-6 control-label total"
+                                                           style="align-self: center;margin:0"> Total </label>
+                                                    <div class="col-md-6 number">
+
+                                                        <input type="text" name="BookingHeader[net_value]"
+                                                               value="<?= $model->net_value ?>"
+                                                               class="form-control total"
+                                                               style="border:none;background: none !important;"
+                                                               readonly id="sub_total">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane " id="operation-pills" role="tabpanel" aria-labelledby="pills-payment-tab">
+
+                        <div class="row" style="padding-left: 0px;">
+
+                            <div class="col-lg-12" id="sales_items_tab_payment" style="margin-top: 10px">
+                                <?php DynamicFormWidget::begin([
+                                    'widgetContainer' => 'dynamicform_wrapper_payment',
+                                    'widgetBody' => '.container-items-payment',
+                                    'widgetItem' => '.payment-item',
+                                    'limit' => 10,
+                                    'min' => 1,
+                                    'insertButton' => '.add-payment',
+                                    'deleteButton' => '.remove-payment',
+                                    'model' => $payment_models[0],
+                                    'formId' => 'booking_header_form',
+                                    'formFields' => [
+                                        'description',
+                                    ],
+                                ]); ?>
+                                <table class="table color-bordered-table muted-bordered-table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10%">Date</th>
+                                        <th style="width: 10%">Remark</th>
+                                        <th style="width: 15%">Type</th>
+                                        <th style="width: 15%">Mode</th>
+                                        <th style="width: 15%">Recived By</th>
+                                        <th style="width: 15%">Recived In</th>
+                                        <th style="width: 15%">During</th>
+                                        <th style="width: 20%">Amount</th>
+                                        <!--<th style="width: 450px;">Quantity</th>-->
+                                        <th class="text-center" style="width: 10%;">
+                                            <button type="button" onclick="addPaymentitem()"
+                                            " class=" add-payment btn btn-success btn-xs"><span
+                                                    class="fa fa-plus"></span></button>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="container-items-payment">
+                                    <?php
+                                    $array1 = [new PaymentMaster()];
+                                    $payment_models = array_merge($array1, $payment_models);
+                                    $count_item_payment = count($payment_models);
+                                    $sub_total = 0;
+                                    foreach ($payment_models as $indexHouse => $payment_model):
+                                        $active_div = ($model->booking_id != '' && $indexHouse != 0) ? '' : 'display:none;';
+                                        $payment_model['date'] = ($payment_model['date'] == "") ? date('Y-m-d') : $payment_model['date'];
+                                        ?>
+                                        <tr class="payment-item"
+                                            id='<?php echo "paymentmaster-{$indexHouse}-test"; ?>'>
+                                            <td id='<?php echo "paymentmaster-{$indexHouse}-tax_new_id"; ?>'
+                                                style="text-align: center;vertical-align: middle !important;">
+
+                                                <input type="date"
+                                                       name="<?php echo "PaymentMaster[{$indexHouse}][date]" ?>"
+                                                       id='<?php echo "pricelistassignmentdiscounts-{$indexHouse}-valid_till" ?>'
+                                                       class="valid_till_date form-control"
+                                                       value="<?php echo $payment_model['date']; ?>">
+                                                <?= $form->field($payment_model, "[{$indexHouse}]payment_id")->label(false)->hiddenInput(['maxlength' => true,]) ?>
+                                                <?= $form->field($payment_model, "[{$indexHouse}]booking_id")->label(false)->hiddenInput(['maxlength' => true]) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($payment_model, "[{$indexHouse}]remark")->label(false)->textInput(['maxlength' => true, 'placeholder' => 'Remark',]) ?>
+                                            </td>
+
+                                            <td>
+                                                <?= $form->field($payment_model, "[{$indexHouse}]type")->dropDownList(['Advance' => 'Advance', 'Per-payment' => 'Per-payment', 'Final-Payment' => 'Final-Payment', 'Return-Deposit' => 'Return-Deposit', 'Cancel-Charge' => 'Cancel-Charge', 'Other-Charges' => 'Other-Charges', 'Return-Payment' => 'Return-Payment'], ['onchange' => 'add_total_payment()'])->label(false) ?>
+
+                                            </td>
+                                            <td>
+
+                                                <?php
+                                                $option_array = ($payment_model->type == 'Cancel-Charge' || $payment_model->type == 'Other-Charges') ? ['Deposit' => 'Deposit'] : ['Cash' => 'Cash', 'Google Pay' => 'Google Pay', 'Phone Pe' => 'Phone Pe', 'Bank Transfer' => 'Bank Transfer', 'Paytm' => 'Paytm', 'Other' => 'Other', 'Carry_Frwd' => 'Carry Frwd', 'Credit' => 'Balance'];
+
+                                                echo $form->field($payment_model, "[{$indexHouse}]mode_of_payment")->dropDownList($option_array, ['onchange' => 'change_mode()'])->label(false) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($payment_model, "[{$indexHouse}]received_by")->dropDownList(['Varsha' => 'Varsha', 'Others' => 'Others',])->label(false) ?>
+                                            </td>
+
+                                            <td>
+
+                                                <?= $form->field($payment_model, "[{$indexHouse}]sendto")->dropDownList(['Company' => 'Company', 'Varsha' => 'Varsha',])->label(false) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($payment_model, "[{$indexHouse}]received_during")->dropDownList(['Booking' => 'Booking', 'Pickup' => 'Pickup', 'Return' => 'Return', 'Other' => 'Other',])->label(false) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($payment_model, "[{$indexHouse}]amount")->label(false)->textInput(['maxlength' => true, 'onkeyup' => 'add_total_payment()', 'placeholder' => '0.00',]) ?>
+                                            </td>
+
+
+                                            <td class="text-center vcenter" style="width: 90px; verti">
+                                                <button type="button" class="remove-payment btn btn-danger btn-xs"
+                                                        onclick="removePaymentitem()"><span
+                                                            class="fa fa-minus"></span></button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <?php DynamicFormWidget::end(); ?>
+                            </div>
+                        </div>
+                        <?php
+                        if ($model->booking_id != '') {
+
+                            ?>
                             <div class="row col-lg-8">
                                 <div class="panel panel-default ">
                                     <!--  <div class="panel-heading"></div> -->
@@ -1060,7 +1092,7 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                             <div class="row even-strip " style="border-top:1px solid #eee;">
                                                 <div class="form-group col-12">
                                                     <?= $form->field($model, 'carry_frwd_app')
-                                                ->checkBox(['class' => 'carry_frwd_app_class check ', 'data-checkbox' => "icheckbox_square-red"]); ?>
+                                                        ->checkBox(['class' => 'carry_frwd_app_class check ', 'data-checkbox' => "icheckbox_square-red"]); ?>
                                                 </div>
                                             </div>
 
@@ -1069,85 +1101,105 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                                                     <label class="col-md-6 control-label"> Balance </label>
                                                     <div class="col-md-6 number">
                                                         <?php
-                                                        $payment_carry_frd_list=ArrayHelper::map($payment_carry_frd,'id',function ($m){
-            return $m['total_bal']." (Amt: ".$m['carry_balance']." Dept: ".$m['carry_return'].")";
-        });
-        $payment_carry_retrn=ArrayHelper::index($payment_carry_frd,'id');
-                                                        echo $form->field($model, "open_balance")->dropDownList($payment_carry_frd_list,['prompt'=>'select','data-details'=>$payment_carry_retrn ])->label(false) ?>
+                                                        $payment_carry_frd_list = ArrayHelper::map($payment_carry_frd, 'id', function ($m) {
+                                                            return $m['total_bal'] . " (Amt: " . $m['carry_balance'] . " Dept: " . $m['carry_return'] . ")";
+                                                        });
+                                                        $payment_carry_retrn = ArrayHelper::index($payment_carry_frd, 'id');
+                                                        echo $form->field($model, "open_balance")->dropDownList($payment_carry_frd_list, ['prompt' => 'select', 'data-details' => $payment_carry_retrn])->label(false) ?>
                                                     </div>
                                                 </div>
                                             </div>
-                                                <div class="row odd-strip row_new" style="border-top:1px solid #eee;">
+                                            <div class="row odd-strip row_new" style="border-top:1px solid #eee;">
                                                 <div class="form-group col-12">
 
                                                     <div class="col-md-12 number">
                                                         <?php
 
-                                                        if(isset($settle_carry_frd)){
+                                                        if (isset($settle_carry_frd)) {
                                                             ?>
                                                             <table class="table-bordered table">
                                                                 <tr>
                                                                     <td></td>
-                                                                    <td>Recevied </td>
+                                                                    <td>Recevied</td>
                                                                     <td>Return</td>
                                                                     <td>Tot. Bal.</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Before</td>
-                                                                    <td> - </td>
-                                                                    <td> - </td>
+                                                                    <td> -</td>
+                                                                    <td> -</td>
                                                                     <td>
-                                                                        <span class="pull-right"> <?php if(isset($payment_carry_frd[0])) {
-                                                                           echo $payment_carry_frd[0]['total_bal'];
-                                                                        }
-                                                                        ?></span>
+                                                                            <span
+                                                                                    class="pull-right"> <?php if (isset($payment_carry_frd[0])) {
+                                                                                    echo $payment_carry_frd[0]['total_bal'];
+                                                                                }
+                                                                                ?></span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Order</td>
-                                                                    <td> <span class="pull-right"><?= $model['rent_amount']; ?></span></td>
-                                                                    <td> <span class="pull-right"><?= $model['deposite_amount']; ?></span></td>
-                                                                    <td>  <span class="pull-right"><?= $model['rent_amount']; ?></span></td>
+                                                                    <td>
+                                                                        <span class="pull-right"><?= $model['rent_amount']; ?></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="pull-right"><?= $model['deposite_amount']; ?></span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="pull-right"><?= $model['rent_amount']; ?></span>
+                                                                    </td>
                                                                 </tr>
-                                                                <?php foreach ($payment_models as $pm_key => $p_model){
-                                                                    if($pm_key==0 || $p_model['amount']=='' ){
+                                                                <?php foreach ($payment_models as $pm_key => $p_model) {
+                                                                    if ($pm_key == 0 || $p_model['amount'] == '') {
                                                                         continue;
                                                                     }
-                                                                    $retrun_pay=0;
-                                                                    $recv_pay=0;
-                                                                    if($p_model['type']=='Return-Deposit' || $p_model['type']=='Return-Payment'){
-                                                                        $retrun_pay=$p_model['amount'];
-                                                                    }else{
-                                                                        $recv_pay=$p_model['amount'];
+                                                                    $retrun_pay = 0;
+                                                                    $recv_pay = 0;
+                                                                    if ($p_model['type'] == 'Return-Deposit' || $p_model['type'] == 'Return-Payment') {
+                                                                        $retrun_pay = $p_model['amount'];
+                                                                    } else {
+                                                                        $recv_pay = $p_model['amount'];
                                                                     }
                                                                     ?>
                                                                     <tr>
-                                                                        <td> <span class="pull-right"><?= $p_model['mode_of_payment'] ?></span></td>
-                                                                        <td> <span class="pull-right"><?= $recv_pay;  ?></span></td>
-                                                                        <td> <span class="pull-right"><?=  $retrun_pay;  ?></span></td>
-                                                                        <td> <span class="pull-right"><?= $recv_pay-$retrun_pay;  ?></span></td>
+                                                                        <td>
+                                                                            <span class="pull-right"><?= $p_model['mode_of_payment'] ?></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="pull-right"><?= $recv_pay; ?></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="pull-right"><?= $retrun_pay; ?></span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span class="pull-right"><?= $recv_pay - $retrun_pay; ?></span>
+                                                                        </td>
                                                                     </tr>
                                                                 <?php } ?>
                                                                 <tr>
                                                                     <td>After</td>
-                                                                    <td> - </td>
-                                                                    <td> - </td>
-                                                                    <td> <span class="pull-right"><?= $settle_carry_frd['total_bal'] ?></span></td>
+                                                                    <td> -</td>
+                                                                    <td> -</td>
+                                                                    <td>
+                                                                        <span class="pull-right"><?= $settle_carry_frd['total_bal'] ?></span>
+                                                                    </td>
                                                                 </tr>
 
                                                             </table>
-                                                        <?php
+                                                            <?php
                                                         }
                                                         ?>
                                                     </div>
                                                 </div>
                                             </div>
-                                              <div class="row even-strip " style="border-top:1px solid #eee;">
+                                            <div class="row even-strip " style="border-top:1px solid #eee;">
                                                 <div class="form-group col-12">
-                                                <?php if(isset($model->carry_frwd_app) && $model->carry_frwd_app!=1){ ?>
-                                                    <button type="button" class="btn btn-info btn-square pull-right" style="margin-right: 10px"
-                            title="Carry Forward bal." onclick="carryfrwbal('<?= $model->booking_id ?>')">Carry frwd Bal
-                    </button>
+                                                    <?php if (isset($model->carry_frwd_app) && $model->carry_frwd_app != 1) { ?>
+                                                        <button type="button" class="btn btn-info btn-square pull-right"
+                                                                style="margin-right: 10px"
+                                                                title="Carry Forward bal."
+                                                                onclick="carryfrwbal('<?= $model->booking_id ?>')">Carry
+                                                            frwd Bal
+                                                        </button>
                                                     <?php } ?>
                                                 </div>
                                             </div>
@@ -1157,150 +1209,151 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
                             </div>
                             <?php
 
-                                        } ?>
+                        } ?>
 
-                            <div class="row col-lg-4 form-total pull-right">
-                                <div class="panel panel-default">
-                                    <!--  <div class="panel-heading"></div> -->
-                                    <div class="panel-body"
-                                         style="padding-top:0px !important;padding-bottom:0px !important">
-                                        <!-- Nav tabs -->
+                        <div class="row col-lg-4 form-total pull-right">
+                            <div class="panel panel-default">
+                                <!--  <div class="panel-heading"></div> -->
+                                <div class="panel-body"
+                                     style="padding-top:0px !important;padding-bottom:0px !important">
+                                    <!-- Nav tabs -->
 
-                                        <!-- Tab panes -->
-                                        <div class="tab-content">
-                                            <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                <div class="form-group col-12">
-                                                    <label class="col-md-6 control-label"> Paid </label>
-                                                    <div class="col-md-6 number">
-                                                        <input type="text" name="BookingHeader[paid_amount]"
-                                                               value="<?= ($model->paid_amount == '' ? 0 : $model->paid_amount) ?>"
-                                                               class="form-control total"
-                                                               style="border:none;background: none !important;" readonly
-                                                               id="paid_amount">
-                                                    </div>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div class="row even-strip row_new" style="border-top:1px solid #eee;">
+                                            <div class="form-group col-12">
+                                                <label class="col-md-6 control-label"> Paid </label>
+                                                <div class="col-md-6 number">
+                                                    <input type="text" name="BookingHeader[paid_amount]"
+                                                           value="<?= ($model->paid_amount == '' ? 0 : $model->paid_amount) ?>"
+                                                           class="form-control total"
+                                                           style="border:none;background: none !important;" readonly
+                                                           id="paid_amount">
                                                 </div>
                                             </div>
-                                            <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                <div class="form-group col-12">
-                                                    <label class="col-md-6 control-label"> Pending </label>
-                                                    <div class="col-md-6 number">
-                                                        <input type="text" name="BookingHeader[pending_amount]"
-                                                               value="<?= $model->net_value - (($model->paid_amount) - $model->cancellation_charges) ?>"
-                                                               class="form-control total"
-                                                               style="border:none;background: none !important;" readonly
-                                                               id="pending_amount">
-                                                    </div>
+                                        </div>
+                                        <div class="row even-strip row_new" style="border-top:1px solid #eee;">
+                                            <div class="form-group col-12">
+                                                <label class="col-md-6 control-label"> Pending </label>
+                                                <div class="col-md-6 number">
+                                                    <input type="text" name="BookingHeader[pending_amount]"
+                                                           value="<?= $model->net_value - (($model->paid_amount) - $model->cancellation_charges) ?>"
+                                                           class="form-control total"
+                                                           style="border:none;background: none !important;" readonly
+                                                           id="pending_amount">
                                                 </div>
                                             </div>
+                                        </div>
 
 
-                                            <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                <div class="form-group col-12">
-                                                    <label class="col-md-6 control-label"> Return </label>
-                                                    <div class="col-md-6 number">
-                                                        <input type="text" name="BookingHeader[return_amount]"
-                                                               value="<?= $model->return_amount; ?>"
-                                                               class="form-control total"
-                                                               style="border:none;background: none !important;" readonly
-                                                               id="return_amount">
-                                                    </div>
+                                        <div class="row even-strip row_new" style="border-top:1px solid #eee;">
+                                            <div class="form-group col-12">
+                                                <label class="col-md-6 control-label"> Return </label>
+                                                <div class="col-md-6 number">
+                                                    <input type="text" name="BookingHeader[return_amount]"
+                                                           value="<?= $model->return_amount; ?>"
+                                                           class="form-control total"
+                                                           style="border:none;background: none !important;" readonly
+                                                           id="return_amount">
                                                 </div>
                                             </div>
-                                            <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                <div class="form-group col-12">
-                                                    <label class="col-md-6 control-label"> Cancel Charge </label>
-                                                    <div class="col-md-6 number">
-                                                        <input type="text" name="BookingHeader[cancellation_charges]"
-                                                               value="<?= $model->cancellation_charges ?>"
-                                                               class="form-control total"
-                                                               style="border:none;background: none !important;" readonly
-                                                               id="cancellation_charges">
-                                                    </div>
+                                        </div>
+                                        <div class="row even-strip row_new" style="border-top:1px solid #eee;">
+                                            <div class="form-group col-12">
+                                                <label class="col-md-6 control-label"> Cancel Charge </label>
+                                                <div class="col-md-6 number">
+                                                    <input type="text" name="BookingHeader[cancellation_charges]"
+                                                           value="<?= $model->cancellation_charges ?>"
+                                                           class="form-control total"
+                                                           style="border:none;background: none !important;" readonly
+                                                           id="cancellation_charges">
                                                 </div>
                                             </div>
-                                            <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                <div class="form-group col-12">
-                                                    <label class="col-md-6 control-label"> Other Charge </label>
-                                                    <div class="col-md-6 number">
-                                                        <input type="text" name="BookingHeader[other_charges]"
-                                                               value="<?= $model->other_charges ?>"
-                                                               class="form-control total"
-                                                               style="border:none;background: none !important;" readonly
-                                                               id="other_charges">
-                                                    </div>
+                                        </div>
+                                        <div class="row even-strip row_new" style="border-top:1px solid #eee;">
+                                            <div class="form-group col-12">
+                                                <label class="col-md-6 control-label"> Other Charge </label>
+                                                <div class="col-md-6 number">
+                                                    <input type="text" name="BookingHeader[other_charges]"
+                                                           value="<?= $model->other_charges ?>"
+                                                           class="form-control total"
+                                                           style="border:none;background: none !important;" readonly
+                                                           id="other_charges">
                                                 </div>
                                             </div>
-                                            <div class="row even-strip row_new" style="border-top:1px solid #eee;">
-                                                <div class="form-group col-12">
-                                                    <label class="col-md-6 control-label"> Refund </label>
-                                                    <div class="col-md-6 number">
-                                                        <input type="text"
-                                                               value="<?= $model->refunded . '/' . $model->deposite_amount ?>"
-                                                               class="form-control total"
-                                                               style="border:none;background: none !important;" readonly
-                                                               id="refund_dis">
-                                                        <input type="hidden" name="BookingHeader[refunded]"
-                                                               value="<?= ($model->refunded == '' ? 0 : $model->refunded) ?>"
-                                                               class="form-control total"
-                                                               style="border:none;background: none !important;" readonly
-                                                               id="refunded">
-                                                    </div>
+                                        </div>
+                                        <div class="row even-strip row_new" style="border-top:1px solid #eee;">
+                                            <div class="form-group col-12">
+                                                <label class="col-md-6 control-label"> Refund </label>
+                                                <div class="col-md-6 number">
+                                                    <input type="text"
+                                                           value="<?= $model->refunded . '/' . $model->deposite_amount ?>"
+                                                           class="form-control total"
+                                                           style="border:none;background: none !important;" readonly
+                                                           id="refund_dis">
+                                                    <input type="hidden" name="BookingHeader[refunded]"
+                                                           value="<?= ($model->refunded == '' ? 0 : $model->refunded) ?>"
+                                                           class="form-control total"
+                                                           style="border:none;background: none !important;" readonly
+                                                           id="refunded">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade" id="measure-pills" style="margin-top: 15px;">
-                            <div class="col-lg-12">
-                                <div class="row right_section">
-
-                                    <div class="form-group cust-group">
-                                        <label class="col-lg-5 control-label"
-                                               style="text-align: left"> <?= $model->attributeLabels()['chest'] ?> </label>
-                                        <div class="col-lg-6 form-group">
-                                            <?php $model['chest'] = ($model['chest'] != '') ? $model['chest'] : 0;
-
-                                            echo $form->field($model, 'chest')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['chest'], 'autocomplete' => "off"])->label(false); ?>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row right_section">
-
-                                    <div class="form-group cust-group">
-                                        <label class="col-lg-5 control-label"
-                                               style="text-align: left"> <?= $model->attributeLabels()['waist'] ?> </label>
-                                        <div class="col-lg-6 form-group">
-                                            <?php $model['waist'] = ($model['waist'] != '') ? $model['waist'] : 0;
-
-                                            echo $form->field($model, 'waist')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['waist'], 'autocomplete' => "off"])->label(false); ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row right_section">
-
-                                    <div class="form-group cust-group">
-                                        <label class="col-lg-5 control-label"
-                                               style="text-align: left"> <?= $model->attributeLabels()['hip'] ?> </label>
-                                        <div class="col-lg-6 form-group">
-                                            <?php $model['hip'] = ($model['hip'] != '') ? $model['hip'] : 0;
-
-                                            echo $form->field($model, 'hip')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['hip'], 'autocomplete' => "off"])->label(false); ?>
-
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
 
                     </div>
+                    <div class="tab-pane " id="measure-pills" role="tabpanel"
+                         aria-labelledby="pills-measurement-tab" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div class="row right_section">
+
+                                <div class="form-group cust-group">
+                                    <label class="col-lg-1 control-label"
+                                           style="text-align: left"> <?= $model->attributeLabels()['chest'] ?> </label>
+                                    <div class="col-lg-3 form-group">
+                                        <?php $model['chest'] = ($model['chest'] != '') ? $model['chest'] : '';
+
+                                        echo $form->field($model, 'chest')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['chest'], 'autocomplete' => "off"])->label(false); ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row right_section">
+
+                                <div class="form-group cust-group">
+                                    <label class="col-lg-1 control-label"
+                                           style="text-align: left"> <?= $model->attributeLabels()['waist'] ?> </label>
+                                    <div class="col-lg-3 form-group">
+                                        <?php $model['waist'] = ($model['waist'] != '') ? $model['waist'] : '';
+
+                                        echo $form->field($model, 'waist')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['waist'], 'autocomplete' => "off"])->label(false); ?>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row right_section">
+
+                                <div class="form-group cust-group">
+                                    <label class="col-lg-1 control-label"
+                                           style="text-align: left"> <?= $model->attributeLabels()['hip'] ?> </label>
+                                    <div class="col-lg-3 form-group">
+                                        <?php $model['hip'] = ($model['hip'] != '') ? $model['hip'] : '';
+
+                                        echo $form->field($model, 'hip')->textInput(['maxlength' => true, 'class' => 'form-control text_first', 'placeholder' => $model->attributeLabels()['hip'], 'autocomplete' => "off"])->label(false); ?>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
+                <!-- </div> -->
             </div>
             <!--              <div class="row" style="margin:0px" >
                   <div class="col-lg-12">
@@ -1354,51 +1407,53 @@ $form = ActiveForm::begin(['enableClientValidation' => false, 'id' => 'booking_h
         // FADE OUT YOUR OVERLAYING DIV
         $('.overlay').hide();
     });
+
     function carryfrwbal(booking_id) {
-        var carry_frd_id=$("#bookingheader-open_balance").val();
-        var data_json= $("#bookingheader-open_balance").attr('data-details');
+        var carry_frd_id = $("#bookingheader-open_balance").val();
+        var data_json = $("#bookingheader-open_balance").attr('data-details');
         tot_bal = 0;
-        if(data_json!=''){
-            data_arr=JSON.parse(data_json);
+        if (data_json != '') {
+            data_arr = JSON.parse(data_json);
             var final_setl = "";
-            if(carry_frd_id!=''){
-           var old_settle=data_arr[carry_frd_id];
-           var carry_rtn=old_settle['carry_return'];
-           var retrn_bal=old_settle['carry_balance'];
-           var tot_bal=old_settle['total_bal'];
+            if (carry_frd_id != '') {
+                var old_settle = data_arr[carry_frd_id];
+                var carry_rtn = old_settle['carry_return'];
+                var retrn_bal = old_settle['carry_balance'];
+                var tot_bal = old_settle['total_bal'];
 
 
-            }else{
+            } else {
                 final_setl = "You have not selected any perv. open balance. Do you want to proceed?\n";
             }
-            var final_depo= $("#total_deposite_amount").val();
-           var final_rent= $("#total_rent_amount").val();
-           var current_retrn_dep = $("#refunded").val();
-           var current_paid = $("#paid_amount").val();
-           var cal_depo= Number(final_depo) - Number(current_retrn_dep);
-           var cal_bal =Number(tot_bal)+((Number(current_paid)-Number(final_depo))-Number(final_rent));
-           var final_bal = cal_bal +cal_depo;
-           //var statement = "Prev: \n Depo Carry Frd: "+carry_rtn+"\n Bal Amt.: "+retrn_bal + "\n Tot. Bal.: "+tot_bal;
-            final_setl = final_setl +"Final: \n Depo Carry Frd: "+cal_depo+"\n Bal Amt.: "+cal_bal + "\n Tot. Bal.: "+final_bal;
-              swal({
-            title: "Are you sure!",
-                  text:final_setl,
-            icon: "info",
-            buttons: true,
-            dangerMode: true,
-        }).then((isconfirm) => {
-         console.log(isconfirm)
-                  if(isconfirm){
-                      settlebooking(carry_frd_id,booking_id)
-                  }
-        });
+            var final_depo = $("#total_deposite_amount").val();
+            var final_rent = $("#total_rent_amount").val();
+            var current_retrn_dep = $("#refunded").val();
+            var current_paid = $("#paid_amount").val();
+            var cal_depo = Number(final_depo) - Number(current_retrn_dep);
+            var cal_bal = Number(tot_bal) + ((Number(current_paid) - Number(final_depo)) - Number(final_rent));
+            var final_bal = cal_bal + cal_depo;
+            //var statement = "Prev: \n Depo Carry Frd: "+carry_rtn+"\n Bal Amt.: "+retrn_bal + "\n Tot. Bal.: "+tot_bal;
+            final_setl = final_setl + "Final: \n Depo Carry Frd: " + cal_depo + "\n Bal Amt.: " + cal_bal + "\n Tot. Bal.: " + final_bal;
+            swal({
+                title: "Are you sure!",
+                text: final_setl,
+                icon: "info",
+                buttons: true,
+                dangerMode: true,
+            }).then((isconfirm) => {
+                console.log(isconfirm)
+                if (isconfirm) {
+                    settlebooking(carry_frd_id, booking_id)
+                }
+            });
 
-         //  swal(final_setl);
+            //  swal(final_setl);
         }
     }
-function settlebooking(carry_frd_id,booking_id) {
 
-          $.ajax({
+    function settlebooking(carry_frd_id, booking_id) {
+
+        $.ajax({
             url: '<?php echo Yii::$app->request->baseUrl . '/index.php?r=booking/carry-frd' ?>',
             type: 'get',
             dataType: 'json',
@@ -1407,7 +1462,7 @@ function settlebooking(carry_frd_id,booking_id) {
                 carry_frd_id: carry_frd_id,
             },
             success: function (data) {
-                  var return_err = '';
+                var return_err = '';
                 var cleaned = removeDuplicates(data['errors']);
                 for (var key in cleaned) {
                     return_err += key + "<br>";
@@ -1427,8 +1482,11 @@ function settlebooking(carry_frd_id,booking_id) {
                 }
             }
         });
-}
+    }
+
     $(document).ready(function () {
+        $('.wrapper').addClass('sidebar_minimize');
+
         $('.overlay').show();
 
         $("#display_pending").html("Amount: " + $("#pending_amount").val());
@@ -1489,9 +1547,85 @@ function settlebooking(carry_frd_id,booking_id) {
         $('.item_details_lable .glyphicon-pencil').unbind().click(function () {
             updateItemRow($(this));
         });
+        
+        // Event date change handler - automatically set pickup (-1 day) and return (+1 day) dates
+        $('#bookingheader-event_date').on('change', function () {
+            let event_date = $(this).val();
+            
+            if (event_date != "") {
+                let event_parts = event_date.split("-");
+                let event_date_obj = new Date(event_parts[2], event_parts[1] - 1, event_parts[0]);
+                
+                // Set pickup date to event date - 1 day
+                let pickup_date_obj = new Date(event_date_obj);
+                pickup_date_obj.setDate(pickup_date_obj.getDate() - 1);
+                $("#bookingheader-pickup_date").kvDatepicker('update', pickup_date_obj);
+                
+                // Set return date to event date + 1 day
+                let return_date_obj = new Date(event_date_obj);
+                return_date_obj.setDate(return_date_obj.getDate() + 1);
+                $("#bookingheader-return_date").kvDatepicker('update', return_date_obj);
+            }
+        });
+        
+        $('#bookingheader-pickup_date').on('change', function () {
+            let pickup_date = $(this).val();
+            let return_date = $("#bookingheader-return_date").val();
+            
+            if (pickup_date != "") {
+                let pick_parts = pickup_date.split("-");
+                let pickup_date_obj = new Date(pick_parts[2], pick_parts[1] - 1, pick_parts[0]);
 
+                if (return_date != "") {
+                    let return_parts = return_date.split("-");
+                    let return_date_obj = new Date(return_parts[2], return_parts[1] - 1, return_parts[0]);
+                    
+                    // Validate: Return date must be >= Pickup date
+                    if (return_date_obj < pickup_date_obj) {
+                        alert("Return Date must be equal to or after Pickup Date. Please adjust the dates.");
+                        // Clear the return date or set it to pickup date
+                        $("#bookingheader-return_date").kvDatepicker('update', '');
+                        return_date = "";
+                    }
+                }
+                
+                // Auto-set return date if empty
+                if (pickup_date != "" && return_date == "") {
+                    pickup_date_obj.setDate(pickup_date_obj.getDate() + 2);
+                    $("#bookingheader-return_date").kvDatepicker('update', pickup_date_obj);
+                }
+            }
+        });
+        
+        // Validate return date when it changes
+        $('#bookingheader-return_date').on('change', function () {
+            let return_date = $(this).val();
+            let pickup_date = $("#bookingheader-pickup_date").val();
+            
+            if (return_date != "" && pickup_date != "") {
+                let return_parts = return_date.split("-");
+                let return_date_obj = new Date(return_parts[2], return_parts[1] - 1, return_parts[0]);
+                
+                let pick_parts = pickup_date.split("-");
+                let pickup_date_obj = new Date(pick_parts[2], pick_parts[1] - 1, pick_parts[0]);
+                
+                // Validate: Return date must be >= Pickup date
+                if (return_date_obj < pickup_date_obj) {
+                    alert("Return Date must be equal to or after Pickup Date. Please adjust the dates.");
+                    // Set return date to pickup date as minimum
+                    $("#bookingheader-return_date").kvDatepicker('update', pickup_date_obj);
+                }
+            }
+        });
 
     });
+
+    /*
+      $('#bookingheader-return_date').on('change', function () {
+
+
+      });
+    */
 
 
     function removeBookingitem() {
@@ -1516,8 +1650,8 @@ function settlebooking(carry_frd_id,booking_id) {
         });
     }
 
-    var count_item = "<?= $count_item;?>";
-    var count_item_payment = "<?= $count_item_payment;?>";
+    var count_item = "<?= $count_item; ?>";
+    var count_item_payment = "<?= $count_item_payment; ?>";
 
     function showView(id, name, flag = 0) {
 
@@ -1730,7 +1864,9 @@ function settlebooking(carry_frd_id,booking_id) {
                     for (var key in cleaned) {
                         html += key + "<br>";
                     }
-                    $("html, body").animate({scrollTop: 0}, "slow");
+                    $("html, body").animate({
+                        scrollTop: 0
+                    }, "slow");
                     if (html != '') {
                         test_submit = 0;
                         $(".error-summary-sales").show();
@@ -1858,7 +1994,7 @@ function settlebooking(carry_frd_id,booking_id) {
             var deposit_amount = "#bookingitem-" + i + "-deposit_amount";
             var amount = "#bookingitem-" + i + "-amount";
             var extra_per = "#bookingitem-" + i + "-extra_per";
-            if($(discount).val() === undefined){
+            if ($(discount).val() === undefined) {
                 continue;
             }
             var numb = parseFloat(Number($(discount).val()));
@@ -1882,8 +2018,10 @@ function settlebooking(carry_frd_id,booking_id) {
             total_value = total_value - Number(penalty_amount);
         }
         $("#total_rent_amount").val(rent_amount);
+        $("#sub_total_rent").html(rent_amount);
         $("#sub_total").val(total_value);
         $("#total_discount").val(discount_amt);
+        $("#total_rent_after_discount").html(rent_amount - discount_amt);
         $("#extra_amount").val(total_extra_amount);
         $("#total_deposite_amount").val(deposit);
         $("#pending_amount").val(total_value - +Number($("#paid_amount").val()));
@@ -2169,12 +2307,15 @@ function settlebooking(carry_frd_id,booking_id) {
         var item_type = $("#itemselection-item_type").val();
         //alert(item_type);
         //alert($("#itemselection-rent_amount").val());
+
         $(result + 'item_category').val($("#itemselection-item_category").val());
         if (display_amt) {
             $(result + 'amount').val($("#itemselection-rent_amount").val());
         } else {
             $(result + 'amount').val(0);
         }
+        var imgsrc = $("#itemselection-img").attr("src");
+        $(result + 'img').attr("src", imgsrc);
 
         var deposite_applicable = $('#bookingheader-deposite_applicable').is(":checked");
 
@@ -2233,7 +2374,6 @@ function settlebooking(carry_frd_id,booking_id) {
 
     function submitForm() {
 
-
         $.ajax({
             url: $('#booking_header_form').attr('action'),
             type: 'post',
@@ -2259,7 +2399,9 @@ function settlebooking(carry_frd_id,booking_id) {
                 for (var key in cleaned) {
                     html += key + "<br>";
                 }
-                $("html, body").animate({scrollTop: 0}, "slow");
+                $("html, body").animate({
+                    scrollTop: 0
+                }, "slow");
                 if (html != '') {
                     test_submit = 0;
                     $(".error-summary-sales").show();
@@ -2285,40 +2427,40 @@ function settlebooking(carry_frd_id,booking_id) {
 
     }
 
-   function sendwhatsapp(booking_id){
+    function sendwhatsapp(booking_id) {
 
-var r = confirm("Are you sure do you want to send WhatsApp!");
-if (r == false) {
-  return;
-}
-    $.ajax({
-        url:"<?php echo \Yii::$app->getUrlManager()->createUrl('booking/get-whatsapp') ?>",
-      type: 'post',
-      dataType:'json',
-      data:{
-        booking_id:booking_id,
+        var r = confirm("Are you sure do you want to send WhatsApp!");
+        if (r == false) {
+            return;
+        }
+        $.ajax({
+            url: "<?php echo \Yii::$app->getUrlManager()->createUrl('booking/get-whatsapp') ?>",
+            type: 'post',
+            dataType: 'json',
+            data: {
+                booking_id: booking_id,
 
-      },
-    beforeSend: function(){
-          $(".overlay").show();
-        },
-     complete: function(){
-      $(".overlay").hide();
+            },
+            beforeSend: function () {
+                $(".overlay").show();
+            },
+            complete: function () {
+                $(".overlay").hide();
 
-     },
-      success: function (data) {
+            },
+            success: function (data) {
 
-        console.log(data);
-        var message=encodeURI(data['message']);
-        // window.open('https://api.whatsapp.com/send/?phone='+data["contact_nos"]+'&text='+message, '_blank').focus();
-          window.open('https://web.whatsapp.com/send/?phone='+data["contact_nos"]+'&text='+message, '_blank').focus();
-    //window.location.reload();
-      },
-      error: function(jqXhr, textStatus, errorThrown ){
+                console.log(data);
+                var message = encodeURI(data['message']);
+                // window.open('https://api.whatsapp.com/send/?phone='+data["contact_nos"]+'&text='+message, '_blank').focus();
+                window.open('https://web.whatsapp.com/send/?phone=' + data["contact_nos"] + '&text=' + message, '_blank').focus();
+                //window.location.reload();
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
 
-      }
-    });
-  }
+            }
+        });
+    }
 
     function cancel_pickup(booking_id, booking_item, item_status) {
         if (item_status != 'Picked') {
@@ -2361,7 +2503,7 @@ if (r == false) {
     }
 
     function printInvoice(id) {
-        window.open("http://billing.panachewears.in/index.php?r=booking/invoice-view&id=" + id, "_blank");
+        window.open("http://app.thesoyara.com/index.php?r=booking/invoice-view&id=" + id, "_blank");
     }
 
     function addPaymentitem() {
@@ -2388,7 +2530,12 @@ if (r == false) {
             add_total_payment();
         });
     }
-
+    function show_image(imgelement){
+      $('#pModal').modal('show');
+        $('#modal-title').html(`Image`);
+        let path = $(imgelement).attr('src');
+        $('#modalContent').html(`<img src='${path}' style='width: 300px; height: 250px;'/>`);
+    }
     function addBookingitem() {
 
         if (order_status) {
@@ -2502,6 +2649,4 @@ if (r == false) {
         $("#refunded").val(refund);
         $("#refund_dis").val(refund + '/' + deposit_amount);
     }
-
 </script>
-   

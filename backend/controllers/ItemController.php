@@ -49,7 +49,8 @@ class ItemController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'getimage-list', 'img-status', 'upload-mul', 'index', 'view', 'create', 'update', 'delete', 'vendor-list', 'get-type', 'file-upload', 'upload', 'remove', 'create-popup'],
+                        'actions' => ['logout', 'getimage-list', 'img-status', 'upload-mul', 'index',
+                          'index-gallery',  'view', 'create', 'update', 'delete', 'vendor-list', 'get-type', 'file-upload', 'upload', 'remove', 'create-popup', 'open-bookings'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -128,7 +129,7 @@ class ItemController extends Controller
 
         }
 
-        $ifp = fopen($path . "\\" . $rand_no . "." . $file_ext, 'wb');
+        $ifp = fopen($path . "/" . $rand_no . "." . $file_ext, 'wb');
         $output_file .=  $rand_no . "." . $file_ext;
         // split the string on commas
         // $data[ 0 ] == "data:image/png;base64"
@@ -144,6 +145,20 @@ class ItemController extends Controller
         return $output_file;
     }
 
+  function actionOpenBookings()
+  {
+    $item_id = $_GET['item_id'];
+    $booking_items = BookingItem::find()->leftJoin('booking_header','booking_header.booking_id = booking_item.booking_id')
+      ->where(['product_id' =>
+      $item_id])
+      ->andWhere(['OR',['>=','booking_header.pickup_date',date('Y-m-d')],['>=','booking_header.return_date' ,date('Y-m-d')]])
+      ->orderBy
+      (['PICKUP_DATE'=>SORT_DESC])
+        ->all();
+      return $this->renderPartial('open_booking', [
+            'booking_items' => $booking_items
+        ]);
+    }
     function actionGetimageList()
     {
         $item_id = $_POST['item_id'];
@@ -279,6 +294,31 @@ class ItemController extends Controller
         ]);
     }
 
+    public function actionIndexGallery()
+    {
+
+      $where_type = 1;
+      $where_category = isset($_GET['cat_id'])? $_GET['cat_id'] : '';
+       $where_type = isset($_GET['type'])? $_GET['type'] : '';
+      /*if(isset($_GET['cat_id'])){
+        $where_category = ['category_id' => $_GET['cat_id']];
+      }
+      if(isset($_GET['type'])){
+        $where_type = ['type_id' => $_GET['type']];
+      }*/
+
+        $type_master = ArrayHelper::map(TypeMaster::find()->all(), 'id', 'name');
+        $model_category = ArrayHelper::map(CategoryMaster::find()->all(), 'id', 'name');
+
+        // $dataProvider->pagination=false;
+        $item_master = ItemMaster::find()->where(['delete_status'=>0])->andFilterWhere(['type_id' => $where_type, 'category_id' => $where_category])->limit(20)->all();
+        return $this->render('index_gallery_view', [
+
+            'type_master' => $type_master,
+            'model_category' => $model_category,
+            'item_master' => $item_master,
+        ]);
+    }
     /**
      * Displays a single ItemMaster model.
      * @param integer $id
@@ -287,7 +327,7 @@ class ItemController extends Controller
      */
     public function actionView($id)
     {
-        $booking_items = BookingItem::find()->where(['product_id' => $id])->all();
+        $booking_items = BookingItem::find()->where(['product_id' => $id])->orderBy(['PICKUP_DATE'=>SORT_DESC])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
             'booking_items' => $booking_items,
@@ -327,7 +367,10 @@ class ItemController extends Controller
 
     public function actionCreate()
     {
+      /*ALTER TABLE `item_master` CHANGE `purchase_amount` `purchase_amount` DECIMAL(10,2) NULL DEFAULT 1;*/
          //print_r($_POST['ItemMaster']['occcasion_master']);die;
+        $user = Yii::$app->user->identity;
+        $is_admin = ($user->user_type == "admin") ? true : false;
         $model = new ItemMaster();
         $img_list = [new ItemMasterImg()];
         $model_category = ArrayHelper::map(CategoryMaster::find()->all(), 'id', 'name');
@@ -337,7 +380,9 @@ class ItemController extends Controller
         $color_model = ArrayHelper::map(ColorMaster::find()->all(), 'id', 'name');
         $occasion_master = ArrayHelper::map(OccationMaster::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['details_occ'].')';} );
         $display_type = ArrayHelper::map(DisplayType::find()->all(), 'id',function($model) { return $model['name'].' ('.$model['deatils_type'].')';} );
-        $model->setScenario('create_new');
+        if($is_admin) {
+          $model->setScenario('create_new');
+        }
         if ($model->load(Yii::$app->request->post())) {
 //rint_r($model);die;
             $path = realpath(dirname(__FILE__) . '/../../uploads');
@@ -593,14 +638,23 @@ class ItemController extends Controller
             if ($parents != null) {
                 $cat_id = $parents[0];
 
-                $out = TypeMaster::find()->select(['id', 'name'])->where(['category_id' => $cat_id])->all();
-                //  print_r($out);die;
+                $type_master = TypeMaster::find()->select(['id', 'name', 'dry_cleaning_treshold'])
+                  ->where
+                (['category_id' => $cat_id])->asArray()->all();
+                  //print_r($out);die;
 // the getSubCatList function will query the database based on the
 // cat_id and return an array like below:
 // [
 // ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
 // ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
 // ]
+              foreach ($type_master as $type){
+                $out[] = [
+                'id' => $type['id'],
+                'name' => $type['name'],
+                'options' => ['data-attr' => $type['dry_cleaning_treshold']] // Setting data-attribute
+            ];
+              }
                 echo Json::encode(['output' => $out, 'selected' => '']);
                 return;
             }

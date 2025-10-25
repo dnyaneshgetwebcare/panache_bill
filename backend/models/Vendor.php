@@ -36,7 +36,7 @@ class Vendor extends \yii\db\ActiveRecord
             [['name', 'status'], 'required'],
             [['group_id', 'status'], 'string'],
             [['name'], 'string', 'max' => 150],
-            [['email_id'], 'string', 'max' => 250],
+            [['email_id', 'encryption_id'], 'string', 'max' => 250],
             [['contact_nos'], 'string', 'max' => 15],
             [['address'], 'string', 'max' => 350],
         ];

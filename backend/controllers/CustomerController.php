@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\BookingCarryFrd;
 use Yii;
 use backend\models\CustomerMaster;
 use backend\models\QuickCustomer;
@@ -76,7 +77,7 @@ class CustomerController extends Controller
         $booking_ids=BookingHeader::find()->select('booking_id')->where(['customer_id'=>$id]);
         $booking_items=BookingItem::find()->where(['booking_id'=>$booking_ids])->all();
         $payment_historys=PaymentMaster::find()->where(['booking_id'=>$booking_ids])->all();
-        $carry_frd_booking=BookingCarryFrd::find()->where(['customer_id'=>$id])->all;
+        $carry_frd_booking=BookingCarryFrd::find()->where(['customer_id'=>$id])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
             'booking_items'=>$booking_items,
@@ -114,7 +115,7 @@ return $this->render('quick_search',['searchModel' => $searchModel]);
         $model = new QuickCustomer();
         $address_grup=ArrayHelper::map(AddressGroup::find()->all(),'id','name');
         if ($model->load(Yii::$app->request->post())) {
-            $model->created_on=$this->dateFormat($model->created_on);
+            $model->created_on=date('Y-m-d');
            if(!$model->save()){
 return json_encode(['result'=>false,'errors'=>$model->errors]);
            }
